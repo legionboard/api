@@ -7,7 +7,7 @@
 
 ## Clients
 
-* [JavaScript](https://gitlab.com/legionboard/javascript)
+* [JavaScript](https://gitlab.com/legionboard/eye)
 
 ## Introduction
 

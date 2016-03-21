@@ -16,7 +16,7 @@ $groups = $_POST['groups'];
 
 try {
 	// Include authentication
-	require 'lib/authentication.php';
+	require '../lib/authentication.php';
 	$authentication = new Authentication();
 
 	// Check if strings are "POSTed"
