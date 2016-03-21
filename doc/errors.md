@@ -67,7 +67,7 @@ No special errors are returned.
 
 ### Create change
 
-* [1300: The change could not get created.](changes/create.md#)
+* [1300: The change could not get created.](changes/create.md#1300-the-change-could-not-get-created)
 * [1301: The starting time is formatted badly.](changes/create.md#13011302-the-startingending-time-is-formatted-badly)
 * [1302: The ending time is formatted badly.](changes/create.md#13011302-the-startingending-time-is-formatted-badly)
 * [1303: The starting time does not exist.](changes/create.md#13031304-the-startingending-time-does-not-exist)
