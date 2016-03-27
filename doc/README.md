@@ -8,6 +8,7 @@
 ## Clients
 
 * [Eye](https://gitlab.com/legionboard/eye)
+* [KISS](https://gitlab.com/legionboard/kiss)
 
 ## Introduction
 
