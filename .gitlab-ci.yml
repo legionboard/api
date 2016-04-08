@@ -1,0 +1,7 @@
+before_script:
+  - apt-get --quiet update --yes
+  - apt-get --quiet install --yes php5
+
+test:
+  script:
+    - for f in $(find ./ -name '*.php'); do php -l $f; done
