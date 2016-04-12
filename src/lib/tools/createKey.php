@@ -6,7 +6,9 @@
  * See the file "LICENSE" for the full license governing this code.
  * 
  * DELETE AFTER USAGE!!!
- * Copy this script two folders above (where `api.php`, `index.html`, etc. is)
+ *
+ * Create a randomly named directory in the project (where `api.php`,
+ * `index.html`, etc. is) and place this script in it.
  */
 // Set UTF-8
 header("Content-Type: text/html; charset=utf-8");
