@@ -14,6 +14,7 @@
 header("Content-Type: text/html; charset=utf-8");
 $username = $_POST['username'];
 $password = $_POST['password'];
+$password_repeat = $_POST['password_repeat'];
 $groups = $_POST['groups'];
 
 try {
@@ -29,6 +30,11 @@ try {
 	// Check if strings are not empty
 	if ($username == '' || $password == '' || $groups == '') {
 		throw new Exception("Please check the fields.");
+	}
+
+	// Check if passwords are equal
+	if ($password != $password_repeat) {
+		throw new Exception("The passwords are not equal!");
 	}
 
 	// Create key
@@ -56,7 +62,8 @@ catch (Exception $e) {
 		<p><b><?=$msg?></b></p>
 		<form method="post" accept-charset="UTF-8">
 			<p><input type="text" name="username" placeholder="Username" value="<?=$username?>" required/></p>
-			<p><input type="text" name="password" placeholder="Password" value="<?=$password?>" required/></p>
+			<p><input type="password" name="password" placeholder="Password" value="<?=$password?>" required/></p>
+			<p><input type="password" name="password_repeat" placeholder="Repeat password" value="<?=$password_repeat?>" required/></p>
 			<p><input type="text" name="groups" placeholder="Groups (comma separated)" value="<?=$groups?>" required/></p>
 			<p><input type="submit" /></p>
 		</form>
