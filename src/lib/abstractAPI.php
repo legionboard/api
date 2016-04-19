@@ -9,7 +9,7 @@ abstract class API {
 	/**
 	 * The version of the API.
 	 */
-	protected $version = '0.1.0';
+	protected $version = '0.1.1';
     /**
      * Property: method
      * The HTTP method this request was made in, either GET, POST, PUT or DELETE
