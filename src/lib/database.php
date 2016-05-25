@@ -31,9 +31,10 @@ class Database {
 		$mysqluser = Configuration::get("MySQL", "User");
 		$mysqlpw = Configuration::get("MySQL", "Password");
 		$mysqldb = Configuration::get("MySQL", "Database");
-		self::$table_changes = Configuration::get("MySQL", "Table_Changes");
-		self::$table_teachers = Configuration::get("MySQL", "Table_Teachers");
-		self::$table_authentication = Configuration::get("MySQL", "Table_Authentication");
+		$table_prefix = Configuration::get("MySQL", "Table_Prefix");
+		self::$table_changes = $table_prefix . "_changes";
+		self::$table_teachers = $table_prefix . "_teachers";
+		self::$table_authentication = $table_prefix . "_authentication";
 		$this->db = new mysqli($mysqlhost, $mysqluser, $mysqlpw, $mysqldb);
 		// Check if tables exist and create them if not
 		if (!self::checkTable(self::$table_changes)) {
