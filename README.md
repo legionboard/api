@@ -1,6 +1,6 @@
 # LegionBoard Heart
 
-[![build status](https://gitlab.com/legionboard/heart/badges/HEAD/build.svg)](https://gitlab.com/legionboard/heart/builds)
+[![build status](https://gitlab.com/legionboard/heart/badges/master/build.svg)](https://gitlab.com/legionboard/heart/builds)
 
 This is the core of [LegionBoard](https://legionboard.github.io): it
 is a
