@@ -81,10 +81,7 @@ class Teachers {
 	public function checkById($id) {
 		$id = $this->db->escape_string($id);
 		$sql = 'SELECT id FROM ' . Database::$table_teachers . ' WHERE id = ' . $id . ' LIMIT 1';
-		if ($this->db->query($sql)->num_rows > 0) {
-			return true;
-		}
-		return false;
+		return $this->db->query($sql)->num_rows > 0;
 	}
 
 	/**
@@ -93,10 +90,7 @@ class Teachers {
 	public function checkByName($name) {
 		$name = $this->db->escape_string($name);
 		$sql = "SELECT name FROM " . Database::$table_teachers . " WHERE name = '$name' LIMIT 1";
-		if ($this->db->query($sql)->num_rows > 0) {
-			return true;
-		}
-		return false;
+		return $this->db->query($sql)->num_rows > 0;
 	}
 }
 ?>
