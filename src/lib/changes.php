@@ -21,7 +21,6 @@ class Changes {
 	 * Get one or more changes.
 	 */
 	public function get($id = null, $teachers = null, $coveringTeacher = null, $startBy = null, $endBy = null, $seeReasons = false, $seePrivateTexts = false) {
-		// Return null if no teachers
 		$teachersCon = array_filter($teachers);
 		if (empty($teachersCon)) {
 			$teachers = ['%'];
@@ -82,7 +81,6 @@ class Changes {
 				$changes[] = $change;
 			}
 		}
-		// Return null if no changes
 		$changesCon = array_filter($changes);
 		if (empty($changesCon)) {
 			return null;
