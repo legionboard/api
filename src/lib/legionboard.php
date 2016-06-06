@@ -440,7 +440,7 @@ class LegionBoard extends API {
 				return $id;
 			}
 			$this->status = 409;
-			return Array('error' => Array(Array('code' => '1300', 'message' => 'The teacher could not get created.')));
+			return Array('error' => Array(Array('code' => '1300', 'message' => 'The change could not get created.')));
 		}
 		if ($this->method == 'DELETE') {
 			$key = $_GET['k'];
@@ -459,7 +459,7 @@ class LegionBoard extends API {
 				return null;
 			}
 			$this->status = 409;
-			return Array('error' => Array(Array('code' => '1400', 'message' => 'The teacher could not get deleted.')));
+			return Array('error' => Array(Array('code' => '1400', 'message' => 'The change could not get deleted.')));
 		}
 		if ($this->method == 'OPTIONS') {
 			$this->status = 200;
