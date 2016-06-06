@@ -78,5 +78,9 @@ catch (Exception $e) {
 		<p>7: Delete teacher</p>
 		<p>8: See reasons</p>
 		<p>9: See private texts</p>
+		<p>10: See courses</p>
+		<p>11: Add course</p>
+		<p>12: Update course</p>
+		<p>13: Delete course</p>
 	</body>
 </html>
