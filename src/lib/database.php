@@ -75,34 +75,34 @@ class Database {
 	 */
 	private function createTable_Changes() {
 		$sql = "CREATE TABLE " . self::$table_changes . " (
-		  `id` MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
-		  `teacher` MEDIUMINT(8) NOT NULL,
-		  `startBy` VARCHAR(13) NOT NULL,
-		  `endBy` VARCHAR(13) NOT NULL,
-		  `type` VARCHAR(1) NOT NULL,
-		  `coveringTeacher` MEDIUMINT(8),
-		  `text` LONGTEXT,
-		  `reason` VARCHAR(1) NOT NULL,
-		  `privateText` LONGTEXT,
-		  `added` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-		  `edited` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  PRIMARY KEY (`id`)
+		  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+		  teacher MEDIUMINT(8) NOT NULL,
+		  startBy VARCHAR(13) NOT NULL,
+		  endBy VARCHAR(13) NOT NULL,
+		  type VARCHAR(1) NOT NULL,
+		  coveringTeacher MEDIUMINT(8),
+		  text LONGTEXT,
+		  reason VARCHAR(1) NOT NULL,
+		  privateText LONGTEXT,
+		  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		  edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  PRIMARY KEY (id)
 		) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
 		if(!$this->db->query($sql)) {
 			// Workaround for MySQL bug: http://stackoverflow.com/a/17498167
 			$sql = "CREATE TABLE " . self::$table_changes . " (
-			  `id` MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
-			  `teacher` MEDIUMINT(8) NOT NULL,
-			  `startBy` VARCHAR(13) NOT NULL,
-			  `endBy` VARCHAR(13) NOT NULL,
-			  `type` VARCHAR(1) NOT NULL,
-			  `coveringTeacher` MEDIUMINT(8),
-			  `text` LONGTEXT,
-			  `reason` VARCHAR(1) NOT NULL,
-			  `privateText` LONGTEXT,
-			  `added` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			  `edited` TIMESTAMP,
-			  PRIMARY KEY (`id`)
+			  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+			  teacher MEDIUMINT(8) NOT NULL,
+			  startBy VARCHAR(13) NOT NULL,
+			  endBy VARCHAR(13) NOT NULL,
+			  type VARCHAR(1) NOT NULL,
+			  coveringTeacher MEDIUMINT(8),
+			  text LONGTEXT,
+			  reason VARCHAR(1) NOT NULL,
+			  privateText LONGTEXT,
+			  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			  edited TIMESTAMP,
+			  PRIMARY KEY (id)
 			) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
 			$this->db->query($sql);
 		}
@@ -113,20 +113,20 @@ class Database {
 	 */
 	private function createTable_Teachers() {
 		$sql = "CREATE TABLE " . self::$table_teachers . " (
-		  `id` MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
-		  `name` VARCHAR(255) NOT NULL UNIQUE,
-		  `added` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-		  `edited` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  PRIMARY KEY (`id`)
+		  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+		  name VARCHAR(255) NOT NULL UNIQUE,
+		  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		  edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  PRIMARY KEY (id)
 		) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
 		if(!$this->db->query($sql)) {
 			// Workaround for MySQL bug: http://stackoverflow.com/a/17498167
 			$sql = "CREATE TABLE " . self::$table_teachers . " (
-			  `id` MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
-			  `name` VARCHAR(255) NOT NULL UNIQUE,
-			  `added` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			  `edited` TIMESTAMP,
-			  PRIMARY KEY (`id`)
+			  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+			  name VARCHAR(255) NOT NULL UNIQUE,
+			  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			  edited TIMESTAMP,
+			  PRIMARY KEY (id)
 			) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
 			$this->db->query($sql);
 		}
@@ -141,18 +141,18 @@ class Database {
 	 */
 	private function createTable_Authentication() {
 		$sql = "CREATE TABLE " . self::$table_authentication . " (
-		  `_key` VARCHAR(128) NOT NULL UNIQUE,
-		  `groups` VARCHAR(300) NOT NULL,
-		  `added` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-		  `edited` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+		  _key VARCHAR(128) NOT NULL UNIQUE,
+		  groups VARCHAR(300) NOT NULL,
+		  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		  edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 		) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
 		if(!$this->db->query($sql)) {
 			// Workaround for MySQL bug: http://stackoverflow.com/a/17498167
 			$sql = "CREATE TABLE " . self::$table_authentication . " (
-			  `_key` VARCHAR(128) NOT NULL UNIQUE,
-			  `groups` VARCHAR(300) NOT NULL,
-			  `added` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			  `edited` TIMESTAMP
+			  _key VARCHAR(128) NOT NULL UNIQUE,
+			  groups VARCHAR(300) NOT NULL,
+			  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			  edited TIMESTAMP
 			) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
 			$this->db->query($sql);
 		}
