@@ -83,3 +83,21 @@ No special errors are returned.
 ### Deleting change
 
 * [1400: The change could not get deleted.](changes/delete.md#1400-the-change-could-not-get-deleted)
+
+### List courses
+
+No special errors are returned.
+
+### Update course
+
+* [2200: The course could not get updated.](courses/update.md#2200-the-course-could-not-get-updated)
+
+### Create course
+
+* [2300: The course could not get created.](courses/create.md#2300-the-course-could-not-get-created)
+* [2301: A course with the given name already exists.](courses/create.md#2301-a-course-with-the-given-name-already-exists)
+
+### Deleting course
+
+* [2400: The course could not get deleted.](courses/delete.md#2400-the-course-could-not-get-deleted)
+* [2401: The course is still linked to a change.](courses/delete.md#2401-the-course-is-still-linked-to-a-change)

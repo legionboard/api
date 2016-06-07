@@ -3,6 +3,7 @@
 ## Resources
 
 - [Changes](changes/README.md)
+- [Courses](courses/README.md)
 - [Teachers](teachers/README.md)
 
 ## Clients

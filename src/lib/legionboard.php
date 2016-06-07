@@ -20,6 +20,10 @@ class LegionBoard extends API {
 	const GROUP_DELETE_TEACHER = 7;
 	const GROUP_SEE_REASONS = 8;
 	const GROUP_SEE_PRIVATE_TEXTS = 9;
+	const GROUP_SEE_COURSES = 10;
+	const GROUP_ADD_COURSE = 11;
+	const GROUP_UPDATE_COURSE = 12;
+	const GROUP_DELETE_COURSE = 13;
 	// Default teacher 'All'
 	const DEFAULT_TEACHER_ALL = '1';
 	/**
@@ -117,7 +121,7 @@ class LegionBoard extends API {
 				$this->status = 400;
 				return Array('error' => Array(Array('code' => '401', 'message' => 'Deleting the teacher with ID 1 is not allowed.')));				
 			}
-			if ($changes->get(null, Array($id)) != null || $changes->get(null, null, $id) != null) {
+			if ($changes->get(null, Array($id)) != null || $changes->get(null, null, null, $id) != null) {
 				$this->status = 400;
 				return Array('error' => Array(Array('code' => '402', 'message' => 'The teacher is still linked to a change.')));
 			}
@@ -136,6 +140,115 @@ class LegionBoard extends API {
 		return Array('error' => Array(Array('code' => '0', 'message' => "Only accepts GET, PUT, POST and DELETE requests.")));
 	}
 	/**
+	 * Endpoint: courses
+	 * Accepts: GET, PUT, POST, DELETE
+	 */
+	protected function courses() {
+		self::checkTables();
+		require_once __DIR__ . '/changes.php';
+		$changes = new Changes();
+		require_once __DIR__ . '/courses.php';
+		$courses = new Courses();
+		require_once __DIR__ . '/authentication.php';
+		$authentication = new Authentication();
+		if ($this->method == 'GET') {
+			$key = $_GET['k'];
+			// Verify authentication key
+			if (!$authentication->verifiy($key, self::GROUP_SEE_COURSES)) {
+				$this->status = 401;
+				return null;
+			}
+			$id = $this->args[0];
+			$courses = $courses->get($id);
+			if ($courses != null) {
+				return $courses;
+			}
+			$this->status = 404;
+			return null;
+		}
+		if ($this->method == 'PUT') {
+			parse_str($this->file, $params);
+			$key = $params['k'];
+			// Verify authentication key
+			if (!$authentication->verifiy($key, self::GROUP_UPDATE_COURSE)) {
+				$this->status = 401;
+				return null;
+			}
+			$id = $this->args[0];
+			$missing = Array();
+			if ($id == '') {
+				$missing[] = 'id';
+			}
+			$name = $params['name'];
+			if ($name == '') {
+				$missing[] = 'name';
+			}
+			if (!empty($missing)) {
+				$this->status = 400;
+				return Array('missing' => $missing);
+			}
+			if ($courses->update($id, $name)) {
+				$this->status = 204;
+				return null;
+			}
+			$this->status = 409;
+			return Array('error' => Array(Array('code' => '2200', 'message' => 'The course could not get updated.')));
+		}
+		if ($this->method == 'POST') {
+			$key = $_POST['k'];
+			// Verify authentication key
+			if (!$authentication->verifiy($key, self::GROUP_ADD_COURSE)) {
+				$this->status = 401;
+				return null;
+			}
+			$name = $_POST['name'];
+			if ($name == '') {
+				$this->status = 400;
+				return Array('missing' => Array('name'));
+			}
+			if ($courses->checkByName($name)) {
+				$this->status = 400;
+				return Array('error' => Array(Array('code' => '2301', 'message' => 'A course with the given name already exists.')));
+			}
+			$id = $courses->create($name);
+			if (isset($id)) {
+				$this->status = 201;
+				return Array('id' => $id);
+			}
+			$this->status = 409;
+			return Array('error' => Array(Array('code' => '2300', 'message' => 'The course could not get created.')));
+		}
+		if ($this->method == 'DELETE') {
+			$key = $_GET['k'];
+			// Verify authentication key
+			if (!$authentication->verifiy($key, self::GROUP_DELETE_COURSE)) {
+				$this->status = 401;
+				return null;
+			}
+			$id = $this->args[0];
+			if ($id == '') {
+				$this->status = 400;
+				return Array('missing' => Array('id'));
+			}
+			if ($changes->get(null, null, Array($id)) != null) {
+				$this->status = 400;
+				return Array('error' => Array(Array('code' => '2401', 'message' => 'The course is still linked to a change.')));
+			}
+			if ($courses->delete($id)) {
+				$this->status = 204;
+				return null;
+			}
+			$this->status = 409;
+			return Array('error' => Array(Array('code' => '2400', 'message' => 'The course could not get deleted.')));
+		}
+		if ($this->method == 'OPTIONS') {
+			$this->status = 200;
+			return null;
+		}
+		$this->status = 405;
+		return Array('error' => Array(Array('code' => '0', 'message' => "Only accepts GET, PUT, POST and DELETE requests.")));
+	}
+	/**
 	 * Endpoint: changes
 	 * Accepts: GET, PUT, POST, DELETE
 	 */
@@ -145,6 +258,8 @@ class LegionBoard extends API {
 		$changes = new Changes();
 		require_once __DIR__ . '/teachers.php';
 		$teachers = new Teachers();
+		require_once __DIR__ . '/courses.php';
+		$courses = new Courses();
 		require_once __DIR__ . '/authentication.php';
 		$authentication = new Authentication();
 		if ($this->method == 'GET') {
@@ -165,6 +280,17 @@ class LegionBoard extends API {
 					}
 					else if (!$teachers->checkById($teacher)) {
 						$error[] = Array('code' => '1101', 'message' => 'The teacher does not exist.');
+					}
+				}
+			}
+			$givenCourses = explode(",", $_GET['courses']);
+			foreach ($givenCourses as $course) {
+				if ($course != '') {
+					if (!ctype_digit($course)) {
+						$error[] = Array('code' => '1100', 'message' => 'The course may only contain an integer.');
+					}
+					else if (!$courses->checkById($course)) {
+						$error[] = Array('code' => '1101', 'message' => 'The course does not exist.');
 					}
 				}
 			}
@@ -252,7 +378,7 @@ class LegionBoard extends API {
 				$this->status = 400;
 				return Array('error' => $error);
 			}
-			$changes = $changes->get($id, $givenTeachers, $coveringTeacher, $startBy, $endBy, $seeReasons, $seePrivateTexts);
+			$changes = $changes->get($id, $givenTeachers, $givenChanges, $coveringTeacher, $startBy, $endBy, $seeReasons, $seePrivateTexts);
 			$this->status = ($changes == null) ? 404 : 200;
 			return $changes;
 		}
@@ -294,6 +420,7 @@ class LegionBoard extends API {
 				$missing[] = 'text';
 			}
 			$privateText = $params['privateText'];
+			$course = $params['course'];
 			if (!empty($missing)) {
 				$this->status = 400;
 				return Array('missing' => $missing);
@@ -317,6 +444,12 @@ class LegionBoard extends API {
 			}
 			else if (!$teachers->checkById($teacher)) {
 				$error[] = Array('code' => '1208', 'message' => 'The teacher does not exist.');
+			}
+			if (!ctype_digit($course)) {
+				$error[] = Array('code' => '1205', 'message' => 'The course may only contain an integer.');
+			}
+			else if (!$courses->checkById($course)) {
+				$error[] = Array('code' => '1208', 'message' => 'The course does not exist.');
 			}
 			if ($coveringTeacher != '' && !ctype_digit($coveringTeacher)) {
 				$error[] = Array('code' => '1206', 'message' => 'The covering teacher may only contain an integer.');
@@ -344,7 +477,7 @@ class LegionBoard extends API {
 				$this->status = 400;
 				return Array('error' => $error);
 			}
-			if ($changes->update($id, $teacher, $coveringTeacher, $startBy, $endBy, $type, $text, $reason, $privateText)) {
+			if ($changes->update($id, $teacher, $course, $coveringTeacher, $startBy, $endBy, $type, $text, $reason, $privateText)) {
 				$this->status = 204;
 				return null;
 			}
@@ -384,6 +517,7 @@ class LegionBoard extends API {
 				$missing[] = 'text';
 			}
 			$privateText = $_POST['privateText'];
+			$course = $_POST['course'];
 			if (!empty($missing)) {
 				$this->status = 400;
 				return Array('missing' => $missing);
@@ -407,6 +541,12 @@ class LegionBoard extends API {
 			}
 			else if (!$teachers->checkById($teacher)) {
 				$error[] = Array('code' => '1308', 'message' => 'The teacher does not exist.');
+			}
+			if (!ctype_digit($course)) {
+				$error[] = Array('code' => '1305', 'message' => 'The course may only contain an integer.');
+			}
+			else if (!$courses->checkById($course)) {
+				$error[] = Array('code' => '1308', 'message' => 'The course does not exist.');
 			}
 			if ($coveringTeacher != '' && !ctype_digit($coveringTeacher)) {
 				$error[] = Array('code' => '1306', 'message' => 'The covering teacher may only contain an integer.');
@@ -434,7 +574,7 @@ class LegionBoard extends API {
 				$this->status = 400;
 				return Array('error' => $error);
 			}
-			$id = $changes->create($teacher, $coveringTeacher, $startBy, $endBy, $type, $text, $reason, $privateText);
+			$id = $changes->create($teacher, $course, $coveringTeacher, $startBy, $endBy, $type, $text, $reason, $privateText);
 			if (isset($id)) {
 				$this->status = 201;
 				return $id;
