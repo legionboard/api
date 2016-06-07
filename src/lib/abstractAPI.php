@@ -7,9 +7,13 @@
  */
 abstract class API {
 	/**
-	 * The version of the API.
+	 * The version name of the API.
 	 */
-	protected $version = '0.1.2';
+	protected $versionName = '0.1.2';
+	/**
+	 * The version code (integer) of the API.
+	 */
+	protected $versionCode = '1';
     /**
      * Property: method
      * The HTTP method this request was made in, either GET, POST, PUT or DELETE
@@ -49,7 +53,8 @@ abstract class API {
         // Output is always JSON
         header("Content-Type: application/json");
         // Send version header
-        header("LegionBoard-API-Version: " . $this->version);
+        header("LegionBoard-Heart-Version-Name: " . $this->versionName);
+        header("LegionBoard-Heart-Version-Code: " . $this->versionCode);
 
         $this->args = explode('/', rtrim($request, '/'));
         $this->endpoint = array_shift($this->args);
