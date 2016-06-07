@@ -34,7 +34,6 @@ class LegionBoard extends API {
 	 * Accepts: GET, PUT, POST, DELETE
 	 */
 	protected function changes() {
-		self::checkTables();
 		require_once __DIR__ . '/changes.php';
 		$changes = new Changes();
 		require_once __DIR__ . '/teachers.php';
@@ -395,7 +394,6 @@ class LegionBoard extends API {
 	 * Accepts: GET, PUT, POST, DELETE
 	 */
 	protected function courses() {
-		self::checkTables();
 		require_once __DIR__ . '/changes.php';
 		$changes = new Changes();
 		require_once __DIR__ . '/courses.php';
@@ -505,7 +503,6 @@ class LegionBoard extends API {
 	 * Accepts: GET, PUT, POST, DELETE
 	 */
 	protected function teachers() {
-		self::checkTables();
 		require_once __DIR__ . '/changes.php';
 		$changes = new Changes();
 		require_once __DIR__ . '/teachers.php';
@@ -612,14 +609,6 @@ class LegionBoard extends API {
 		}
 		$this->status = 405;
 		return Array('error' => Array(Array('code' => '0', 'message' => "Only accepts GET, PUT, POST and DELETE requests.")));
-	}
-
-	/**
-	 * This opens a MySQL connection to force a check of the tables.
-	 */
-	private function checkTables() {
-		require_once __DIR__ . '/database.php';
-		$database = new Database();
 	}
 }
 ?>
