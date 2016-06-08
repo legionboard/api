@@ -220,10 +220,10 @@ class LegionBoard extends API {
 			else if (!$teachers->checkById($teacher)) {
 				$error[] = Array('code' => '1308', 'message' => 'The teacher does not exist.');
 			}
-			if (!ctype_digit($course)) {
+			if ($course != '' && !ctype_digit($course)) {
 				$error[] = Array('code' => '1305', 'message' => 'The course may only contain an integer.');
 			}
-			else if (!$courses->checkById($course)) {
+			else if ($course != '' && !$courses->checkById($course)) {
 				$error[] = Array('code' => '1308', 'message' => 'The course does not exist.');
 			}
 			if ($coveringTeacher != '' && !ctype_digit($coveringTeacher)) {
