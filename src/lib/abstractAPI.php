@@ -6,14 +6,14 @@
  * See the file "LICENSE" for the full license governing this code.
  */
 abstract class API {
-	/**
-	 * The version name of the API.
-	 */
-	protected $versionName = '0.1.2';
-	/**
-	 * The version code (integer) of the API.
-	 */
-	protected $versionCode = '1';
+    /**
+     * The version name of the API.
+     */
+    protected $versionName = '0.1.2';
+    /**
+     * The version code (integer) of the API.
+     */
+    protected $versionCode = '1';
     /**
      * Property: method
      * The HTTP method this request was made in, either GET, POST, PUT or DELETE
