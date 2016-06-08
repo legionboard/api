@@ -255,7 +255,7 @@ class LegionBoard extends API {
 			$id = $changes->create($teacher, $course, $coveringTeacher, $startBy, $endBy, $type, $text, $reason, $privateText);
 			if (isset($id)) {
 				$this->status = 201;
-				return $id;
+				return Array('id' => $id);
 			}
 			$this->status = 409;
 			return Array('error' => Array(Array('code' => '1300', 'message' => 'The change could not get created.')));
