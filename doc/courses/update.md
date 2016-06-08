@@ -1,6 +1,6 @@
 # Update course
 
-Update a specific course identified by the id.
+Update a specific course identified by an ID.
 
 ```
 PUT /courses/:id
@@ -34,13 +34,5 @@ HTTP status: `400 Bad Request`
 
 HTTP status: `409 Conflict`
 
-```json
-{
-	"error": [
-		{
-			"code": "2200",
-			"message": "The course could not get updated."
-		}
-	]
-}
-```
+Error code: `2200`
+> The course could not get updated.

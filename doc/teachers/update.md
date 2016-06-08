@@ -1,6 +1,6 @@
 # Update teacher
 
-Update a specific teacher identified by the id.
+Update a specific teacher identified by an ID.
 
 ```
 PUT /teachers/:id
@@ -34,13 +34,5 @@ HTTP status: `400 Bad Request`
 
 HTTP status: `409 Conflict`
 
-```json
-{
-	"error": [
-		{
-			"code": "200",
-			"message": "The teacher could not get updated."
-		}
-	]
-}
-```
+Error code: `200`
+> The teacher could not get updated.

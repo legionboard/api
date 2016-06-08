@@ -18,19 +18,27 @@ HTTP status: `200 OK`
 [
     {
         "id": "1",
-        "name": "Alle"
+        "name": "Alle",
+        "added": "2015-11-12 13:33:33",
+        "edited": "2015-11-12 13:33:33"
     },
     {
         "id": "2",
-        "name": "Smith"
+        "name": "Smith",
+        "added": "2015-11-12 13:33:53",
+        "edited": "2015-11-12 13:33:53"
     },
     {
         "id": "4",
-        "name": "Williams"
+        "name": "Williams",
+        "added": "2015-11-15 10:48:36",
+        "edited": "2015-11-15 10:49:06"
     },
     {
         "id": "5",
-        "name": "Miller"
+        "name": "Miller",
+        "added": "2015-11-16 14:23:39",
+        "edited": "2015-11-16 14:23:39"
     }
 ]
 ```

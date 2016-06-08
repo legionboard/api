@@ -1,6 +1,6 @@
 # Delete change
 
-Delete a specific change identified by the id.
+Delete a specific change identified by an ID.
 
 ```
 DELETE /changes/:id
@@ -32,13 +32,5 @@ HTTP status: `400 Bad Request`
 
 HTTP status: `409 Conflict`
 
-```json
-{
-	"error": [
-		{
-			"code": "1400",
-			"message": "The change could not get deleted."
-		}
-	]
-}
-```
+Error code: `1400`
+> The change could not get deleted.

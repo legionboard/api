@@ -20,9 +20,9 @@
 
 There are two special hours:
 
-* `startBy` with the argument 0 is considered as the beginning of the
+* `startBy` with the value `00` is considered as the beginning of the
 day. If you are developing a client, make sure that this is set as
-default value. Also do not show this value when showing the changes.
-* `endBy` with the argument 20 is considered as the ending of the
+default value. Also hide this value when showing changes.
+* `endBy` with the value `20` is considered as the ending of the
 day. If you are developing a client, make sure that this is set as
-default value. Also do not show this value when showing the changes.
+default value. Also hide value when showing changes.

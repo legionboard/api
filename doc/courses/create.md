@@ -38,28 +38,12 @@ HTTP status: `400 Bad Request`
 
 HTTP status: `400 Bad Request`
 
-```json
-{
-	"error": [
-		{
-			"code": "2301",
-			"message": "A course with the given name already exists."
-		}
-	]
-}
-```
+Error code: `2301`
+> A course with the given name already exists.
 
 ### 2300: The course could not get created.
 
 HTTP status: `409 Conflict`
 
-```json
-{
-	"error": [
-		{
-			"code": "2300",
-			"message": "The course could not get created."
-		}
-	]
-}
-```
+Error code: `2300`
+> The course could not get created.

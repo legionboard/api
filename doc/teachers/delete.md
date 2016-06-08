@@ -1,6 +1,6 @@
 # Delete teacher
 
-Delete a specific teacher identified by the id.
+Delete a specific teacher identified by an ID.
 
 ```
 DELETE /teachers/:id
@@ -32,43 +32,19 @@ HTTP status: `400 Bad Request`
 
 HTTP status: `400 Bad Request`
 
-```json
-{
-	"error": [
-		{
-			"code": "401",
-			"message": "Deleting the teacher with ID 1 is not allowed."
-		}
-	]
-}
-```
+Error code: `401`
+> Deleting the teacher with ID 1 is not allowed.
 
 ### 402: The teacher is still linked to a change.
 
 HTTP status: `400 Bad Request`
 
-```json
-{
-	"error": [
-		{
-			"code": "402",
-			"message": "The teacher is still linked to a change."
-		}
-	]
-}
-```
+Error code: `402`
+> The teacher is still linked to a change.
 
 ### 400: The teacher could not get deleted.
 
 HTTP status: `409 Conflict`
 
-```json
-{
-	"error": [
-		{
-			"code": "400",
-			"message": "The teacher could not get deleted."
-		}
-	]
-}
-```
+Error code: `400`
+> The teacher could not get deleted.
