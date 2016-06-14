@@ -4,6 +4,10 @@
  * @date	16.03.2016
  *
  * See the file "LICENSE" for the full license governing this code.
+ *
+ * Based on a tutorial found on
+ * http://coreymaynard.com/blog/creating-a-restful-api-with-php/
+ *
  */
 abstract class API {
     /**
