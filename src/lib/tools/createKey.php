@@ -39,7 +39,7 @@ try {
 
 	// Create key
 	$key = hash('sha256', strtolower(trim($username)) . '//' . trim($password));
-	if (!$authentication->create($key, $groups)) {
+	if (!$authentication->create($key, $groups, $username)) {
 		throw new Exception("Could not add the key.");
 	}
 

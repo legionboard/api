@@ -183,6 +183,7 @@ class Database {
 		$sql = "CREATE TABLE " . self::$table_authentication . " (
 		  _key VARCHAR(128) NOT NULL UNIQUE,
 		  groups VARCHAR(300) NOT NULL,
+		  username VARCHAR(300) NOT NULL,
 		  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		  edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 		) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
@@ -191,6 +192,7 @@ class Database {
 			$sql = "CREATE TABLE " . self::$table_authentication . " (
 			  _key VARCHAR(128) NOT NULL UNIQUE,
 			  groups VARCHAR(300) NOT NULL,
+			  username VARCHAR(300) NOT NULL,
 			  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			  edited TIMESTAMP
 			) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
@@ -212,6 +214,10 @@ class Database {
 		}
 		if (!self::checkColumn("archived", self::$table_teachers, $db)) {
 			$sql = "ALTER TABLE " . self::$table_teachers . " ADD archived BOOLEAN DEFAULT 0 AFTER name";
+			$this->db->query($sql);
+		}
+		if (!self::checkColumn("username", self::$table_authentication, $db)) {
+			$sql = "ALTER TABLE " . self::$table_authentication. " ADD username VARCHAR(300) NOT NULL AFTER groups";
 			$this->db->query($sql);
 		}
 	}

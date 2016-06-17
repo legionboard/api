@@ -39,11 +39,12 @@ class Authentication {
 	/**
 	 * Create a key.
 	 */
-	public function create($key, $groups) {
+	public function create($key, $groups, $username) {
 		// Generate SHA-512 hash of key
 		$key = hash('sha512', $key);
 		$groups = $this->db->escape_string($groups);
-		$sql = "INSERT INTO " . Database::$table_authentication . " (`_key`, `groups`) VALUES ('$key', '$groups')";
+		$username= $this->db->escape_string($username);
+		$sql = "INSERT INTO " . Database::$table_authentication . " (_key, groups, username) VALUES ('$key', '$groups', '$username')";
 		return $this->db->query($sql);
 	}
 }
