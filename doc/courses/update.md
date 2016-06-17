@@ -10,6 +10,7 @@ Parameters:
 
 - `id` (required) - The ID of a course
 - `name` (required) - The name of a course
+- `archived` (required) - Boolean whether a course is archived (true|false)
 
 ## Success
 
@@ -25,10 +26,18 @@ HTTP status: `400 Bad Request`
 {
 	"missing": [
 		"id",
-		"name"
+		"name",
+		"archived"
 	]
 }
 ```
+
+### 2201: The parameter archived may only contain true or false.
+
+HTTP status: `400 Conflict`
+
+Error code: `2201`
+> The parameter archived may only contain true or false
 
 ### 2200: The course could not get updated.
 

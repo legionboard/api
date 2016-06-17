@@ -36,6 +36,7 @@ class Courses {
 			$course = Array(
 							'id' => $column['id'],
 							'name' => $column['name'],
+							'archived' => ($column['archived'] == '0') ? 'false' : 'true',
 							'added' => $column['added'],
 							'edited' => $column['edited']
 							);
@@ -59,10 +60,11 @@ class Courses {
 	/**
 	 * Update a course.
 	 */
-	public function update($id, $name) {
+	public function update($id, $name, $archived) {
 		$id = $this->db->escape_string($id);
 		$name = $this->db->escape_string($name);
-		$sql = "UPDATE " . Database::$table_courses . " SET name = '$name' WHERE id = '$id'";
+		$archived = $this->db->escape_string($archived);
+		$sql = "UPDATE " . Database::$table_courses . " SET name = '$name', archived = '$archived' WHERE id = '$id'";
 		return $this->db->query($sql);
 	}
 

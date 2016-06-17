@@ -155,6 +155,7 @@ class Database {
 		$sql = "CREATE TABLE " . self::$table_courses . " (
 		  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
 		  name VARCHAR(255) NOT NULL UNIQUE,
+		  archived BOOLEAN DEFAULT 0,
 		  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		  edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  PRIMARY KEY (id)
@@ -164,6 +165,7 @@ class Database {
 			$sql = "CREATE TABLE " . self::$table_courses . " (
 			  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
 			  name VARCHAR(255) NOT NULL UNIQUE,
+			  archived BOOLEAN DEFAULT 0,
 			  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			  edited TIMESTAMP,
 			  PRIMARY KEY (id)
@@ -200,6 +202,10 @@ class Database {
 	private function updateTables($db) {
 		if (!self::checkColumn("course", self::$table_changes, $db)) {
 			$sql = "ALTER TABLE " . self::$table_changes . " ADD course MEDIUMINT(8) AFTER teacher";
+			$this->db->query($sql);
+		}
+		if (!self::checkColumn("archived", self::$table_courses, $db)) {
+			$sql = "ALTER TABLE " . self::$table_courses. " ADD archived BOOLEAN DEFAULT 0 AFTER name";
 			$this->db->query($sql);
 		}
 	}

@@ -91,6 +91,7 @@ No special errors are returned.
 ### Update course
 
 * [2200: The course could not get updated.](courses/update.md#2200-the-course-could-not-get-updated)
+* [2201: The parameter archived may only contain true or false.](courses/update.md#2201-the-parameter-archived-may-only-contain-true-or-false)
 
 ### Create course
 
