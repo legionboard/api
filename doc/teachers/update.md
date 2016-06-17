@@ -10,6 +10,7 @@ Parameters:
 
 - `id` (required) - The ID of a teacher
 - `name` (required) - The name of a teacher
+- `archived` (required) - Boolean whether a teacher is archived (true|false)
 
 ## Success
 
@@ -25,10 +26,19 @@ HTTP status: `400 Bad Request`
 {
 	"missing": [
 		"id",
+		"archived",
 		"name"
 	]
 }
 ```
+
+### 201: The parameter archived may only contain true or false.
+
+HTTP status: `400 Conflict`
+
+Error code: `201`
+> The parameter archived may only contain true or false
+
 
 ### 200: The teacher could not get updated.
 

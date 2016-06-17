@@ -26,6 +26,7 @@ No special errors are returned.
 ### Update teacher
 
 * [200: The teacher could not get updated.](teachers/update.md#200-the-teacher-could-not-get-updated)
+* [201: The parameter archived may only contain true or false.](teachers/update.md#201-the-parameter-archived-may-only-contain-true-or-false)
 
 ### Create teacher
 

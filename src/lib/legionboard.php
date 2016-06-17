@@ -580,11 +580,26 @@ class LegionBoard extends API {
 			if ($name == '') {
 				$missing[] = 'name';
 			}
+			$archived = $_POST['archived'];
+			switch ($archived) {
+				case 'false':
+					$archived = '0';
+					break;
+				case 'true':
+					$archived = '1';
+					break;
+				case '':
+					$missing[] = 'archived';
+					break;
+				default:
+					$this->status = 400;
+					return Array('error' => Array(Array('code' => '201', 'message' => 'The parameter archived may only contain true or false.')));
+			}
 			if (!empty($missing)) {
 				$this->status = 400;
 				return Array('missing' => $missing);
 			}
-			if ($teachers->update($id, $name)) {
+			if ($teachers->update($id, $name, $archived)) {
 				$this->status = 204;
 				return null;
 			}
