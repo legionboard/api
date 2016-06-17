@@ -1,6 +1,7 @@
 # LegionBoard Heart
 
 [![build status](https://gitlab.com/legionboard/heart/badges/master/build.svg)](https://gitlab.com/legionboard/heart/builds)
+[![Code Climate](https://codeclimate.com/github/legionboard/heart/badges/gpa.svg)](https://codeclimate.com/github/legionboard/heart)
 
 This is the core of [LegionBoard](https://legionboard.github.io): it
 is a
