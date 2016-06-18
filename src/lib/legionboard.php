@@ -124,7 +124,7 @@ class LegionBoard extends API {
 				$this->status = 400;
 				return Array('error' => $error);
 			}
-			$changes = $changes->get($id, $givenTeachers, $givenChanges, $coveringTeacher, $startBy, $endBy, $seeReasons, $seePrivateTexts);
+			$changes = $changes->get($id, $givenTeachers, $givenCourses, $coveringTeacher, $startBy, $endBy, $seeReasons, $seePrivateTexts);
 			$this->status = ($changes == null) ? 404 : 200;
 			return $changes;
 		}
