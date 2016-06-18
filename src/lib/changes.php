@@ -36,7 +36,7 @@ class Changes {
 			foreach ($teachers as $teacher) {
 				// Add where clause for teacher
 				$teacher = $this->database->escape_string($teacher);
-				$sqlteachers .= (empty($sql_teachers) ? "" : " OR ") . "teacher LIKE '$teacher'";
+				$sqlTeachers .= (empty($sqlTeachers) ? "" : " OR ") . "teacher LIKE '$teacher'";
 			}
 		}
 		// Filter by courses
