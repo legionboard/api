@@ -43,7 +43,7 @@ class LegionBoard extends API {
 		require_once __DIR__ . '/authentication.php';
 		$authentication = new Authentication();
 		if ($this->method == 'GET') {
-			$key = $_GET['k'];
+			$key = self::getFromGET('k');
 			// Verify authentication key
 			if (!$authentication->verifiy($key, self::GROUP_SEE_CHANGES)) {
 				$this->status = 401;
@@ -52,7 +52,7 @@ class LegionBoard extends API {
 			$seeReasons = $authentication->verifiy($key, self::GROUP_SEE_REASONS);
 			$seePrivateTexts = $authentication->verifiy($key, self::GROUP_SEE_PRIVATE_TEXTS);
 			$id = $this->args[0];
-			$givenTeachers = explode(",", $_GET['teachers']);
+			$givenTeachers = explode(",", self::getFromGET('teachers'));
 			foreach ($givenTeachers as $teacher) {
 				if ($teacher != '') {
 					if (!ctype_digit($teacher)) {
@@ -63,7 +63,7 @@ class LegionBoard extends API {
 					}
 				}
 			}
-			$givenCourses = explode(",", $_GET['courses']);
+			$givenCourses = explode(",", self::getFromGET('courses'));
 			foreach ($givenCourses as $course) {
 				if ($course != '') {
 					if (!ctype_digit($course)) {
@@ -74,7 +74,7 @@ class LegionBoard extends API {
 					}
 				}
 			}
-			$coveringTeacher = $_GET['coveringTeacher'];
+			$coveringTeacher = self::getFromGET('coveringTeacher');
 			if ($coveringTeacher != '') {
 				if (!ctype_digit($coveringTeacher)) {
 					$error[] = Array('code' => '1102', 'message' => 'The covering teacher may only contain an integer.');
@@ -83,7 +83,7 @@ class LegionBoard extends API {
 					$error[] = Array('code' => '1103', 'message' => 'The covering teacher does not exist.');
 				}
 			}
-			$startBy = $_GET['startBy'];
+			$startBy = self::getFromGET('startBy');
 			// Replace alias with time
 			if ($startBy != '') {
 				if (self::replaceAlias($startBy) != null) {
@@ -96,7 +96,7 @@ class LegionBoard extends API {
 					$error[] = Array('code' => '1105', 'message' => 'The starting time does not exist.');
 				}
 			}
-			$endBy = $_GET['endBy'];
+			$endBy = self::getFromGET('endBy');
 			// Replace alias with time
 			if ($endBy != '') {
 				if (self::replaceAlias($endBy) != null) {
@@ -129,39 +129,39 @@ class LegionBoard extends API {
 			return $changes;
 		}
 		if ($this->method == 'POST') {
-			$key = $_POST['k'];
+			$key = self::getFromPOST('k');
 			// Verify authentication key
 			if (!$authentication->verifiy($key, self::GROUP_ADD_CHANGE)) {
 				$this->status = 401;
 				return null;
 			}
 			$missing = Array();
-			$teacher = $_POST['teacher'];
+			$teacher = self::getFromPOST('teacher');
 			if ($teacher == '') {
 				$missing[] = 'teacher';
 			}
-			$startBy = $_POST['startBy'];
+			$startBy = self::getFromPOST('startBy');
 			if ($startBy == '') {
 				$missing[] = 'startBy';
 			}
-			$endBy = $_POST['endBy'];
+			$endBy = self::getFromPOST('endBy');
 			if ($endBy == '') {
 				$missing[] = 'endBy';
 			}
-			$type = $_POST['type'];
+			$type = self::getFromPOST('type');
 			if ($type == '') {
 				$missing[] = 'type';
 			}
-			$coveringTeacher = $_POST['coveringTeacher'];
+			$coveringTeacher = self::getFromPOST('coveringTeacher');
 			if ($type == 1 && $coveringTeacher == '') {
 				$missing[] = 'coveringTeacher';
 			}
-			$text = $_POST['text'];
+			$text = self::getFromPOST('text');
 			if ($type == 2 && $text == '') {
 				$missing[] = 'text';
 			}
-			$privateText = $_POST['privateText'];
-			$course = $_POST['course'];
+			$privateText = self::getFromPOST('privateText');
+			$course = self::getFromPOST('course');
 			if (!empty($missing)) {
 				$this->status = 400;
 				return Array('missing' => $missing);
@@ -201,7 +201,7 @@ class LegionBoard extends API {
 			if ($type != '0' && $type != '1' && $type != '2') {
 				$error[] = Array('code' => '1307', 'message' => 'The type is not allowed.');
 			}
-			$reason = $_POST['reason'];
+			$reason = self::getFromPOST('reason');
 			if ($reason != '' && $reason != '0' && $reason != '1' && $reason != '2') {
 				$error[] = Array('code' => '1311', 'message' => 'The reason is not allowed.');
 			}
@@ -329,7 +329,7 @@ class LegionBoard extends API {
 			return Array('error' => Array(Array('code' => '1200', 'message' => 'The change could not get updated.')));
 		}
 		if ($this->method == 'DELETE') {
-			$key = $_GET['k'];
+			$key = self::getFromGET('k');
 			// Verify authentication key
 			if (!$authentication->verifiy($key, self::GROUP_DELETE_CHANGE)) {
 				$this->status = 401;
@@ -367,7 +367,7 @@ class LegionBoard extends API {
 		require_once __DIR__ . '/authentication.php';
 		$authentication = new Authentication();
 		if ($this->method == 'GET') {
-			$key = $_GET['k'];
+			$key = self::getFromGET('k');
 			// Verify authentication key
 			if (!$authentication->verifiy($key, self::GROUP_SEE_COURSES)) {
 				$this->status = 401;
@@ -382,13 +382,13 @@ class LegionBoard extends API {
 			return null;
 		}
 		if ($this->method == 'POST') {
-			$key = $_POST['k'];
+			$key = self::getFromPOST('k');
 			// Verify authentication key
 			if (!$authentication->verifiy($key, self::GROUP_ADD_COURSE)) {
 				$this->status = 401;
 				return null;
 			}
-			$name = $_POST['name'];
+			$name = self::getFromPOST('name');
 			if ($name == '') {
 				$this->status = 400;
 				return Array('missing' => Array('name'));
@@ -449,7 +449,7 @@ class LegionBoard extends API {
 			return Array('error' => Array(Array('code' => '2200', 'message' => 'The course could not get updated.')));
 		}
 		if ($this->method == 'DELETE') {
-			$key = $_GET['k'];
+			$key = self::getFromGET('k');
 			// Verify authentication key
 			if (!$authentication->verifiy($key, self::GROUP_DELETE_COURSE)) {
 				$this->status = 401;
@@ -491,7 +491,7 @@ class LegionBoard extends API {
 		require_once __DIR__ . '/authentication.php';
 		$authentication = new Authentication();
 		if ($this->method == 'GET') {
-			$key = $_GET['k'];
+			$key = self::getFromGET('k');
 			// Verify authentication key
 			if (!$authentication->verifiy($key, self::GROUP_SEE_TEACHERS)) {
 				$this->status = 401;
@@ -506,13 +506,13 @@ class LegionBoard extends API {
 			return null;			
 		}
 		if ($this->method == 'POST') {
-			$key = $_POST['k'];
+			$key = self::getFromPOST('k');
 			// Verify authentication key
 			if (!$authentication->verifiy($key, self::GROUP_ADD_TEACHER)) {
 				$this->status = 401;
 				return null;
 			}
-			$name = $_POST['name'];
+			$name = self::getFromPOST('name');
 			if ($name == '') {
 				$this->status = 400;
 				return Array('missing' => Array('name'));
@@ -546,7 +546,7 @@ class LegionBoard extends API {
 			if ($name == '') {
 				$missing[] = 'name';
 			}
-			$archived = $_POST['archived'];
+			$archived = self::getFromPOST('archived');
 			switch ($archived) {
 				case 'false':
 					$archived = '0';
@@ -573,7 +573,7 @@ class LegionBoard extends API {
 			return Array('error' => Array(Array('code' => '200', 'message' => 'The teacher could not get updated.')));
 		}
 		if ($this->method == 'DELETE') {
-			$key = $_GET['k'];
+			$key = self::getFromGET('k');
 			// Verify authentication key
 			if (!$authentication->verifiy($key, self::GROUP_DELETE_TEACHER)) {
 				$this->status = 401;
@@ -627,6 +627,20 @@ class LegionBoard extends API {
 			default:
 				return null;
 		}
+	}
+
+	/**
+	 * Returns value from super-global array $_GET.
+	 */
+	private function getFromGET($key) {
+		return $_GET[$key];
+	}
+
+	/**
+	 * Returns value from super-global array $_POST.
+	 */
+	private function getFromPOST($key) {
+		return $_POST[$key];
 	}
 }
 ?>
