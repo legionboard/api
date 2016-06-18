@@ -13,21 +13,30 @@ class Changes {
 	public function __construct() {
 		require_once __DIR__ . '/database.php';
 		$database = new Database();
-		$this->db = $database->get();
+		$this->database = $database->get();
 	}
 
 	/**
 	 * Get one or more changes.
 	 */
-	public function get($id = null, $teachers = null, $courses = null, $coveringTeacher = null, $startBy = null, $endBy = null, $seeReasons = false, $seePrivateTexts = false) {
+	public function get(
+						$id = null,
+						$teachers = null,
+						$courses = null,
+						$coveringTeacher = null,
+						$startBy = null,
+						$endBy = null,
+						$seeReasons = false,
+						$seePrivateTexts = false
+					) {
 		$changes = Array();
 		// Filter by teachers
 		if (!empty(array_filter($teachers))) {
 			sort($teachers);
 			foreach ($teachers as $teacher) {
 				// Add where clause for teacher
-				$teacher = $this->db->escape_string($teacher);
-				$sql_teachers .= (empty($sql_teachers) ? "" : " OR ") . "teacher LIKE '$teacher'";
+				$teacher = $this->database->escape_string($teacher);
+				$sqlteachers .= (empty($sql_teachers) ? "" : " OR ") . "teacher LIKE '$teacher'";
 			}
 		}
 		// Filter by courses
@@ -35,44 +44,44 @@ class Changes {
 			sort($courses);
 			foreach ($courses as $course) {
 				// Add where clause for course
-				$course = $this->db->escape_string($course);
-				$sql_courses .= (empty($sql_courses) ? "" : " OR ") . "course LIKE '$course'";
+				$course = $this->database->escape_string($course);
+				$sqlCourses .= (empty($sqlCourses) ? "" : " OR ") . "course LIKE '$course'";
 			}
 		}
 		// Filter by ID
 		if (isset($id)) {
-			$id = $this->db->escape_string($id);
-			$sql_id = " id LIKE '$id'";
+			$id = $this->database->escape_string($id);
+			$sqlID = " id LIKE '$id'";
 		}
 		// Filter by covering teacher
 		if (isset($coveringTeacher)) {
-			$coveringTeacher = $this->db->escape_string($coveringTeacher);
-			$sql_coveringTeacher = " coveringTeacher LIKE '$coveringTeacher'";
+			$coveringTeacher = $this->database->escape_string($coveringTeacher);
+			$sqlCoveringTeacher = " coveringTeacher LIKE '$coveringTeacher'";
 		}
 		// Build SELECT
 		$sql = "SELECT * FROM " . Database::$tableChanges;
-		if (!empty($sql_teachers) || !empty($sql_courses) || !empty($sql_id) || !empty($sql_coveringTeacher)) {
+		if (!empty($sqlTeachers) || !empty($sqlCourses) || !empty($sqlID) || !empty($sqlCoveringTeacher)) {
 			$sql .= " WHERE";
-			if (!empty($sql_teachers)) {
-				$sql .= " (" . $sql_teachers . ")";
+			if (!empty($sqlTeachers)) {
+				$sql .= " (" . $sqlTeachers . ")";
 			}
-			if (!empty($sql_courses)) {
-				if (!empty($sql_teachers)) {
+			if (!empty($sqlCourses)) {
+				if (!empty($sqlTeachers)) {
 					$sql .= " AND";
 				}
-				$sql .= " (" . $sql_courses . ")";
+				$sql .= " (" . $sqlCourses . ")";
 			}
-			if ((!empty($sql_teachers) || !empty($sql_courses)) && !empty($sql_id)) {
+			if ((!empty($sqlTeachers) || !empty($sqlCourses)) && !empty($sqlID)) {
 				$sql .= " AND";
 			}
-			$sql .= $sql_id;
-			if ((!empty($sql_teachers) || !empty($sql_courses)) && !empty($sql_coveringTeacher)) {
+			$sql .= $sqlID;
+			if ((!empty($sqlTeachers) || !empty($sqlCourses)) && !empty($sqlCoveringTeacher)) {
 				$sql .= " AND";
 			}
-			$sql .= $sql_coveringTeacher;
+			$sql .= $sqlCoveringTeacher;
 
 		}
-		$query = $this->db->query($sql);
+		$query = $this->database->query($sql);
 		if ($query && $query->num_rows != 0) {
 			while($column = $query->fetch_array()) {
 				// Filter out if end of change is before given start
@@ -108,8 +117,7 @@ class Changes {
 				$changes[] = $change;
 			}
 		}
-		$changesCon = array_filter($changes);
-		if (empty($changesCon)) {
+		if (empty(array_filter($changes))) {
 			return null;
 		}
 		return $changes;
@@ -118,7 +126,18 @@ class Changes {
 	/**
 	 * Create a change.
 	 */
-	public function create($teacher, $course, $coveringTeacher, $startBy, $endBy, $type, $text, $reason, $privateText) {
+	public function create(
+						$teacher,
+						$course,
+						$coveringTeacher,
+						$startBy,
+						$endBy,
+						$type,
+						$text,
+						$reason,
+						$privateText
+					) {
+		// Escape strings
 		$teacher = $this->db->escape_string($teacher);
 		$course = $this->db->escape_string($course);
 		$coveringTeacher = $this->db->escape_string($coveringTeacher);
@@ -128,7 +147,30 @@ class Changes {
 		$text = $this->db->escape_string($text);
 		$reason = $this->db->escape_string($reason);
 		$privateText = $this->db->escape_string($privateText);
-		$sql = "INSERT INTO " . Database::$tableChanges . " (teacher, course, coveringTeacher, startBy, endBy, type, text, reason, privateText) VALUES ('$teacher', '$course', '$coveringTeacher', '$startBy', '$endBy', '$type', '$text', '$reason', '$privateText')";
+
+		$sql = "INSERT INTO " . Database::$tableChanges .
+				" (" .
+					"teacher," .
+					"course," .
+					"coveringTeacher," .
+					"startBy," .
+					"endBy," .
+					"type," .
+					"text," .
+					"reason," .
+					"privateText" .
+				")" .
+				"VALUES (" .
+					"'$teacher'," .
+					"'$course'," .
+					"'$coveringTeacher'," .
+					"'$startBy'," .
+					"'$endBy'," .
+					"'$type'," .
+					"'$text'," .
+					"'$reason'," .
+					"'$privateText'" .
+				")";
 		if ($this->db->query($sql)) {
 			return $this->db->insert_id;
 		}
@@ -138,7 +180,19 @@ class Changes {
 	/**
 	 * Update a change.
 	 */
-	public function update($id, $teacher, $course, $coveringTeacher, $startBy, $endBy, $type, $text, $reason, $privateText) {
+	public function update(
+						$id,
+						$teacher,
+						$course,
+						$coveringTeacher,
+						$startBy,
+						$endBy,
+						$type,
+						$text,
+						$reason,
+						$privateText
+					) {
+		// Escape strings
 		$id = $this->db->escape_string($id);
 		$teacher = $this->db->escape_string($teacher);
 		$course = $this->db->escape_string($course);
@@ -149,7 +203,20 @@ class Changes {
 		$text = $this->db->escape_string($text);
 		$reason = $this->db->escape_string($reason);
 		$privateText = $this->db->escape_string($privateText);
-		$sql = "UPDATE " . Database::$tableChanges . " SET teacher = '$teacher', course = '$course', coveringTeacher = '$coveringTeacher', startBy = '$startBy', endBy = '$endBy', type = '$type', text = '$text', reason = '$reason', privateText = '$privateText' WHERE id = '$id'";
+
+		$sql = "UPDATE " . Database::$tableChanges .
+				" SET" .
+					"teacher = '$teacher'," .
+					"course = '$course'," .
+					"coveringTeacher = '$coveringTeacher'," .
+					"startBy = '$startBy'," .
+					"endBy = '$endBy'," .
+					"type = '$type'," .
+					"text = '$text'," .
+					"reason = '$reason'," .
+					"privateText = '$privateText'" .
+				"WHERE" .
+					"id = '$id'";
 		return $this->db->query($sql);
 	}
 
