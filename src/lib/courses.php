@@ -7,13 +7,10 @@
  */
 class Courses {
 
-	/**
-	 * Connect with the database.
-	 */
 	public function __construct() {
 		require_once __DIR__ . '/database.php';
 		$database = new Database();
-		$this->db = $database->get();
+		$this->database = $database->get();
 	}
 
 	/**
@@ -22,11 +19,11 @@ class Courses {
 	public function get($id = null) {
 		// Add where clause for ID
 		if (isset($id)) {
-			$id = $this->db->escape_string($id);
-			$sql_id = " WHERE id LIKE '$id'";
+			$id = $this->database->escape_string($id);
+			$sqlID = " WHERE id LIKE '$id'";
 		}
-		$sql = "SELECT * FROM " . Database::$table_courses . $sql_id;
-		$query = $this->db->query($sql);
+		$sql = "SELECT * FROM " . Database::$tableCourses . $sqlID;
+		$query = $this->database->query($sql);
 		if (!$query || $query->num_rows == 0) {
 			return null;
 		}
@@ -48,10 +45,10 @@ class Courses {
 	 * Create a course.
 	 */
 	public function create($name) {
-		$name = $this->db->escape_string($name);
-		$sql = "INSERT INTO " . Database::$table_courses . " (name) VALUES ('$name')";
-		if ($this->db->query($sql)) {
-			return $this->db->insert_id;
+		$name = $this->database->escape_string($name);
+		$sql = "INSERT INTO " . Database::$tableCourses . " (name) VALUES ('$name')";
+		if ($this->database->query($sql)) {
+			return $this->database->insert_id;
 		}
 		return null;
 	}
@@ -59,39 +56,43 @@ class Courses {
 	/**
 	 * Update a course.
 	 */
-	public function update($id, $name, $archived) {
-		$id = $this->db->escape_string($id);
-		$name = $this->db->escape_string($name);
-		$archived = $this->db->escape_string($archived);
-		$sql = "UPDATE " . Database::$table_courses . " SET name = '$name', archived = '$archived' WHERE id = '$id'";
-		return $this->db->query($sql);
+	public function update(
+						$id,
+						$name,
+						$archived
+					) {
+		$id = $this->database->escape_string($id);
+		$name = $this->database->escape_string($name);
+		$archived = $this->database->escape_string($archived);
+		$sql = "UPDATE " . Database::$tableCourses . " SET name = '$name', archived = '$archived' WHERE id = '$id'";
+		return $this->database->query($sql);
 	}
 
 	/**
 	 * Delete a course.
 	 */
 	public function delete($id) {
-		$id = $this->db->escape_string($id);
-		$sql = "DELETE FROM " . Database::$table_courses . " WHERE id = '$id'";
-		return $this->db->query($sql);
+		$id = $this->database->escape_string($id);
+		$sql = "DELETE FROM " . Database::$tableCourses . " WHERE id = '$id'";
+		return $this->database->query($sql);
 	}
 
 	/**
 	 * Check if a course ID exists.
 	 */
 	public function checkById($id) {
-		$id = $this->db->escape_string($id);
-		$sql = 'SELECT id FROM ' . Database::$table_courses . ' WHERE id = ' . $id . ' LIMIT 1';
-		return $this->db->query($sql)->num_rows > 0;
+		$id = $this->database->escape_string($id);
+		$sql = 'SELECT id FROM ' . Database::$tableCourses . ' WHERE id = ' . $id . ' LIMIT 1';
+		return $this->database->query($sql)->num_rows > 0;
 	}
 
 	/**
 	 * Check if a course name exists.
 	 */
 	public function checkByName($name) {
-		$name = $this->db->escape_string($name);
-		$sql = "SELECT name FROM " . Database::$table_courses . " WHERE name = '$name' LIMIT 1";
-		return $this->db->query($sql)->num_rows > 0;
+		$name = $this->database->escape_string($name);
+		$sql = "SELECT name FROM " . Database::$tableCourses . " WHERE name = '$name' LIMIT 1";
+		return $this->database->query($sql)->num_rows > 0;
 	}
 }
 ?>
