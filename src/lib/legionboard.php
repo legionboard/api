@@ -86,25 +86,8 @@ class LegionBoard extends API {
 			$startBy = $_GET['startBy'];
 			// Replace alias with time
 			if ($startBy != '') {
-				switch ($startBy) {
-					case 'now':
-						$startBy = substr(date('c'), 0, 10);
-						continue;
-					case 'tom':
-						$startBy = substr(date('c', time() + 86400), 0, 10);
-						continue;
-					case 'i3d':
-						$startBy = substr(date('c', time() + 259200), 0, 10);
-						continue;
-					case 'i1w':
-						$startBy = substr(date('c', time() + 604800), 0, 10);
-						continue;
-					case 'i1m':
-						$startBy = substr(date('c', time() + 2419200), 0, 10);
-						continue;
-					case 'i1y':
-						$startBy = substr(date('c', time() + 31536000), 0, 10);
-						continue;
+				if (self::replaceAlias($startBy) != null) {
+					$startBy = self::replaceAlias($startBy);
 				}
 				if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $startBy)) {
 					$error[] = Array('code' => '1104', 'message' => 'The starting time is formatted badly.');
@@ -116,25 +99,8 @@ class LegionBoard extends API {
 			$endBy = $_GET['endBy'];
 			// Replace alias with time
 			if ($endBy != '') {
-				switch ($endBy) {
-					case 'now':
-						$endBy = substr(date('c'), 0, 10);
-						continue;
-					case 'tom':
-						$endBy = substr(date('c', time() + 86400), 0, 10);
-						continue;
-					case 'i3d':
-						$endBy = substr(date('c', time() + 259200), 0, 10);
-						continue;
-					case 'i1w':
-						$endBy = substr(date('c', time() + 604800), 0, 10);
-						continue;
-					case 'i1m':
-						$endBy = substr(date('c', time() + 2419200), 0, 10);
-						continue;
-					case 'i1y':
-						$endBy = substr(date('c', time() + 31536000), 0, 10);
-						continue;
+				if (self::replaceAlias($endBy) != null) {
+					$endBy = self::replaceAlias($endBy);
 				}
 				if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $endBy)) {
 					$error[] = Array('code' => '1106', 'message' => 'The ending time is formatted badly.');
@@ -639,6 +605,28 @@ class LegionBoard extends API {
 		}
 		$this->status = 405;
 		return Array('error' => Array(Array('code' => '0', 'message' => "Only accepts GET, PUT, POST and DELETE requests.")));
+	}
+	
+	/**
+	 * Replaces aliases.
+	 */
+	private function replaceAlias($alias) {
+		switch ($alias) {
+			case 'now':
+				return substr(date('c'), 0, 10);
+			case 'tom':
+				return substr(date('c', time() + 86400), 0, 10);
+			case 'i3d':
+				return substr(date('c', time() + 259200), 0, 10);
+			case 'i1w':
+				return substr(date('c', time() + 604800), 0, 10);
+			case 'i1m':
+				return substr(date('c', time() + 2419200), 0, 10);
+			case 'i1y':
+				return substr(date('c', time() + 31536000), 0, 10);
+			default:
+				return null;
+		}
 	}
 }
 ?>
