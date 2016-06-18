@@ -5,11 +5,8 @@
  *
  * See the file "LICENSE" for the full license governing this code.
  */
-class Teachers {	
+class Teachers {
 
-	/**
-	 * Connect with the database.
-	 */
 	public function __construct() {
 		require_once __DIR__ . '/database.php';
 		$database = new Database();
@@ -19,13 +16,13 @@ class Teachers {
 	/**
 	 * Get one or more teachers.
 	 */
-	public function get($id = null) {
+	public function get($teacherID = null) {
 		// Add where clause for ID
-		if (isset($id)) {
-			$id = $this->db->escape_string($id);
-			$sql_id = " WHERE id LIKE '$id'";
+		if (isset($teacherID)) {
+			$teacherID = $this->db->escape_string($teacherID);
+			$sqlID = " WHERE id LIKE '$teacherID'";
 		}
-		$sql = "SELECT * FROM " . Database::$tableTeachers . $sql_id;
+		$sql = "SELECT * FROM " . Database::$tableTeachers . $sqlID;
 		$query = $this->db->query($sql);
 		if (!$query || $query->num_rows == 0) {
 			return null;
@@ -59,29 +56,29 @@ class Teachers {
 	/**
 	 * Update a teacher.
 	 */
-	public function update($id, $name, $archived) {
-		$id = $this->db->escape_string($id);
+	public function update($teacherID, $name, $archived) {
+		$teacherID = $this->db->escape_string($teacherID);
 		$name = $this->db->escape_string($name);
 		$archived = $this->db->escape_string($archived);
-		$sql = "UPDATE " . Database::$tableTeachers . " SET name = '$name', archived = '$archived' WHERE id = '$id'";
+		$sql = "UPDATE " . Database::$tableTeachers . " SET name = '$name', archived = '$archived' WHERE id = '$teacherID'";
 		return $this->db->query($sql);
 	}
 
 	/**
 	 * Delete a teacher.
 	 */
-	public function delete($id) {
-		$id = $this->db->escape_string($id);
-		$sql = "DELETE FROM " . Database::$tableTeachers . " WHERE id = '$id'";
+	public function delete($teacherID) {
+		$teacherID = $this->db->escape_string($teacherID);
+		$sql = "DELETE FROM " . Database::$tableTeachers . " WHERE id = '$teacherID'";
 		return $this->db->query($sql);
 	}
 
 	/**
 	 * Check if a teacher ID exists.
 	 */
-	public function checkById($id) {
-		$id = $this->db->escape_string($id);
-		$sql = 'SELECT id FROM ' . Database::$tableTeachers . ' WHERE id = ' . $id . ' LIMIT 1';
+	public function checkById($teacherID) {
+		$teacherID = $this->db->escape_string($teacherID);
+		$sql = 'SELECT id FROM ' . Database::$tableTeachers . ' WHERE id = ' . $teacherID . ' LIMIT 1';
 		return $this->db->query($sql)->num_rows > 0;
 	}
 
