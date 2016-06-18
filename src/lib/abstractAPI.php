@@ -63,10 +63,10 @@ abstract class API {
         $this->args = explode('/', rtrim($request, '/'));
         $this->endpoint = array_shift($this->args);
 
-        $this->method = $_SERVER['REQUEST_METHOD'];
+        $this->method = self::getServer('REQUEST_METHOD');
         // Workaround where request is POST but with header PUT/DELETE
         if ($this->method == 'POST' && array_key_exists('HTTP_X_HTTP_METHOD', $_SERVER)) {
-			switch ($_SERVER['HTTP_X_HTTP_METHOD']) {
+			switch (self::getServer('HTTP_X_HTTP_METHOD')) {
 				case 'DELETE':
 					$this->method = 'DELETE';
 					break;
@@ -81,50 +81,50 @@ abstract class API {
         switch($this->method) {
 			case 'DELETE':
 			case 'POST':
-				$this->request = $this->_cleanInputs($_POST);
+				$this->request = $this->cleanInputs($_POST);
 				break;
 			case 'GET':
-				$this->request = $this->_cleanInputs($_GET);
+				$this->request = $this->cleanInputs($_GET);
 				break;
 			case 'PUT':
-				$this->request = $this->_cleanInputs($_GET);
+				$this->request = $this->cleanInputs($_GET);
 				$this->file = file_get_contents("php://input");
 				break;
 			default:
-				$this->_response('Invalid Method', 405);
+				$this->response('Invalid Method', 405);
 				break;
         }
     }
 
     public function processAPI() {
         if (method_exists($this, $this->endpoint)) {
-            return $this->_response($this->{$this->endpoint}($this->args));
+            return $this->response($this->{$this->endpoint}($this->args));
         }
-        return $this->_response(Array('error' => Array(Array('message' => 'This endpoint does not exist.'))), 404);
+        return $this->response(Array('error' => Array(Array('message' => 'This endpoint does not exist.'))), 404);
     }
 
-    private function _response($data, $status = null) {
+    private function response($data, $status = null) {
         $status = isset($status) ? $status : $this->status;
-        header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
+        header("HTTP/1.1 " . $status . " " . $this->requestStatus($status));
         if (isset($data)) {
 			return json_encode($data);
 		}
 		return null;
     }
 
-    private function _cleanInputs($data) {
-        $clean_input = Array();
+    private function cleanInputs($data) {
+        $cleanInput = Array();
         if (is_array($data)) {
             foreach ($data as $k => $v) {
-                $clean_input[$k] = $this->_cleanInputs($v);
+                $cleanInput[$k] = $this->cleanInputs($v);
             }
         } else {
-            $clean_input = trim(strip_tags($data));
+            $cleanInput = trim(strip_tags($data));
         }
-        return $clean_input;
+        return $cleanInput;
     }
 
-    private function _requestStatus($code) {
+    private function requestStatus($code) {
         $status = array(  
             200 => 'OK',
             201 => 'Created',
@@ -140,5 +140,12 @@ abstract class API {
         ); 
         return ($status[$code])?$status[$code]:$status[500]; 
     }
+
+    /**
+     * Returns value in super-global array _SERVER.
+     */
+    private function getServer($key) {
+		return $_SERVER[$key];
+	}
 }
 ?>
