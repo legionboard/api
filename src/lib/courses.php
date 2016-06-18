@@ -7,7 +7,6 @@
  */
 class Courses {
 
-
 	/**
 	 * Connect with the database.
 	 */

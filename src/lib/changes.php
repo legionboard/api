@@ -5,8 +5,7 @@
  *
  * See the file "LICENSE" for the full license governing this code.
  */
-class Changes {
-	
+class Changes {	
 
 	/**
 	 * Connect with the database.
@@ -51,7 +50,7 @@ class Changes {
 			$sql_coveringTeacher = " coveringTeacher LIKE '$coveringTeacher'";
 		}
 		// Build SELECT
-		$sql = "SELECT * FROM " . Database::$table_changes;
+		$sql = "SELECT * FROM " . Database::$tableChanges;
 		if (!empty($sql_teachers) || !empty($sql_courses) || !empty($sql_id) || !empty($sql_coveringTeacher)) {
 			$sql .= " WHERE";
 			if (!empty($sql_teachers)) {
@@ -129,7 +128,7 @@ class Changes {
 		$text = $this->db->escape_string($text);
 		$reason = $this->db->escape_string($reason);
 		$privateText = $this->db->escape_string($privateText);
-		$sql = "INSERT INTO " . Database::$table_changes . " (teacher, course, coveringTeacher, startBy, endBy, type, text, reason, privateText) VALUES ('$teacher', '$course', '$coveringTeacher', '$startBy', '$endBy', '$type', '$text', '$reason', '$privateText')";
+		$sql = "INSERT INTO " . Database::$tableChanges . " (teacher, course, coveringTeacher, startBy, endBy, type, text, reason, privateText) VALUES ('$teacher', '$course', '$coveringTeacher', '$startBy', '$endBy', '$type', '$text', '$reason', '$privateText')";
 		if ($this->db->query($sql)) {
 			return $this->db->insert_id;
 		}
@@ -150,7 +149,7 @@ class Changes {
 		$text = $this->db->escape_string($text);
 		$reason = $this->db->escape_string($reason);
 		$privateText = $this->db->escape_string($privateText);
-		$sql = "UPDATE " . Database::$table_changes . " SET teacher = '$teacher', course = '$course', coveringTeacher = '$coveringTeacher', startBy = '$startBy', endBy = '$endBy', type = '$type', text = '$text', reason = '$reason', privateText = '$privateText' WHERE id = '$id'";
+		$sql = "UPDATE " . Database::$tableChanges . " SET teacher = '$teacher', course = '$course', coveringTeacher = '$coveringTeacher', startBy = '$startBy', endBy = '$endBy', type = '$type', text = '$text', reason = '$reason', privateText = '$privateText' WHERE id = '$id'";
 		return $this->db->query($sql);
 	}
 
@@ -159,7 +158,7 @@ class Changes {
 	 */
 	public function delete($id) {
 		$id = $this->db->escape_string($id);
-		$sql = "DELETE FROM " . Database::$table_changes . " WHERE id = '$id'";
+		$sql = "DELETE FROM " . Database::$tableChanges . " WHERE id = '$id'";
 		return $this->db->query($sql);
 	}
 }

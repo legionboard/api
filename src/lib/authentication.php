@@ -26,7 +26,7 @@ class Authentication {
 		}
 		// Generate SHA-512 hash of key
 		$key = hash('sha512', $key);
-		$sql = "SELECT * FROM " . Database::$table_authentication . " WHERE _key LIKE '$key' LIMIT 1";
+		$sql = "SELECT * FROM " . Database::$tableAuthentication . " WHERE _key LIKE '$key' LIMIT 1";
 		$query = $this->db->query($sql);
 		if (!$query || $query->num_rows == 0) {
 			return false;
@@ -44,7 +44,7 @@ class Authentication {
 		$key = hash('sha512', $key);
 		$groups = $this->db->escape_string($groups);
 		$username= $this->db->escape_string($username);
-		$sql = "INSERT INTO " . Database::$table_authentication . " (_key, groups, username) VALUES ('$key', '$groups', '$username')";
+		$sql = "INSERT INTO " . Database::$tableAuthentication . " (_key, groups, username) VALUES ('$key', '$groups', '$username')";
 		return $this->db->query($sql);
 	}
 }

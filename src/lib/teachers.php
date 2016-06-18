@@ -5,8 +5,7 @@
  *
  * See the file "LICENSE" for the full license governing this code.
  */
-class Teachers {
-	
+class Teachers {	
 
 	/**
 	 * Connect with the database.
@@ -26,7 +25,7 @@ class Teachers {
 			$id = $this->db->escape_string($id);
 			$sql_id = " WHERE id LIKE '$id'";
 		}
-		$sql = "SELECT * FROM " . Database::$table_teachers . $sql_id;
+		$sql = "SELECT * FROM " . Database::$tableTeachers . $sql_id;
 		$query = $this->db->query($sql);
 		if (!$query || $query->num_rows == 0) {
 			return null;
@@ -50,7 +49,7 @@ class Teachers {
 	 */
 	public function create($name) {
 		$name = $this->db->escape_string($name);
-		$sql = "INSERT INTO " . Database::$table_teachers . " (name) VALUES ('$name')";
+		$sql = "INSERT INTO " . Database::$tableTeachers . " (name) VALUES ('$name')";
 		if ($this->db->query($sql)) {
 			return $this->db->insert_id;
 		}
@@ -64,7 +63,7 @@ class Teachers {
 		$id = $this->db->escape_string($id);
 		$name = $this->db->escape_string($name);
 		$archived = $this->db->escape_string($archived);
-		$sql = "UPDATE " . Database::$table_teachers . " SET name = '$name', archived = '$archived' WHERE id = '$id'";
+		$sql = "UPDATE " . Database::$tableTeachers . " SET name = '$name', archived = '$archived' WHERE id = '$id'";
 		return $this->db->query($sql);
 	}
 
@@ -73,7 +72,7 @@ class Teachers {
 	 */
 	public function delete($id) {
 		$id = $this->db->escape_string($id);
-		$sql = "DELETE FROM " . Database::$table_teachers . " WHERE id = '$id'";
+		$sql = "DELETE FROM " . Database::$tableTeachers . " WHERE id = '$id'";
 		return $this->db->query($sql);
 	}
 
@@ -82,7 +81,7 @@ class Teachers {
 	 */
 	public function checkById($id) {
 		$id = $this->db->escape_string($id);
-		$sql = 'SELECT id FROM ' . Database::$table_teachers . ' WHERE id = ' . $id . ' LIMIT 1';
+		$sql = 'SELECT id FROM ' . Database::$tableTeachers . ' WHERE id = ' . $id . ' LIMIT 1';
 		return $this->db->query($sql)->num_rows > 0;
 	}
 
@@ -91,7 +90,7 @@ class Teachers {
 	 */
 	public function checkByName($name) {
 		$name = $this->db->escape_string($name);
-		$sql = "SELECT name FROM " . Database::$table_teachers . " WHERE name = '$name' LIMIT 1";
+		$sql = "SELECT name FROM " . Database::$tableTeachers . " WHERE name = '$name' LIMIT 1";
 		return $this->db->query($sql)->num_rows > 0;
 	}
 }
