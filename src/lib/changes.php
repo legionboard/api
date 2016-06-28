@@ -138,15 +138,15 @@ class Changes {
 						$privateText
 					) {
 		// Escape strings
-		$teacher = $this->db->escape_string($teacher);
-		$course = $this->db->escape_string($course);
-		$coveringTeacher = $this->db->escape_string($coveringTeacher);
-		$startBy = $this->db->escape_string($startBy);
-		$endBy = $this->db->escape_string($endBy);
-		$type = $this->db->escape_string($type);
-		$text = $this->db->escape_string($text);
-		$reason = $this->db->escape_string($reason);
-		$privateText = $this->db->escape_string($privateText);
+		$teacher = $this->database->escape_string($teacher);
+		$course = $this->database->escape_string($course);
+		$coveringTeacher = $this->database->escape_string($coveringTeacher);
+		$startBy = $this->database->escape_string($startBy);
+		$endBy = $this->database->escape_string($endBy);
+		$type = $this->database->escape_string($type);
+		$text = $this->database->escape_string($text);
+		$reason = $this->database->escape_string($reason);
+		$privateText = $this->database->escape_string($privateText);
 
 		$sql = "INSERT INTO " . Database::$tableChanges .
 				" (" .
@@ -171,8 +171,8 @@ class Changes {
 					"'$reason'," .
 					"'$privateText'" .
 				")";
-		if ($this->db->query($sql)) {
-			return $this->db->insert_id;
+		if ($this->database->query($sql)) {
+			return $this->database->insert_id;
 		}
 		return null;
 	}
@@ -193,16 +193,16 @@ class Changes {
 						$privateText
 					) {
 		// Escape strings
-		$id = $this->db->escape_string($id);
-		$teacher = $this->db->escape_string($teacher);
-		$course = $this->db->escape_string($course);
-		$coveringTeacher = $this->db->escape_string($coveringTeacher);
-		$startBy = $this->db->escape_string($startBy);
-		$endBy = $this->db->escape_string($endBy);
-		$type = $this->db->escape_string($type);
-		$text = $this->db->escape_string($text);
-		$reason = $this->db->escape_string($reason);
-		$privateText = $this->db->escape_string($privateText);
+		$id = $this->database->escape_string($id);
+		$teacher = $this->database->escape_string($teacher);
+		$course = $this->database->escape_string($course);
+		$coveringTeacher = $this->database->escape_string($coveringTeacher);
+		$startBy = $this->database->escape_string($startBy);
+		$endBy = $this->database->escape_string($endBy);
+		$type = $this->database->escape_string($type);
+		$text = $this->database->escape_string($text);
+		$reason = $this->database->escape_string($reason);
+		$privateText = $this->database->escape_string($privateText);
 
 		$sql = "UPDATE " . Database::$tableChanges .
 				" SET" .
@@ -217,16 +217,16 @@ class Changes {
 					"privateText = '$privateText'" .
 				"WHERE" .
 					"id = '$id'";
-		return $this->db->query($sql);
+		return $this->database->query($sql);
 	}
 
 	/**
 	 * Delete a change.
 	 */
 	public function delete($id) {
-		$id = $this->db->escape_string($id);
+		$id = $this->database->escape_string($id);
 		$sql = "DELETE FROM " . Database::$tableChanges . " WHERE id = '$id'";
-		return $this->db->query($sql);
+		return $this->database->query($sql);
 	}
 }
 ?>
