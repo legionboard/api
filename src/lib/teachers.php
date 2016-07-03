@@ -17,12 +17,12 @@ class Teachers {
 	 * Get one or more teachers.
 	 */
 	public function get($teacherID = null) {
+		$sql = "SELECT * FROM " . Database::$tableTeachers;
 		// Add where clause for ID
 		if (isset($teacherID)) {
 			$teacherID = $this->db->escape_string($teacherID);
-			$sqlID = " WHERE id LIKE '$teacherID'";
+			$sql .= " WHERE id LIKE '$teacherID'";
 		}
-		$sql = "SELECT * FROM " . Database::$tableTeachers . $sqlID;
 		$query = $this->db->query($sql);
 		if (!$query || $query->num_rows == 0) {
 			return null;

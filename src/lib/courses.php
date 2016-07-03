@@ -17,12 +17,12 @@ class Courses {
 	 * Get one or more courses.
 	 */
 	public function get($id = null) {
+		$sql = "SELECT * FROM " . Database::$tableCourses;
 		// Add where clause for ID
 		if (isset($id)) {
 			$id = $this->database->escape_string($id);
-			$sqlID = " WHERE id LIKE '$id'";
+			$sql .= " WHERE id LIKE '$id'";
 		}
-		$sql = "SELECT * FROM " . Database::$tableCourses . $sqlID;
 		$query = $this->database->query($sql);
 		if (!$query || $query->num_rows == 0) {
 			return null;
