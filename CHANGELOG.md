@@ -1,5 +1,18 @@
 # Changelog of LegionBoard Heart
 
+## 0.2.0 (Upcoming)
+
+* Add resource courses (1105fcea)
+* Archive courses and teachers (3d206eba, 60797dc5) 
+* Fix wrong error messages for 1300 and 1400 (00b138ad)
+* Split up version header (2e2a200f)
+* Save username with hash of authentication key (df32d0a3)
+* Improve code readability and maintainability
+* Separate endpoints from API (6efa5c89)
+* Revise documentation (21fc9d0f)
+* Use [code climate](https://codeclimate.com/github/legionboard/heart)
+* Many more fixes
+
 ## 0.1.2 (03.06.2016)
 
 * Let user only configure table prefix instead of every table name
