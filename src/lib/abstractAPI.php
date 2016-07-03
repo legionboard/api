@@ -10,75 +10,138 @@
  *
  */
 abstract class API {
+
     /**
      * The version name of the API.
      */
-    protected $versionName = '0.1.2';
+    private $versionName = '0.0.0';
+
+    private function getVersionName() {
+		return $this->versionName;
+	}
+
+    protected function setVersionName($versionName) {
+		$this->versionName = $versionName;
+	}
+
     /**
      * The version code (integer) of the API.
      */
-    protected $versionCode = '1';
+    private $versionCode = '1';
+
+    private function getVersionCode() {
+		return $this->versionCode;
+	}
+
+    protected function setVersionCode($versionCode) {
+		$this->versionCode = $versionCode;
+	}
+
     /**
      * Property: method
-     * The HTTP method this request was made in, either GET, POST, PUT or DELETE
+     * The HTTP method this request was made in, either GET, POST, PUT or DELETE.
      */
-    protected $method = '';
+    private $method = '';
+
+    protected function getMethod() {
+		return $this->method;
+	}
+
+    private function setMethod($method) {
+		$this->method = $method;
+	}
+
     /**
      * Property: endpoint
-     * The Model requested in the URI. eg: /files
+     * The Model requested in the URI. eg: /files.
      */
-    protected $endpoint = '';
+    private $endpoint = '';
+
+    protected function getEndpoint() {
+		return $this->endpoint;
+	}
+
+    private function setEndpoint($endpoint) {
+		$this->endpoint = $endpoint;
+	}
+
     /**
-     * Property: args
-     * Any additional URI components after the endpoint and verb have been removed, in our
-     * case, an integer ID for the resource. eg: /<endpoint>/<verb>/<arg0>/<arg1>
-     * or /<endpoint>/<arg0>
+     * Property: identification
+     * /<endpoint>/<identification>
      */
-    protected $args = Array();
+    private $identification = null;
+
+    public function getID() {
+		return $this->identification;
+	}
+
+    private function setID($identification) {
+		$this->identification = $identification;
+	}
+
     /**
      * Property: file
-     * Stores the input of the PUT request
+     * Stores the input of the PUT request.
      */
-     protected $file = Null;
+    private $file = Null;
+
+    public function getFile() {
+		return $this->file;
+	}
+
+    private function setFile($file) {
+		$this->file = $file;
+	}
+
     /**
      * Property: status
      * The status returned in the HTTP head.
      */
-    protected $status = 200;
+    private $status = 200;
+
+    private function getStatus() {
+		return $this->status;
+	}
+
+    public function setStatus($status) {
+		$this->status = $status;
+	}
 
     /**
-     * Constructor: __construct
-     * Allow for CORS, assemble and pre-process the data
+     * Allow for CORS, assemble and pre-process the data.
      */
-    public function __construct($request) {
+    protected function __construct($request) {
         // Send CORS headers
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
         // Output is always JSON
         header("Content-Type: application/json");
         // Send version header
-        header("LegionBoard-Heart-Version-Name: " . $this->versionName);
-        header("LegionBoard-Heart-Version-Code: " . $this->versionCode);
+        header("LegionBoard-Heart-Version-Name: " . $this->getVersionName());
+        header("LegionBoard-Heart-Version-Code: " . $this->getVersionCode());
 
-        $this->args = explode('/', rtrim($request, '/'));
-        $this->endpoint = array_shift($this->args);
+        $arguments = explode('/', rtrim($request, '/'));
+        if (count($arguments) > 1) {
+            $this->setID($arguments[1]);
+        }
+        $this->setEndpoint(array_shift($arguments));
 
-        $this->method = self::getServer('REQUEST_METHOD');
+        $this->setMethod(self::getServer('REQUEST_METHOD'));
         // Workaround where request is POST but with header PUT/DELETE
-        if ($this->method == 'POST' && array_key_exists('HTTP_X_HTTP_METHOD', $_SERVER)) {
+        if ($this->getMethod() == 'POST' && array_key_exists('HTTP_X_HTTP_METHOD', $_SERVER)) {
 			switch (self::getServer('HTTP_X_HTTP_METHOD')) {
 				case 'DELETE':
-					$this->method = 'DELETE';
+					$this->setMethod('DELETE');
 					break;
 				case 'PUT':
-					$this->method = 'PUT';
+					$this->setMethod('PUT');
 					break;
 				default:
 					throw new Exception("Unexpected Header");
 			}
         }
 
-        switch($this->method) {
+        switch($this->getMethod()) {
 			case 'DELETE':
 			case 'POST':
 				$this->request = $this->cleanInputs($_POST);
@@ -88,7 +151,7 @@ abstract class API {
 				break;
 			case 'PUT':
 				$this->request = $this->cleanInputs($_GET);
-				$this->file = file_get_contents("php://input");
+				$this->setFile(file_get_contents("php://input"));
 				break;
 			default:
 				$this->response('Invalid Method', 405);
@@ -98,13 +161,13 @@ abstract class API {
 
     public function processAPI() {
         if (method_exists($this, $this->endpoint)) {
-            return $this->response($this->{$this->endpoint}($this->args));
+            return $this->response($this->{$this->getEndpoint()}());
         }
         return $this->response(Array('error' => Array(Array('message' => 'This endpoint does not exist.'))), 404);
     }
 
     private function response($data, $status = null) {
-        $status = isset($status) ? $status : $this->status;
+        $status = isset($status) ? $status : $this->getStatus();
         header("HTTP/1.1 " . $status . " " . $this->requestStatus($status));
         if (isset($data)) {
 			return json_encode($data);
