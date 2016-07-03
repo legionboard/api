@@ -205,7 +205,7 @@ class Changes {
 		$privateText = $this->database->escape_string($privateText);
 
 		$sql = "UPDATE " . Database::$tableChanges .
-				" SET" .
+				" SET " .
 					"teacher = '$teacher'," .
 					"course = '$course'," .
 					"coveringTeacher = '$coveringTeacher'," .
@@ -215,7 +215,7 @@ class Changes {
 					"text = '$text'," .
 					"reason = '$reason'," .
 					"privateText = '$privateText'" .
-				"WHERE" .
+				"WHERE " .
 					"id = '$id'";
 		return $this->database->query($sql);
 	}
