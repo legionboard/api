@@ -7,10 +7,16 @@
  */
 class Teachers {
 
-	public function __construct() {
+	// Resource affected in this class
+	const THIS_RESOURCE = 'teachers';
+
+	public function __construct($user) {
+		$this->user = $user;
 		require_once __DIR__ . '/database.php';
 		$database = new Database();
 		$this->db = $database->get();
+		require_once __DIR__ . '/activities.php';
+		$this->activities = new Activities();
 	}
 
 	/**
@@ -48,7 +54,11 @@ class Teachers {
 		$name = $this->db->escape_string($name);
 		$sql = "INSERT INTO " . Database::$tableTeachers . " (name) VALUES ('$name')";
 		if ($this->db->query($sql)) {
-			return $this->db->insert_id;
+			$id = $this->db->insert_id;
+			if ($this->activities->log($this->user, Activities::ACTION_CREATE, self::THIS_RESOURCE, $id)) {
+				return $id;
+			}
+			$this->delete($id);
 		}
 		return null;
 	}
@@ -61,7 +71,11 @@ class Teachers {
 		$name = $this->db->escape_string($name);
 		$archived = $this->db->escape_string($archived);
 		$sql = "UPDATE " . Database::$tableTeachers . " SET name = '$name', archived = '$archived' WHERE id = '$teacherID'";
-		return $this->db->query($sql);
+		if ($this->db->query($sql)) {
+			$this->activities->log($this->user, Activities::ACTION_UPDATE, self::THIS_RESOURCE, $teacherID);
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -70,7 +84,11 @@ class Teachers {
 	public function delete($teacherID) {
 		$teacherID = $this->db->escape_string($teacherID);
 		$sql = "DELETE FROM " . Database::$tableTeachers . " WHERE id = '$teacherID'";
-		return $this->db->query($sql);
+		if ($this->db->query($sql)) {
+			$this->activities->log($this->user, Activities::ACTION_DELETE, self::THIS_RESOURCE, $teacherID);
+			return true;
+		}
+		return false;
 	}
 
 	/**

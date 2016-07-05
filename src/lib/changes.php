@@ -7,13 +7,19 @@
  */
 class Changes {	
 
+	// Resource affected in this class
+	const THIS_RESOURCE = 'changes';
+
 	/**
 	 * Connect with the database.
 	 */
-	public function __construct() {
+	public function __construct($user) {
+		$this->user = $user;
 		require_once __DIR__ . '/database.php';
 		$database = new Database();
 		$this->database = $database->get();
+		require_once __DIR__ . '/activities.php';
+		$this->activities = new Activities();
 	}
 
 	/**
@@ -172,7 +178,11 @@ class Changes {
 					"'$privateText'" .
 				")";
 		if ($this->database->query($sql)) {
-			return $this->database->insert_id;
+			$id = $this->database->insert_id;
+			if ($this->activities->log($this->user, Activities::ACTION_CREATE, self::THIS_RESOURCE, $id)) {
+				return $id;
+			}
+			$this->delete($id);
 		}
 		return null;
 	}
@@ -217,7 +227,11 @@ class Changes {
 					"privateText = '$privateText'" .
 				"WHERE " .
 					"id = '$id'";
-		return $this->database->query($sql);
+		if ($this->database->query($sql)) {
+			$this->activities->log($this->user, Activities::ACTION_UPDATE, self::THIS_RESOURCE, $id);
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -226,7 +240,11 @@ class Changes {
 	public function delete($id) {
 		$id = $this->database->escape_string($id);
 		$sql = "DELETE FROM " . Database::$tableChanges . " WHERE id = '$id'";
-		return $this->database->query($sql);
+		if ($this->database->query($sql)) {
+			$this->activities->log($this->user, Activities::ACTION_DELETE, self::THIS_RESOURCE, $id);
+			return true;
+		}
+		return false;
 	}
 }
 ?>

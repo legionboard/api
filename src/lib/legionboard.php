@@ -41,7 +41,6 @@ class LegionBoard extends API {
 	protected function changes() {
 		// Import endpoint "changes"
 		require_once __DIR__ . '/endpoints/changes.php';
-		$changesEndpoint = new ChangesEndpoint($this);
 		if ($this->getMethod() == 'GET') {
 			$key = self::getFromGET('k');
 			// Verifiy user is allowed to see changes
@@ -49,6 +48,7 @@ class LegionBoard extends API {
 				$this->setStatus(401);
 				return null;
 			}
+			$changesEndpoint = new ChangesEndpoint($this, $this->authentication->getUserID($key));
 			// Verifiy user is allowed to see reasons
 			$seeReasons = $this->authentication->verifiy($key, self::GROUP_SEE_REASONS);
 			// Verifiy user is allowed to see private texts
@@ -62,6 +62,7 @@ class LegionBoard extends API {
 				$this->setStatus(401);
 				return null;
 			}
+			$changesEndpoint = new ChangesEndpoint($this, $this->authentication->getUserID($key));
 			return $changesEndpoint->handlePOST();
 		}
 		if ($this->getMethod() == 'PUT') {
@@ -72,6 +73,7 @@ class LegionBoard extends API {
 				$this->setStatus(401);
 				return null;
 			}
+			$changesEndpoint = new ChangesEndpoint($this, $this->authentication->getUserID($key));
 			return $changesEndpoint->handlePUT($params);
 		}
 		if ($this->getMethod() == 'DELETE') {
@@ -81,6 +83,7 @@ class LegionBoard extends API {
 				$this->setStatus(401);
 				return null;
 			}
+			$changesEndpoint = new ChangesEndpoint($this, $this->authentication->getUserID($key));
 			return $changesEndpoint->handleDELETE();
 		}
 		if ($this->getMethod() == 'OPTIONS') {
@@ -98,7 +101,6 @@ class LegionBoard extends API {
 	protected function courses() {
 		// Import endpoint "courses"
 		require_once __DIR__ . '/endpoints/courses.php';
-		$coursesEndpoint = new CoursesEndpoint($this);
 		if ($this->getMethod() == 'GET') {
 			$key = self::getFromGET('k');
 			// Verify user is allowed to see changes
@@ -106,6 +108,7 @@ class LegionBoard extends API {
 				$this->setStatus(401);
 				return null;
 			}
+			$coursesEndpoint = new CoursesEndpoint($this, $this->authentication->getUserID($key));
 			return $coursesEndpoint->handleGET();
 		}
 		if ($this->getMethod() == 'POST') {
@@ -115,6 +118,7 @@ class LegionBoard extends API {
 				$this->setStatus(401);
 				return null;
 			}
+			$coursesEndpoint = new CoursesEndpoint($this, $this->authentication->getUserID($key));
 			return $coursesEndpoint->handlePOST();
 		}
 		if ($this->getMethod() == 'PUT') {
@@ -125,6 +129,7 @@ class LegionBoard extends API {
 				$this->setStatus(401);
 				return null;
 			}
+			$coursesEndpoint = new CoursesEndpoint($this, $this->authentication->getUserID($key));
 			return $coursesEndpoint->handlePUT($params);
 		}
 		if ($this->getMethod() == 'DELETE') {
@@ -134,6 +139,7 @@ class LegionBoard extends API {
 				$this->setStatus(401);
 				return null;
 			}
+			$coursesEndpoint = new CoursesEndpoint($this, $this->authentication->getUserID($key));
 			return $coursesEndpoint->handleDELETE();
 		}
 		if ($this->getMethod() == 'OPTIONS') {
@@ -151,7 +157,6 @@ class LegionBoard extends API {
 	protected function teachers() {
 		// Import endpoint "teachers"
 		require_once __DIR__ . '/endpoints/teachers.php';
-		$teachersEndpoint = new TeachersEndpoint($this);
 		if ($this->getMethod() == 'GET') {
 			$key = self::getFromGET('k');
 			// Verify user is allowed to see teachers
@@ -159,6 +164,7 @@ class LegionBoard extends API {
 				$this->setStatus(401);
 				return null;
 			}
+			$teachersEndpoint = new TeachersEndpoint($this, $this->authentication->getUserID($key));
 			return $teachersEndpoint->handleGET();
 		}
 		if ($this->getMethod() == 'POST') {
@@ -168,6 +174,7 @@ class LegionBoard extends API {
 				$this->setStatus(401);
 				return null;
 			}
+			$teachersEndpoint = new TeachersEndpoint($this, $this->authentication->getUserID($key));
 			return $teachersEndpoint->handlePOST();
 		}
 		if ($this->getMethod() == 'PUT') {
@@ -178,6 +185,7 @@ class LegionBoard extends API {
 				$this->setStatus(401);
 				return null;
 			}
+			$teachersEndpoint = new TeachersEndpoint($this, $this->authentication->getUserID($key));
 			return $teachersEndpoint->handlePUT($params);
 		}
 		if ($this->getMethod() == 'DELETE') {
@@ -187,6 +195,7 @@ class LegionBoard extends API {
 				$this->setStatus(401);
 				return null;
 			}
+			$teachersEndpoint = new TeachersEndpoint($this, $this->authentication->getUserID($key));
 			return $teachersEndpoint->handleDELETE();
 		}
 		if ($this->method == 'OPTIONS') {

@@ -47,5 +47,18 @@ class Authentication {
 		$sql = "INSERT INTO " . Database::$tableAuthentication . " (_key, groups, username) VALUES ('$key', '$groups', '$username')";
 		return $this->db->query($sql);
 	}
+
+	/**
+	 * Returns the user ID of a given authentication key.
+	 */
+	public function getUserID($key) {
+		$key = hash('sha512', $key);
+		$sql = "SELECT id FROM " . Database::$tableAuthentication . " WHERE _key LIKE '$key' LIMIT 1";
+		$query = $this->db->query($sql);
+		if (!$query || $query->num_rows == 0) {
+			return 0;
+		}
+		return $query->fetch_array()['id'];
+	}
 }
 ?>
