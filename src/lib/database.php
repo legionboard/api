@@ -182,20 +182,24 @@ class Database {
 	 */
 	private function createTableAuthentication() {
 		$sql = "CREATE TABLE " . self::$tableAuthentication . " (
+		  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
 		  _key VARCHAR(128) NOT NULL UNIQUE,
 		  groups VARCHAR(300) NOT NULL,
 		  username VARCHAR(300) NOT NULL,
 		  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-		  edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+		  edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  PRIMARY KEY (id)
 		) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
 		if(!$this->database->query($sql)) {
 			// Workaround for MySQL bug: http://stackoverflow.com/a/17498167
 			$sql = "CREATE TABLE " . self::$tableAuthentication . " (
+			  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
 			  _key VARCHAR(128) NOT NULL UNIQUE,
 			  groups VARCHAR(300) NOT NULL,
 			  username VARCHAR(300) NOT NULL,
 			  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			  edited TIMESTAMP
+			  edited TIMESTAMP,
+			  PRIMARY KEY (id)
 			) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
 			$this->database->query($sql);
 		}
@@ -219,6 +223,10 @@ class Database {
 		}
 		if (!self::checkColumn("username", self::$tableAuthentication, $dbName)) {
 			$sql = "ALTER TABLE " . self::$tableAuthentication. " ADD username VARCHAR(300) NOT NULL AFTER groups";
+			$this->database->query($sql);
+		}
+		if (!self::checkColumn("id", self::$tableAuthentication, $dbName)) {
+			$sql = "ALTER TABLE " . self::$tableAuthentication. " ADD id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST";
 			$this->database->query($sql);
 		}
 	}
