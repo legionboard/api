@@ -5,18 +5,12 @@
  *
  * See the file "LICENSE" for the full license governing this code.
  */
-class Teachers {
-
-	// Resource affected in this class
-	const THIS_RESOURCE = 'teachers';
+require_once __DIR__ . '/abstractResource.php';
+class Teachers extends AbstractResource {
 
 	public function __construct($user) {
-		$this->user = $user;
-		require_once __DIR__ . '/../database.php';
-		$database = new Database();
-		$this->db = $database->get();
-		require_once __DIR__ . '/../activities.php';
-		$this->activities = new Activities();
+		parent::__construct($user);
+		$this->resource = 'teachers';
 	}
 
 	/**
@@ -26,10 +20,10 @@ class Teachers {
 		$sql = "SELECT * FROM " . Database::$tableTeachers;
 		// Add where clause for ID
 		if (isset($teacherID)) {
-			$teacherID = $this->db->escape_string($teacherID);
+			$teacherID = $this->database->escape_string($teacherID);
 			$sql .= " WHERE id LIKE '$teacherID'";
 		}
-		$query = $this->db->query($sql);
+		$query = $this->database->query($sql);
 		if (!$query || $query->num_rows == 0) {
 			return null;
 		}
@@ -51,10 +45,10 @@ class Teachers {
 	 * Create a teacher.
 	 */
 	public function create($name) {
-		$name = $this->db->escape_string($name);
+		$name = $this->database->escape_string($name);
 		$sql = "INSERT INTO " . Database::$tableTeachers . " (name) VALUES ('$name')";
-		if ($this->db->query($sql)) {
-			$id = $this->db->insert_id;
+		if ($this->database->query($sql)) {
+			$id = $this->database->insert_id;
 			if ($this->activities->log($this->user, Activities::ACTION_CREATE, self::THIS_RESOURCE, $id)) {
 				return $id;
 			}
@@ -67,11 +61,11 @@ class Teachers {
 	 * Update a teacher.
 	 */
 	public function update($teacherID, $name, $archived) {
-		$teacherID = $this->db->escape_string($teacherID);
-		$name = $this->db->escape_string($name);
-		$archived = $this->db->escape_string($archived);
+		$teacherID = $this->database->escape_string($teacherID);
+		$name = $this->database->escape_string($name);
+		$archived = $this->database->escape_string($archived);
 		$sql = "UPDATE " . Database::$tableTeachers . " SET name = '$name', archived = '$archived' WHERE id = '$teacherID'";
-		if ($this->db->query($sql)) {
+		if ($this->database->query($sql)) {
 			$this->activities->log($this->user, Activities::ACTION_UPDATE, self::THIS_RESOURCE, $teacherID);
 			return true;
 		}
@@ -82,9 +76,9 @@ class Teachers {
 	 * Delete a teacher.
 	 */
 	public function delete($teacherID) {
-		$teacherID = $this->db->escape_string($teacherID);
+		$teacherID = $this->database->escape_string($teacherID);
 		$sql = "DELETE FROM " . Database::$tableTeachers . " WHERE id = '$teacherID'";
-		if ($this->db->query($sql)) {
+		if ($this->database->query($sql)) {
 			$this->activities->log($this->user, Activities::ACTION_DELETE, self::THIS_RESOURCE, $teacherID);
 			return true;
 		}
@@ -95,18 +89,18 @@ class Teachers {
 	 * Check if a teacher ID exists.
 	 */
 	public function checkById($teacherID) {
-		$teacherID = $this->db->escape_string($teacherID);
+		$teacherID = $this->database->escape_string($teacherID);
 		$sql = 'SELECT id FROM ' . Database::$tableTeachers . ' WHERE id = ' . $teacherID . ' LIMIT 1';
-		return $this->db->query($sql)->num_rows > 0;
+		return $this->database->query($sql)->num_rows > 0;
 	}
 
 	/**
 	 * Check if a teacher name exists.
 	 */
 	public function checkByName($name) {
-		$name = $this->db->escape_string($name);
+		$name = $this->database->escape_string($name);
 		$sql = "SELECT name FROM " . Database::$tableTeachers . " WHERE name = '$name' LIMIT 1";
-		return $this->db->query($sql)->num_rows > 0;
+		return $this->database->query($sql)->num_rows > 0;
 	}
 }
 ?>

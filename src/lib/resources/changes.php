@@ -5,21 +5,15 @@
  *
  * See the file "LICENSE" for the full license governing this code.
  */
-class Changes {	
-
-	// Resource affected in this class
-	const THIS_RESOURCE = 'changes';
+require_once __DIR__ . '/abstractResource.php';
+class Changes extends AbstractResource {
 
 	/**
 	 * Connect with the database.
 	 */
 	public function __construct($user) {
-		$this->user = $user;
-		require_once __DIR__ . '/../database.php';
-		$database = new Database();
-		$this->database = $database->get();
-		require_once __DIR__ . '/../activities.php';
-		$this->activities = new Activities();
+		parent::__construct($user);
+		$this->resource = 'changes';
 	}
 
 	/**

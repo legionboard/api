@@ -5,18 +5,12 @@
  *
  * See the file "LICENSE" for the full license governing this code.
  */
-class Courses {
-
-	// Resource affected in this class
-	const THIS_RESOURCE = 'courses';
+require_once __DIR__ . '/abstractResource.php';
+class Courses extends AbstractResource {
 
 	public function __construct($user) {
-		$this->user = $user;
-		require_once __DIR__ . '/../database.php';
-		$database = new Database();
-		$this->database = $database->get();
-		require_once __DIR__ . '/../activities.php';
-		$this->activities = new Activities();
+		parent::__construct($user);
+		$this->resource = 'courses';
 	}
 
 	/**
