@@ -13,14 +13,14 @@ abstract class AbstractEndpoint {
 	 */
 	protected $api = null;
 
-	public function __construct($api) {
+	public function __construct($api, $user) {
 		$this->api = $api;
 		require_once __DIR__ . '/../changes.php';
-		$this->changes = new Changes();
+		$this->changes = new Changes($user);
 		require_once __DIR__ . '/../courses.php';
-		$this->courses = new Courses();
+		$this->courses = new Courses($user);
 		require_once __DIR__ . '/../teachers.php';
-		$this->teachers = new Teachers();
+		$this->teachers = new Teachers($user);
 	}
 
 	/**

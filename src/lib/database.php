@@ -24,6 +24,9 @@ class Database {
 	
 	// MySQL table for authentication
 	public static $tableAuthentication;
+	
+	// MySQL table for activities
+	public static $tableActivities;
 
 	/**
 	 * Connect with the database.
@@ -41,6 +44,7 @@ class Database {
 		self::$tableTeachers = $tablePrefix . "_teachers";
 		self::$tableCourses = $tablePrefix . "_courses";
 		self::$tableAuthentication = $tablePrefix . "_authentication";
+		self::$tableActivities = $tablePrefix . "_activities";
 		// If table prefix does not exist
 		if ($tablePrefix == '') {
 			self::$tableChanges = $config->get("MySQL", "Table_Changes");
@@ -48,6 +52,7 @@ class Database {
 			self::$tableAuthentication = $config->get("MySQL", "Table_Authentication");
 			// Table courses didn't exist before prefix
 			self::$tableCourses = "lb_0_courses";
+			self::$tableActivities = "lb_0_activities";
 		}
 		$this->database = new mysqli($mysqlHost, $mysqlUser, $mysqlPW, $mysqlDB);
 		// Check if tables exist and create them if not
@@ -62,6 +67,9 @@ class Database {
 		}
 		if (!self::checkTable(self::$tableAuthentication)) {
 			self::createTableAuthentication();
+		}
+		if (!self::checkTable(self::$tableActivities)) {
+			self::createTableActivities();
 		}
 		self::updateTables($mysqlDB);
 	}
@@ -203,6 +211,22 @@ class Database {
 			) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
 			$this->database->query($sql);
 		}
+	}
+
+	/**
+	 * Create table for activities.
+	 */
+	private function createTableActivities() {
+		$sql = "CREATE TABLE " . self::$tableActivities . " (
+		  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+		  user MEDIUMINT(8) UNSIGNED NOT NULL,
+		  action TINYINT(2) UNSIGNED NOT NULL,
+		  affectedResource VARCHAR(255) NOT NULL,
+		  affectedID MEDIUMINT(8) UNSIGNED NOT NULL,
+		  time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (id)
+		) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
+		$this->database->query($sql);
 	}
 
 	/**
