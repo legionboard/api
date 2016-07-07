@@ -15,11 +15,11 @@ abstract class AbstractEndpoint {
 
 	public function __construct($api, $user) {
 		$this->api = $api;
-		require_once __DIR__ . '/../changes.php';
+		require_once __DIR__ . '/../resources/changes.php';
 		$this->changes = new Changes($user);
-		require_once __DIR__ . '/../courses.php';
+		require_once __DIR__ . '/../resources/courses.php';
 		$this->courses = new Courses($user);
-		require_once __DIR__ . '/../teachers.php';
+		require_once __DIR__ . '/../resources/teachers.php';
 		$this->teachers = new Teachers($user);
 	}
 

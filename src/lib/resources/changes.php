@@ -15,10 +15,10 @@ class Changes {
 	 */
 	public function __construct($user) {
 		$this->user = $user;
-		require_once __DIR__ . '/database.php';
+		require_once __DIR__ . '/../database.php';
 		$database = new Database();
 		$this->database = $database->get();
-		require_once __DIR__ . '/activities.php';
+		require_once __DIR__ . '/../activities.php';
 		$this->activities = new Activities();
 	}
 
