@@ -3,6 +3,7 @@
 ## 0.2.0 (Upcoming)
 
 * Add resource courses (1105fcea)
+* Log every activity that affects a resource (ab4411c7)
 * Archive courses and teachers (3d206eba, 60797dc5) 
 * Fix wrong error messages for 1300 and 1400 (00b138ad)
 * Split up version header (2e2a200f)
