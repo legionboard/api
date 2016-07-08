@@ -31,7 +31,8 @@ class Changes extends AbstractResource {
 					) {
 		$changes = Array();
 		// Filter by teachers
-		if (!empty(array_filter($teachers))) {
+		$filteredTeachers = array_filter($teachers);
+		if (!empty($filteredTeachers)) {
 			sort($teachers);
 			foreach ($teachers as $teacher) {
 				// Add where clause for teacher
@@ -40,7 +41,8 @@ class Changes extends AbstractResource {
 			}
 		}
 		// Filter by courses
-		if (!empty(array_filter($courses))) {
+		$filteredCourses = array_filter($courses);
+		if (!empty($filteredCourses)) {
 			sort($courses);
 			foreach ($courses as $course) {
 				// Add where clause for course
@@ -117,7 +119,8 @@ class Changes extends AbstractResource {
 				$changes[] = $change;
 			}
 		}
-		if (empty(array_filter($changes))) {
+		$filteredChanges = array_filter($changes);
+		if (empty($filteredChanges)) {
 			return null;
 		}
 		return $changes;
