@@ -176,7 +176,7 @@ class Changes extends AbstractResource {
 				")";
 		if ($this->database->query($sql)) {
 			$id = $this->database->insert_id;
-			if ($this->activities->log($this->user, Activities::ACTION_CREATE, self::THIS_RESOURCE, $id)) {
+			if ($this->activities->log($this->user, Activities::ACTION_CREATE, $this->resource, $id)) {
 				return $id;
 			}
 			$this->delete($id);
@@ -225,7 +225,7 @@ class Changes extends AbstractResource {
 				"WHERE " .
 					"id = '$id'";
 		if ($this->database->query($sql)) {
-			$this->activities->log($this->user, Activities::ACTION_UPDATE, self::THIS_RESOURCE, $id);
+			$this->activities->log($this->user, Activities::ACTION_UPDATE, $this->resource, $id);
 			return true;
 		}
 		return false;
@@ -238,7 +238,7 @@ class Changes extends AbstractResource {
 		$id = $this->database->escape_string($id);
 		$sql = "DELETE FROM " . Database::$tableChanges . " WHERE id = '$id'";
 		if ($this->database->query($sql)) {
-			$this->activities->log($this->user, Activities::ACTION_DELETE, self::THIS_RESOURCE, $id);
+			$this->activities->log($this->user, Activities::ACTION_DELETE, $this->resource, $id);
 			return true;
 		}
 		return false;

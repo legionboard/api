@@ -49,7 +49,7 @@ class Courses extends AbstractResource {
 		$sql = "INSERT INTO " . Database::$tableCourses . " (name) VALUES ('$name')";
 		if ($this->database->query($sql)) {
 			$id = $this->database->insert_id;
-			if ($this->activities->log($this->user, Activities::ACTION_CREATE, self::THIS_RESOURCE, $id)) {
+			if ($this->activities->log($this->user, Activities::ACTION_CREATE, $this->resource, $id)) {
 				return $id;
 			}
 			$this->delete($id);
@@ -70,7 +70,7 @@ class Courses extends AbstractResource {
 		$archived = $this->database->escape_string($archived);
 		$sql = "UPDATE " . Database::$tableCourses . " SET name = '$name', archived = '$archived' WHERE id = '$id'";
 		if ($this->database->query($sql)) {
-			$this->activities->log($this->user, Activities::ACTION_UPDATE, self::THIS_RESOURCE, $id);
+			$this->activities->log($this->user, Activities::ACTION_UPDATE, $this->resource, $id);
 			return true;
 		}
 		return false;
@@ -83,7 +83,7 @@ class Courses extends AbstractResource {
 		$id = $this->database->escape_string($id);
 		$sql = "DELETE FROM " . Database::$tableCourses . " WHERE id = '$id'";
 		if ($this->database->query($sql)) {
-			$this->activities->log($this->user, Activities::ACTION_DELETE, self::THIS_RESOURCE, $id);
+			$this->activities->log($this->user, Activities::ACTION_DELETE, $this->resource, $id);
 			return true;
 		}
 		return false;
