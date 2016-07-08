@@ -9,7 +9,7 @@ PUT /changes/:id
 Parameters:
 
 - `id` (required) - The ID of a change
-- `teacher` (required) - ID of a teacher linked to a change
+- `teacher` - ID of a teacher linked to a change
 - `course` - ID of a course linked to a change
 - `coveringTeacher` (required when type == 1) - ID of a teacher covering a lesson
 - `startBy` (required) - Time when a change starts (YYYY-MM-DDT[lesson])
@@ -33,7 +33,6 @@ HTTP status: `400 Bad Request`
 {
 	"missing": [
 		"id",
-		"teacher",
 		"coveringTeacher",
 		"startBy",
 		"endBy",

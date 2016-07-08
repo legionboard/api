@@ -102,9 +102,6 @@ class ChangesEndpoint extends AbstractEndpoint {
 	public function handlePOST() {
 		$missing = Array();
 		$teacher = self::getFromPOST('teacher');
-		if ($teacher == '') {
-			$missing[] = 'teacher';
-		}
 		$startBy = self::getFromPOST('startBy');
 		if ($startBy == '') {
 			$missing[] = 'startBy';
@@ -145,10 +142,10 @@ class ChangesEndpoint extends AbstractEndpoint {
 		else if (!checkdate(substr($endBy, 5, 2), substr($endBy, 8, 2), substr($endBy, 0, 4))) {
 			$error[] = Array('code' => '1304', 'message' => 'The ending time does not exist.');
 		}
-		if (!ctype_digit($teacher)) {
+		if ($teacher != '' && !ctype_digit($teacher)) {
 			$error[] = Array('code' => '1305', 'message' => 'The teacher may only contain an integer.');
 		}
-		else if (!$this->teachers->checkById($teacher)) {
+		else if ($teacher != '' && !$this->teachers->checkById($teacher)) {
 			$error[] = Array('code' => '1308', 'message' => 'The teacher does not exist.');
 		}
 		if ($course != '' && !ctype_digit($course)) {
@@ -202,9 +199,6 @@ class ChangesEndpoint extends AbstractEndpoint {
 			$missing[] = 'id';
 		}
 		$teacher = $params['teacher'];
-		if ($teacher == '') {
-			$missing[] = 'teacher';
-		}
 		$startBy = $params['startBy'];
 		if ($startBy == '') {
 			$missing[] = 'startBy';
@@ -245,10 +239,10 @@ class ChangesEndpoint extends AbstractEndpoint {
 		else if (!checkdate(substr($endBy, 5, 2), substr($endBy, 8, 2), substr($endBy, 0, 4))) {
 			$error[] = Array('code' => '1204', 'message' => 'The ending time does not exist.');
 		}
-		if (!ctype_digit($teacher)) {
+		if ($teacher != '' && !ctype_digit($teacher)) {
 			$error[] = Array('code' => '1205', 'message' => 'The teacher may only contain an integer.');
 		}
-		else if (!$this->teachers->checkById($teacher)) {
+		else if ($teacher != '' && !$this->teachers->checkById($teacher)) {
 			$error[] = Array('code' => '1208', 'message' => 'The teacher does not exist.');
 		}
 		if ($course != '' && !ctype_digit($course)) {

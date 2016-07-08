@@ -8,7 +8,7 @@ POST /changes
 
 Parameters:
 
-- `teacher` (required) - ID of a teacher linked to a change
+- `teacher` - ID of a teacher linked to a change
 - `course` - ID of a course linked to a change
 - `coveringTeacher` (required when type == 1) - ID of a teacher covering a lesson
 - `startBy` (required) - Time when a change starts (YYYY-MM-DDT[lesson])
@@ -37,7 +37,6 @@ HTTP status: `400 Bad Request`
 ```json
 {
 	"missing": [
-		"teacher",
 		"startBy",
 		"endBy",
 		"type",

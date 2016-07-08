@@ -7,9 +7,6 @@
  */
 require_once __DIR__ . '/abstractEndpoint.php';
 class TeachersEndpoint extends AbstractEndpoint {
-
-	// Default teacher 'All'
-	const DEFAULT_TEACHER_ALL = '1';
 	
 	public function handleGET() {
 		$identification = $this->api->getID();
@@ -82,10 +79,6 @@ class TeachersEndpoint extends AbstractEndpoint {
 		if ($identification == '') {
 			$this->api->setStatus(400);
 			return Array('missing' => Array('id'));
-		}
-		if ($identification == self::DEFAULT_TEACHER_ALL) {
-			$this->api->setStatus(400);
-			return Array('error' => Array(Array('code' => '401', 'message' => 'Deleting the teacher with ID 1 is not allowed.')));				
 		}
 		if ($this->changes->get(null, Array($identification)) != null || $this->changes->get(null, null, null, $identification) != null) {
 			$this->api->setStatus(400);

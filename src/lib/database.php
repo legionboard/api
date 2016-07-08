@@ -6,9 +6,6 @@
  * See the file "LICENSE" for the full license governing this code.
  */
 class Database {
-	
-	// Default teacher 'All'
-	const DEFAULT_TEACHER_ALL = '1';
 
 	// Connection to database
 	private $database;
@@ -95,7 +92,7 @@ class Database {
 	private function createTableChanges() {
 		$sql = "CREATE TABLE " . self::$tableChanges . " (
 		  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
-		  teacher MEDIUMINT(8) NOT NULL,
+		  teacher MEDIUMINT(8),
 		  course MEDIUMINT(8),
 		  startBy VARCHAR(13) NOT NULL,
 		  endBy VARCHAR(13) NOT NULL,
@@ -112,7 +109,7 @@ class Database {
 			// Workaround for MySQL bug: http://stackoverflow.com/a/17498167
 			$sql = "CREATE TABLE " . self::$tableChanges . " (
 			  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
-			  teacher MEDIUMINT(8) NOT NULL,
+			  teacher MEDIUMINT(8),
 			  course MEDIUMINT(8),
 			  startBy VARCHAR(13) NOT NULL,
 			  endBy VARCHAR(13) NOT NULL,
@@ -153,10 +150,6 @@ class Database {
 			) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
 			$this->database->query($sql);
 		}
-		// Create default teacher "All"
-		$name = 'Alle';
-		$sql = "INSERT INTO " . self::$tableTeachers . " (name, id) VALUES ('$name', '" . self::DEFAULT_TEACHER_ALL . "')";
-		$this->database->query($sql);
 	}
 
 	/**
@@ -253,6 +246,11 @@ class Database {
 			$sql = "ALTER TABLE " . self::$tableAuthentication. " ADD id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST";
 			$this->database->query($sql);
 		}
+		// Allow column teacher in table changes to be null
+		if (!self::checkColumnAllowsNull("teacher", self::$tableChanges, $dbName)) {
+			$sql = "ALTER TABLE " . self::$tableChanges. " MODIFY teacher MEDIUMINT(8)";
+			$this->database->query($sql);
+		}
 	}
 
 	/**
@@ -266,6 +264,20 @@ class Database {
 						TABLE_NAME = '" . $table . "' AND
 						COLUMN_NAME = '" . $column . "'";
 		return $this->database->query($sql)->num_rows == 1;
+	}
+
+	/**
+	 * Check if a column allows null.
+	 */
+	private function checkColumnAllowsNull($column, $table, $dbName) {
+		$sql = "SELECT " .
+					"IS_NULLABLE " .
+				"FROM INFORMATION_SCHEMA.COLUMNS " .
+				"WHERE " .
+					"TABLE_SCHEMA='" . $dbName . "' AND " .
+					"TABLE_NAME='" . $table . "' AND " .
+					"COLUMN_NAME='" . $column . "'";
+		return $this->database->query($sql)->fetch_array()['IS_NULLABLE'] == 'YES';
 	}
 }
 ?>

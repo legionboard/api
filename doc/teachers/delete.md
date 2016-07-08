@@ -30,6 +30,8 @@ HTTP status: `400 Bad Request`
 
 ### 401: Deleting the teacher with ID 1 is not allowed.
 
+#### Deprecated since version `0.2.0`.
+
 HTTP status: `400 Bad Request`
 
 Error code: `401`
