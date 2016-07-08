@@ -226,22 +226,27 @@ class Database {
 	 * Checks every table and if neccessary updates it.
 	 */
 	private function updateTables($dbName) {
+		// Add column course in table changes
 		if (!self::checkColumn("course", self::$tableChanges, $dbName)) {
 			$sql = "ALTER TABLE " . self::$tableChanges . " ADD course MEDIUMINT(8) AFTER teacher";
 			$this->database->query($sql);
 		}
+		// Add column archived in table courses
 		if (!self::checkColumn("archived", self::$tableCourses, $dbName)) {
 			$sql = "ALTER TABLE " . self::$tableCourses. " ADD archived BOOLEAN DEFAULT 0 AFTER name";
 			$this->database->query($sql);
 		}
+		// Add column archived in table teachers
 		if (!self::checkColumn("archived", self::$tableTeachers, $dbName)) {
 			$sql = "ALTER TABLE " . self::$tableTeachers . " ADD archived BOOLEAN DEFAULT 0 AFTER name";
 			$this->database->query($sql);
 		}
+		// Add column username in table authentication
 		if (!self::checkColumn("username", self::$tableAuthentication, $dbName)) {
 			$sql = "ALTER TABLE " . self::$tableAuthentication. " ADD username VARCHAR(300) NOT NULL AFTER groups";
 			$this->database->query($sql);
 		}
+		// Add column id in table authentication
 		if (!self::checkColumn("id", self::$tableAuthentication, $dbName)) {
 			$sql = "ALTER TABLE " . self::$tableAuthentication. " ADD id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST";
 			$this->database->query($sql);
