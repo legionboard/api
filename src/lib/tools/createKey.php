@@ -68,6 +68,7 @@ catch (Exception $e) {
 			<p><input type="submit" /></p>
 		</form>
 		<p>Groups:</p>
+		<p>%: All groups</p>
 		<p>0: See changes</p>
 		<p>1: Add change</p>
 		<p>2: Update change</p>

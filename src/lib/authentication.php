@@ -31,8 +31,13 @@ class Authentication {
 		if (!$query || $query->num_rows == 0) {
 			return false;
 		}
+		$groups = $query->fetch_array()['groups'];
+		// Check if key has admin privileges
+		if ($groups == '%') {
+			return true;
+		}
 		// Transform comma separated groups to array
-		$groups = explode(",", $query->fetch_array()['groups']);
+		$groups = explode(",", $groups);
 		return in_array($group, $groups);
 	}
 
