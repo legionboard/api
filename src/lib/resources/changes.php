@@ -27,7 +27,8 @@ class Changes extends AbstractResource {
 						$startBy = null,
 						$endBy = null,
 						$seeReasons = false,
-						$seePrivateTexts = false
+						$seePrivateTexts = false,
+						$seeTimes = false
 					) {
 		$changes = Array();
 		// Filter by teachers
@@ -115,8 +116,8 @@ class Changes extends AbstractResource {
 							'text' => $column['text'],
 							'reason' => $seeReasons ? $column['reason'] : '-',
 							'privateText' => $seePrivateTexts ? $column['privateText'] : '-',
-							'added' => $column['added'],
-							'edited' => $column['edited']
+							'added' => $seeTimes ? $column['added'] : '-',
+							'edited' => $seeTimes ? $column['edited'] : '-'
 							);
 				$changes[] = $change;
 			}

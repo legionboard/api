@@ -16,7 +16,7 @@ class Courses extends AbstractResource {
 	/**
 	 * Get one or more courses.
 	 */
-	public function get($id = null) {
+	public function get($id = null, $seeTimes = false) {
 		$sql = "SELECT * FROM " . Database::$tableCourses;
 		// Add where clause for ID
 		if (isset($id)) {
@@ -33,8 +33,8 @@ class Courses extends AbstractResource {
 							'id' => $column['id'],
 							'name' => $column['name'],
 							'archived' => ($column['archived'] == '0') ? 'false' : 'true',
-							'added' => $column['added'],
-							'edited' => $column['edited']
+							'added' => $seeTimes ? $column['added'] : '-',
+							'edited' => $seeTimes ? $column['edited'] : '-'
 							);
 			$courses[] = $course;
 		}

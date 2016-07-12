@@ -25,6 +25,7 @@ class LegionBoard extends API {
 	const GROUP_ADD_COURSE = 11;
 	const GROUP_UPDATE_COURSE = 12;
 	const GROUP_DELETE_COURSE = 13;
+	const GROUP_SEE_TIMES = 14;
 
 	public function __construct($request) {
 		$this->setVersionName('0.1.2');
@@ -53,7 +54,9 @@ class LegionBoard extends API {
 			$seeReasons = $this->authentication->verifiy($key, self::GROUP_SEE_REASONS);
 			// Verifiy user is allowed to see private texts
 			$seePrivateTexts = $this->authentication->verifiy($key, self::GROUP_SEE_PRIVATE_TEXTS);
-			return $changesEndpoint->handleGET($seeReasons, $seePrivateTexts);
+			// Verifiy user is allowed to see times
+			$seeTimes = $this->authentication->verifiy($key, self::GROUP_SEE_TIMES);
+			return $changesEndpoint->handleGET($seeReasons, $seePrivateTexts, $seeTimes);
 		}
 		if ($this->getMethod() == 'POST') {
 			$key = self::getFromPOST('k');
@@ -109,7 +112,9 @@ class LegionBoard extends API {
 				return null;
 			}
 			$coursesEndpoint = new CoursesEndpoint($this, $this->authentication->getUserID($key));
-			return $coursesEndpoint->handleGET();
+			// Verifiy user is allowed to see times
+			$seeTimes = $this->authentication->verifiy($key, self::GROUP_SEE_TIMES);
+			return $coursesEndpoint->handleGET($seeTimes);
 		}
 		if ($this->getMethod() == 'POST') {
 			$key = self::getFromPOST('k');
@@ -165,7 +170,9 @@ class LegionBoard extends API {
 				return null;
 			}
 			$teachersEndpoint = new TeachersEndpoint($this, $this->authentication->getUserID($key));
-			return $teachersEndpoint->handleGET();
+			// Verifiy user is allowed to see times
+			$seeTimes = $this->authentication->verifiy($key, self::GROUP_SEE_TIMES);
+			return $teachersEndpoint->handleGET($seeTimes);
 		}
 		if ($this->getMethod() == 'POST') {
 			$key = self::getFromPOST('k');

@@ -8,9 +8,9 @@
 require_once __DIR__ . '/abstractEndpoint.php';
 class TeachersEndpoint extends AbstractEndpoint {
 	
-	public function handleGET() {
+	public function handleGET($seeTimes = false) {
 		$identification = $this->api->getID();
-		$teachers = $this->teachers->get($identification);
+		$teachers = $this->teachers->get($identification, $seeTimes);
 		if ($teachers != null) {
 			return $teachers;
 		}

@@ -14,7 +14,7 @@ class ChangesEndpoint extends AbstractEndpoint {
 	/**
 	 * Handles GET requests.
 	 */
-	public function handleGET($seeReasons = false, $seePrivateTexts = false) {
+	public function handleGET($seeReasons = false, $seePrivateTexts = false, $seeTimes = false) {
 		$givenTeachers = explode(",", self::getFromGET('teachers'));
 		foreach ($givenTeachers as $teacher) {
 			if ($teacher != '') {
@@ -91,7 +91,7 @@ class ChangesEndpoint extends AbstractEndpoint {
 			$this->api->setStatus(400);
 			return Array('error' => $error);
 		}
-		$changes = $this->changes->get($this->api->getID(), $givenTeachers, $givenCourses, $coveringTeacher, $startBy, $endBy, $seeReasons, $seePrivateTexts);
+		$changes = $this->changes->get($this->api->getID(), $givenTeachers, $givenCourses, $coveringTeacher, $startBy, $endBy, $seeReasons, $seePrivateTexts, $seeTimes);
 		$this->api->setStatus(($changes == null) ? 404 : 200);
 		return $changes;
 	}

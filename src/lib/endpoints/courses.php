@@ -8,8 +8,8 @@
 require_once __DIR__ . '/abstractEndpoint.php';
 class CoursesEndpoint extends AbstractEndpoint {
 	
-	public function handleGET() {
-		$courses = $this->courses->get($this->api->getID());
+	public function handleGET($seeTimes = false) {
+		$courses = $this->courses->get($this->api->getID(), $seeTimes);
 		if ($courses != null) {
 			return $courses;
 		}
