@@ -12,8 +12,8 @@ Parameters:
 - `teachers` - The comma separated IDs of teachers
 - `courses` - The comma separated IDs of courses
 - `coveringTeacher` - The ID of a teacher covering the lesson
-- `startBy` - Time when a change starts (YYYY-MM-DD)
-- `endBy` - Time when a change ends (YYYY-MM-DD)
+- `startBy` - Date when a change starts (YYYY-MM-DD)
+- `endBy` - Date when a change ends (YYYY-MM-DD)
 
 ## Notes
 
@@ -34,11 +34,13 @@ HTTP status: `200 OK`
 [
 	{
 		"id": "2",
-		"teacher": "5",
-		"course": null,
-		"startBy": "2015-12-12T00",
-		"endBy": "2015-12-12T02",
+		"startingDate": "2015-12-12",
+		"startingHour": "",
+		"endingDate": "2015-12-12",
+		"endingHour": "02",
 		"type": "1",
+		"course": "0",
+		"teacher": "5",
 		"coveringTeacher": "2",
 		"text": "",
 		"reason": "1",
@@ -48,11 +50,13 @@ HTTP status: `200 OK`
 	},
 	{
 		"id": "3",
-		"teacher": "2",
-		"course": "6",
-		"startBy": "2015-12-06T00",
-		"endBy": "2015-12-06T12",
+		"startingDate": "2015-12-06",
+		"startingHour": "",
+		"endingDate": "2015-12-06",
+		"endingHour": "",
 		"type": "0",
+		"course": "6",
+		"teacher": "2",
 		"coveringTeacher": "",
 		"text": "Disprove theory of relativity",
 		"reason": "0",
@@ -62,11 +66,13 @@ HTTP status: `200 OK`
 	},
 	{
 		"id": "5",
-		"teacher": "4",
-		"course": "14",
-		"startBy": "2015-12-24T03",
-		"endBy": "2015-12-24T04",
+		"startingDate": "2015-12-24",
+		"startingHour": "03",
+		"endingDate": "2015-12-24",
+		"endingHour": "04",
 		"type": "2",
+		"course": "14",
+		"teacher": "4",
 		"coveringTeacher": "",
 		"text": "Five minutes later",
 		"reason": "2",
@@ -103,29 +109,29 @@ Error code: `1101`
 Error code: `1103`
 > The covering teacher does not exist.
 
-### 1104/1106: The starting/ending time is formatted badly.
+### 1104/1106: The starting/ending date is formatted badly.
 
 HTTP status: `400 Bad Request`
 
 Error code: `1104`
-> The starting time is formatted badly.
+> The starting date is formatted badly.
 
 Error code: `1106`
-> The ending time is formatted badly.
+> The ending date is formatted badly.
 
-### 1105/1107: The starting/ending time does not exist.
+### 1105/1107: The starting/ending date does not exist.
 
 HTTP status: `400 Bad Request`
 
 Error code: `1105`
-> The starting time does not exist.
+> The starting date does not exist.
 
 Error code: `1107`
-> The ending time does not exist.
+> The ending date does not exist.
 
-### 1108: The ending time has to be after the start time.
+### 1108: The ending date has to be after the starting date.
 
 HTTP status: `400 Bad Request`
 
 Error code: `1108`
-> The ending time has to be after the start time.
+> The ending date has to be after the starting date.
