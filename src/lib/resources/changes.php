@@ -88,7 +88,7 @@ class Changes extends AbstractResource {
 			while($column = $query->fetch_array()) {
 				// Filter out if end of change is before given start
 				if ($startBy != null) {
-					$dtColumnEnd = new DateTime(substr($column['endBy'], 0, 10));
+					$dtColumnEnd = new DateTime(substr($column['endingDate'], 0, 10));
 					$dtStart = new DateTime($startBy);
 					if ($dtColumnEnd < $dtStart) {
 						continue;
@@ -96,7 +96,7 @@ class Changes extends AbstractResource {
 				}
 				// Filter out if start of change is after given end
 				if ($endBy != null) {
-					$dtColumnStart = new DateTime(substr($column['startBy'], 0, 10));
+					$dtColumnStart = new DateTime(substr($column['startingDate'], 0, 10));
 					$dtEnd = new DateTime($endBy);
 					if ($dtColumnStart > $dtEnd) {
 						continue;
@@ -104,11 +104,13 @@ class Changes extends AbstractResource {
 				}
 				$change = Array(
 							'id' => $column['id'],
-							'teacher' => $column['teacher'],
-							'course' => $column['course'],
-							'startBy' => $column['startBy'],
-							'endBy' => $column['endBy'],
+							'startingDate' => $column['startingDate'],
+							'startingHour' => $column['startingHour'],
+							'endingDate' => $column['endingDate'],
+							'endingHour' => $column['endingHour'],
 							'type' => $column['type'],
+							'course' => $column['course'],
+							'teacher' => $column['teacher'],
 							'coveringTeacher' => $column['coveringTeacher'],
 							'text' => $column['text'],
 							'reason' => $seeReasons ? $column['reason'] : '-',
@@ -133,8 +135,10 @@ class Changes extends AbstractResource {
 						$teacher,
 						$course,
 						$coveringTeacher,
-						$startBy,
-						$endBy,
+						$startingDate,
+						$startingHour,
+						$endingDate,
+						$endingHour,
 						$type,
 						$text,
 						$reason,
@@ -144,8 +148,10 @@ class Changes extends AbstractResource {
 		$teacher = $this->database->escape_string($teacher);
 		$course = $this->database->escape_string($course);
 		$coveringTeacher = $this->database->escape_string($coveringTeacher);
-		$startBy = $this->database->escape_string($startBy);
-		$endBy = $this->database->escape_string($endBy);
+		$startingDate = $this->database->escape_string($startingDate);
+		$startingHour = $this->database->escape_string($startingHour);
+		$endingDate = $this->database->escape_string($endingDate);
+		$endingHour = $this->database->escape_string($endingHour);
 		$type = $this->database->escape_string($type);
 		$text = $this->database->escape_string($text);
 		$reason = $this->database->escape_string($reason);
@@ -156,8 +162,10 @@ class Changes extends AbstractResource {
 					"teacher," .
 					"course," .
 					"coveringTeacher," .
-					"startBy," .
-					"endBy," .
+					"startingDate," .
+					"startingHour," .
+					"endingDate," .
+					"endingHour," .
 					"type," .
 					"text," .
 					"reason," .
@@ -167,8 +175,10 @@ class Changes extends AbstractResource {
 					"'$teacher'," .
 					"'$course'," .
 					"'$coveringTeacher'," .
-					"'$startBy'," .
-					"'$endBy'," .
+					"'$startingDate'," .
+					"'$startingHour'," .
+					"'$endingDate'," .
+					"'$endingHour'," .
 					"'$type'," .
 					"'$text'," .
 					"'$reason'," .
@@ -192,8 +202,10 @@ class Changes extends AbstractResource {
 						$teacher,
 						$course,
 						$coveringTeacher,
-						$startBy,
-						$endBy,
+						$startingDate,
+						$startingHour,
+						$endingDate,
+						$endingHour,
 						$type,
 						$text,
 						$reason,
@@ -204,8 +216,10 @@ class Changes extends AbstractResource {
 		$teacher = $this->database->escape_string($teacher);
 		$course = $this->database->escape_string($course);
 		$coveringTeacher = $this->database->escape_string($coveringTeacher);
-		$startBy = $this->database->escape_string($startBy);
-		$endBy = $this->database->escape_string($endBy);
+		$startingDate = $this->database->escape_string($startingDate);
+		$startingHour = $this->database->escape_string($startingHour);
+		$endingDate = $this->database->escape_string($endingDate);
+		$endingHour = $this->database->escape_string($endingHour);
 		$type = $this->database->escape_string($type);
 		$text = $this->database->escape_string($text);
 		$reason = $this->database->escape_string($reason);
@@ -216,8 +230,10 @@ class Changes extends AbstractResource {
 					"teacher = '$teacher'," .
 					"course = '$course'," .
 					"coveringTeacher = '$coveringTeacher'," .
-					"startBy = '$startBy'," .
-					"endBy = '$endBy'," .
+					"startingDate = '$startingDate'," .
+					"startingHour = '$startingHour'," .
+					"endingDate = '$endingDate'," .
+					"endingHour = '$endingHour'," .
 					"type = '$type'," .
 					"text = '$text'," .
 					"reason = '$reason'," .

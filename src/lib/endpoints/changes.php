@@ -57,10 +57,10 @@ class ChangesEndpoint extends AbstractEndpoint {
 				$startBy = self::replaceAlias($startBy);
 			}
 			if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $startBy)) {
-				$error[] = Array('code' => '1104', 'message' => 'The starting time is formatted badly.');
+				$error[] = Array('code' => '1104', 'message' => 'The starting date is formatted badly.');
 			}
 			else if (!checkdate(substr($startBy, 5, 2), substr($startBy, 8, 2), substr($startBy, 0, 4))) {
-				$error[] = Array('code' => '1105', 'message' => 'The starting time does not exist.');
+				$error[] = Array('code' => '1105', 'message' => 'The starting date does not exist.');
 			}
 		}
 		$endBy = self::getFromGET('endBy');
@@ -70,10 +70,10 @@ class ChangesEndpoint extends AbstractEndpoint {
 				$endBy = self::replaceAlias($endBy);
 			}
 			if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $endBy)) {
-				$error[] = Array('code' => '1106', 'message' => 'The ending time is formatted badly.');
+				$error[] = Array('code' => '1106', 'message' => 'The ending date is formatted badly.');
 			}
 			else if (!checkdate(substr($endBy, 5, 2), substr($endBy, 8, 2), substr($endBy, 0, 4))) {
-				$error[] = Array('code' => '1107', 'message' => 'The ending time does not exist.');
+				$error[] = Array('code' => '1107', 'message' => 'The ending date does not exist.');
 			}
 		}
 		if (!empty($error)) {
@@ -84,7 +84,7 @@ class ChangesEndpoint extends AbstractEndpoint {
 			$datetime1 = new DateTime(substr($startBy, 0, 10));
 			$datetime2 = new DateTime(substr($endBy, 0, 10));
 			if ($datetime1 > $datetime2) {
-				$error[] = Array('code' => '1108', 'message' => 'The ending time has to be after the start time.');
+				$error[] = Array('code' => '1108', 'message' => 'The ending date has to be after the starting date.');
 			}
 		}
 		if (!empty($error)) {
@@ -102,13 +102,13 @@ class ChangesEndpoint extends AbstractEndpoint {
 	public function handlePOST() {
 		$missing = Array();
 		$teacher = self::getFromPOST('teacher');
-		$startBy = self::getFromPOST('startBy');
-		if ($startBy == '') {
-			$missing[] = 'startBy';
+		$startingDate = self::getFromPOST('startingDate');
+		if ($startingDate == '') {
+			$missing[] = 'startingDate';
 		}
-		$endBy = self::getFromPOST('endBy');
-		if ($endBy == '') {
-			$missing[] = 'endBy';
+		$endingDate = self::getFromPOST('endingDate');
+		if ($endingDate == '') {
+			$missing[] = 'endingDate';
 		}
 		$type = self::getFromPOST('type');
 		if ($type == '') {
@@ -124,23 +124,25 @@ class ChangesEndpoint extends AbstractEndpoint {
 		}
 		$privateText = self::getFromPOST('privateText');
 		$course = self::getFromPOST('course');
+		$startingHour = self::getFromPOST('startingHour');
+		$endingHour = self::getFromPOST('endingHour');
 		if (!empty($missing)) {
 			$this->api->setStatus(400);
 			return Array('missing' => $missing);
 		}
 
 		$error = Array();
-		if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})T(\d{2})$/', $startBy)) {
-			$error[] = Array('code' => '1301', 'message' => 'The starting time is formatted badly.');
+		if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $startingDate)) {
+			$error[] = Array('code' => '1301', 'message' => 'The starting date is formatted badly.');
 		}
-		else if (!checkdate(substr($startBy, 5, 2), substr($startBy, 8, 2), substr($startBy, 0, 4))) {
-			$error[] = Array('code' => '1303', 'message' => 'The starting time does not exist.');
+		else if (!checkdate(substr($startingDate, 5, 2), substr($startingDate, 8, 2), substr($startingDate, 0, 4))) {
+			$error[] = Array('code' => '1303', 'message' => 'The starting date does not exist.');
 		}
-		if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})T(\d{2})$/', $endBy)) {
-			$error[] = Array('code' => '1302', 'message' => 'The ending time is formatted badly.');
+		if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $endingDate)) {
+			$error[] = Array('code' => '1302', 'message' => 'The ending date is formatted badly.');
 		}
-		else if (!checkdate(substr($endBy, 5, 2), substr($endBy, 8, 2), substr($endBy, 0, 4))) {
-			$error[] = Array('code' => '1304', 'message' => 'The ending time does not exist.');
+		else if (!checkdate(substr($endingDate, 5, 2), substr($endingDate, 8, 2), substr($endingDate, 0, 4))) {
+			$error[] = Array('code' => '1304', 'message' => 'The ending date does not exist.');
 		}
 		if ($teacher != '' && !ctype_digit($teacher)) {
 			$error[] = Array('code' => '1305', 'message' => 'The teacher may only contain an integer.');
@@ -171,16 +173,16 @@ class ChangesEndpoint extends AbstractEndpoint {
 			$this->api->setStatus(400);
 			return Array('error' => $error);
 		}
-		$datetime1 = new DateTime(substr($startBy, 0, 10));
-		$datetime2 = new DateTime(substr($endBy, 0, 10));
+		$datetime1 = new DateTime($startingDate);
+		$datetime2 = new DateTime($endingDate);
 		if ($datetime1 > $datetime2) {
-			$error[] = Array('code' => '1310', 'message' => 'The ending time has to be after the starting time.');
+			$error[] = Array('code' => '1310', 'message' => 'The ending date has to be after the starting date.');
 		}
 		if (!empty($error)) {
 			$this->api->setStatus(400);
 			return Array('error' => $error);
 		}
-		$identification = $this->changes->create($teacher, $course, $coveringTeacher, $startBy, $endBy, $type, $text, $reason, $privateText);
+		$identification = $this->changes->create($teacher, $course, $coveringTeacher, $startingDate, $startingHour, $endingDate, $endingHour, $type, $text, $reason, $privateText);
 		if (isset($identification)) {
 			$this->api->setStatus(201);
 			return Array('id' => $identification);
@@ -199,13 +201,13 @@ class ChangesEndpoint extends AbstractEndpoint {
 			$missing[] = 'id';
 		}
 		$teacher = $params['teacher'];
-		$startBy = $params['startBy'];
-		if ($startBy == '') {
-			$missing[] = 'startBy';
+		$startingDate = $params['startingDate'];
+		if ($startingDate == '') {
+			$missing[] = 'startingDate';
 		}
-		$endBy = $params['endBy'];
-		if ($endBy == '') {
-			$missing[] = 'endBy';
+		$endingDate = $params['endingDate'];
+		if ($endingDate == '') {
+			$missing[] = 'endingDate';
 		}
 		$type = $params['type'];
 		if ($type == '') {
@@ -221,23 +223,25 @@ class ChangesEndpoint extends AbstractEndpoint {
 		}
 		$privateText = $params['privateText'];
 		$course = $params['course'];
+		$startingHour = $params['startingHour'];
+		$endingHour = $params['endingHour'];
 		if (!empty($missing)) {
 			$this->api->setStatus(400);
 			return Array('missing' => $missing);
 		}
 
 		$error = Array();
-		if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})T(\d{2})$/', $startBy)) {
-			$error[] = Array('code' => '1201', 'message' => 'The starting time is formatted badly.');
+		if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $startingDate)) {
+			$error[] = Array('code' => '1201', 'message' => 'The starting date is formatted badly.');
 		}
-		else if (!checkdate(substr($startBy, 5, 2), substr($startBy, 8, 2), substr($startBy, 0, 4))) {
-			$error[] = Array('code' => '1203', 'message' => 'The starting time does not exist.');
+		else if (!checkdate(substr($startingDate, 5, 2), substr($startingDate, 8, 2), substr($startingDate, 0, 4))) {
+			$error[] = Array('code' => '1203', 'message' => 'The starting date does not exist.');
 		}
-		if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})T(\d{2})$/', $endBy)) {
-			$error[] = Array('code' => '1202', 'message' => 'The ending time is formatted badly.');
+		if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $endingDate)) {
+			$error[] = Array('code' => '1202', 'message' => 'The ending date is formatted badly.');
 		}
-		else if (!checkdate(substr($endBy, 5, 2), substr($endBy, 8, 2), substr($endBy, 0, 4))) {
-			$error[] = Array('code' => '1204', 'message' => 'The ending time does not exist.');
+		else if (!checkdate(substr($endingDate, 5, 2), substr($endingDate, 8, 2), substr($endingDate, 0, 4))) {
+			$error[] = Array('code' => '1204', 'message' => 'The ending date does not exist.');
 		}
 		if ($teacher != '' && !ctype_digit($teacher)) {
 			$error[] = Array('code' => '1205', 'message' => 'The teacher may only contain an integer.');
@@ -268,16 +272,16 @@ class ChangesEndpoint extends AbstractEndpoint {
 			$this->api->setStatus(400);
 			return Array('error' => $error);
 		}
-		$datetime1 = new DateTime(substr($startBy, 0, 10));
-		$datetime2 = new DateTime(substr($endBy, 0, 10));
+		$datetime1 = new DateTime($startingDate);
+		$datetime2 = new DateTime($endingDate);
 		if ($datetime1 > $datetime2) {
-			$error[] = Array('code' => '1210', 'message' => 'The ending time has to be after the starting time.');
+			$error[] = Array('code' => '1210', 'message' => 'The ending date has to be after the starting date.');
 		}
 		if (!empty($error)) {
 			$this->api->setStatus(400);
 			return Array('error' => $error);
 		}
-		if ($this->changes->update($identification, $teacher, $course, $coveringTeacher, $startBy, $endBy, $type, $text, $reason, $privateText)) {
+		if ($this->changes->update($identification, $teacher, $course, $coveringTeacher, $startingDate, $startingHour, $endingDate, $endingHour, $type, $text, $reason, $privateText)) {
 			$this->api->setStatus(204);
 			return null;
 		}

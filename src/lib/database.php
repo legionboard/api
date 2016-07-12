@@ -94,8 +94,10 @@ class Database {
 		  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
 		  teacher MEDIUMINT(8),
 		  course MEDIUMINT(8),
-		  startBy VARCHAR(13) NOT NULL,
-		  endBy VARCHAR(13) NOT NULL,
+		  startingDate DATE NOT NULL,
+		  startingHour VARCHAR(2),
+		  endingDate DATE NOT NULL,
+		  endingHour VARCHAR(2),
 		  type VARCHAR(1) NOT NULL,
 		  coveringTeacher MEDIUMINT(8),
 		  text LONGTEXT,
@@ -111,8 +113,10 @@ class Database {
 			  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
 			  teacher MEDIUMINT(8),
 			  course MEDIUMINT(8),
-			  startBy VARCHAR(13) NOT NULL,
-			  endBy VARCHAR(13) NOT NULL,
+			  startingDate DATE NOT NULL,
+			  startingHour VARCHAR(2),
+			  endingDate DATE NOT NULL,
+			  endingHour VARCHAR(2),
 			  type VARCHAR(1) NOT NULL,
 			  coveringTeacher MEDIUMINT(8),
 			  text LONGTEXT,
@@ -256,6 +260,7 @@ class Database {
 			$sql = "ALTER TABLE " . self::$tableChanges. " MODIFY teacher MEDIUMINT(8)";
 			$this->database->query($sql);
 		}
+		self::checkSplitUpTimes($dbName);
 	}
 
 	/**
@@ -283,6 +288,74 @@ class Database {
 					"TABLE_NAME='" . $table . "' AND " .
 					"COLUMN_NAME='" . $column . "'";
 		return $this->database->query($sql)->fetch_array()['IS_NULLABLE'] == 'YES';
+	}
+
+	/**
+	 * Check if times in changes are split up.
+	 */
+	private function checkSplitUpTimes($dbName) {
+		// Add column startingDate in table changes
+		if (!self::checkColumn("startingDate", self::$tableChanges, $dbName)) {
+			$sql = "ALTER TABLE " . self::$tableChanges. " ADD startingDate DATE NOT NULL AFTER startBy";
+			$this->database->query($sql);
+		}
+		// Add column startingHour in table changes
+		if (!self::checkColumn("startingHour", self::$tableChanges, $dbName)) {
+			$sql = "ALTER TABLE " . self::$tableChanges. " ADD startingHour VARCHAR(2) AFTER startingDate";
+			$this->database->query($sql);
+		}
+		// Add column endingDate in table changes
+		if (!self::checkColumn("endingDate", self::$tableChanges, $dbName)) {
+			$sql = "ALTER TABLE " . self::$tableChanges. " ADD endingDate DATE NOT NULL AFTER endBy";
+			$this->database->query($sql);
+		}
+		// Add column endingHour in table changes
+		if (!self::checkColumn("endingHour", self::$tableChanges, $dbName)) {
+			$sql = "ALTER TABLE " . self::$tableChanges. " ADD endingHour VARCHAR(2) AFTER endingDate";
+			$this->database->query($sql);
+		}
+		// Transform times from startBy to startingDate/-Hour
+		if (self::checkColumn("startBy", self::$tableChanges, $dbName)) {
+			$sql = "SELECT * FROM " . self::$tableChanges;
+			$query = $this->database->query($sql);
+			if ($query && $query->num_rows != 0) {
+				while($column = $query->fetch_array()) {
+					if ($column['startingDate'] != '0000-00-00') {
+						break;
+					}
+					$startingDate = substr($column['startBy'], 0, 10);
+					$startingHour = substr($column['startBy'], 11, 2);
+					if ($startingHour == '00') {
+						$startingHour = '';
+					}
+					$sql = "UPDATE " . self::$tableChanges . " SET startingDate = '" . $startingDate . "', startingHour = '" . $startingHour . "' WHERE id = '" . $column['id'] . "'";
+					$this->database->query($sql);
+				}
+				$sql = "ALTER TABLE " . self::$tableChanges. " DROP COLUMN startBy";
+				$this->database->query($sql);
+			}
+		}
+		// Transform times from endBy to endingDate/-Hour
+		if (self::checkColumn("endBy", self::$tableChanges, $dbName)) {
+			$sql = "SELECT * FROM " . self::$tableChanges;
+			$query = $this->database->query($sql);
+			if ($query && $query->num_rows != 0) {
+				while($column = $query->fetch_array()) {
+					if ($column['endingDate'] != '0000-00-00') {
+						break;
+					}
+					$endingDate = substr($column['endBy'], 0, 10);
+					$endingHour = substr($column['endBy'], 11, 2);
+					if ($endingHour == '20') {
+						$endingHour = '';
+					}
+					$sql = "UPDATE " . self::$tableChanges . " SET endingDate = '" . $endingDate . "', endingHour = '" . $endingHour . "' WHERE id = '" . $column['id'] . "'";
+					$this->database->query($sql);
+				}
+				$sql = "ALTER TABLE " . self::$tableChanges. " DROP COLUMN endBy";
+				$this->database->query($sql);
+			}
+		}
 	}
 }
 ?>
