@@ -205,7 +205,7 @@ class LegionBoard extends API {
 			$teachersEndpoint = new TeachersEndpoint($this, $this->authentication->getUserID($key));
 			return $teachersEndpoint->handleDELETE();
 		}
-		if ($this->method == 'OPTIONS') {
+		if ($this->getMethod() == 'OPTIONS') {
 			$this->setStatus(200);
 			return null;
 		}
