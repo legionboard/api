@@ -132,7 +132,7 @@ class LegionBoard extends API {
 		require_once __DIR__ . '/endpoints/courses.php';
 		if ($this->getMethod() == 'GET') {
 			$key = self::getFromGET('k');
-			// Verify user is allowed to see changes
+			// Verify user is allowed to see courses
 			if (!$this->authentication->verifiy($key, self::GROUP_SEE_COURSES)) {
 				$this->setStatus(401);
 				return null;
@@ -144,7 +144,7 @@ class LegionBoard extends API {
 		}
 		if ($this->getMethod() == 'POST') {
 			$key = self::getFromPOST('k');
-			// Verify user is allowed to add changes
+			// Verify user is allowed to add courses
 			if (!$this->authentication->verifiy($key, self::GROUP_ADD_COURSE)) {
 				$this->setStatus(401);
 				return null;
@@ -155,7 +155,7 @@ class LegionBoard extends API {
 		if ($this->getMethod() == 'PUT') {
 			parse_str($this->getFile(), $params);
 			$key = $params['k'];
-			// Verify user is allowed to update changes
+			// Verify user is allowed to update courses
 			if (!$this->authentication->verifiy($key, self::GROUP_UPDATE_COURSE)) {
 				$this->setStatus(401);
 				return null;
@@ -165,7 +165,7 @@ class LegionBoard extends API {
 		}
 		if ($this->getMethod() == 'DELETE') {
 			$key = self::getFromGET('k');
-			// Verify user is allowed to delete changes
+			// Verify user is allowed to delete courses
 			if (!$this->authentication->verifiy($key, self::GROUP_DELETE_COURSE)) {
 				$this->setStatus(401);
 				return null;
