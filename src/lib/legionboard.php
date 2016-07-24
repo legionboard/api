@@ -26,6 +26,7 @@ class LegionBoard extends API {
 	const GROUP_UPDATE_COURSE = 12;
 	const GROUP_DELETE_COURSE = 13;
 	const GROUP_SEE_TIMES = 14;
+	const GROUP_SEE_ACTIVITIES = 15;
 
 	public function __construct($request) {
 		$this->setVersionName('0.1.2');
@@ -33,6 +34,31 @@ class LegionBoard extends API {
 		parent::__construct($request);
 		require_once __DIR__ . '/authentication.php';
 		$this->authentication = new Authentication();
+	}
+
+	/**
+	 * Endpoint: activities
+	 * Accepts: GET
+	 */
+	protected function activities() {
+		// Import endpoint "activities"
+		require_once __DIR__ . '/endpoints/activities.php';
+		if ($this->getMethod() == 'GET') {
+			$key = self::getFromGET('k');
+			// Verify user is allowed to see activities
+			if (!$this->authentication->verifiy($key, self::GROUP_SEE_ACTIVITIES)) {
+				$this->setStatus(401);
+				return null;
+			}
+			$activitiesEndpoint = new ActivitiesEndpoint($this, $this->authentication->getUserID($key));
+			return $activitiesEndpoint->handleGET();
+		}
+		if ($this->getMethod() == 'OPTIONS') {
+			$this->setStatus(200);
+			return null;
+		}
+		$this->setStatus(405);
+		return Array('error' => Array(Array('code' => '0', 'message' => "Only accepts GET requests.")));
 	}
 
 	/**

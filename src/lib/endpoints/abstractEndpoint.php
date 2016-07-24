@@ -15,6 +15,8 @@ abstract class AbstractEndpoint {
 
 	public function __construct($api, $user) {
 		$this->api = $api;
+		require_once __DIR__ . '/../resources/activities.php';
+		$this->activities = new ActivitiesResource($user);
 		require_once __DIR__ . '/../resources/changes.php';
 		$this->changes = new Changes($user);
 		require_once __DIR__ . '/../resources/courses.php';
