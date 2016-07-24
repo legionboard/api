@@ -103,3 +103,7 @@ No special errors are returned.
 
 * [2400: The course could not get deleted.](courses/delete.md#2400-the-course-could-not-get-deleted)
 * [2401: The course is still linked to a change.](courses/delete.md#2401-the-course-is-still-linked-to-a-change)
+
+### List activities
+
+No special errors are returned.
