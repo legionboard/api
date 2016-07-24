@@ -18,11 +18,11 @@ abstract class AbstractEndpoint {
 		require_once __DIR__ . '/../resources/activities.php';
 		$this->activities = new ActivitiesResource($user);
 		require_once __DIR__ . '/../resources/changes.php';
-		$this->changes = new Changes($user);
+		$this->changes = new ChangesResource($user);
 		require_once __DIR__ . '/../resources/courses.php';
-		$this->courses = new Courses($user);
+		$this->courses = new CoursesResource($user);
 		require_once __DIR__ . '/../resources/teachers.php';
-		$this->teachers = new Teachers($user);
+		$this->teachers = new TeachersResource($user);
 	}
 
 	/**

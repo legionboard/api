@@ -6,7 +6,7 @@
  * See the file "LICENSE" for the full license governing this code.
  */
 require_once __DIR__ . '/abstractResource.php';
-class Changes extends AbstractResource {
+class ChangesResource extends AbstractResource {
 
 	/**
 	 * Connect with the database.

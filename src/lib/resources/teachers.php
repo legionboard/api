@@ -6,7 +6,7 @@
  * See the file "LICENSE" for the full license governing this code.
  */
 require_once __DIR__ . '/abstractResource.php';
-class Teachers extends AbstractResource {
+class TeachersResource extends AbstractResource {
 
 	public function __construct($user) {
 		parent::__construct($user);
