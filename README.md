@@ -13,6 +13,9 @@ configure your MySQL settings in the
 [configuration](src/lib/configuration-template.ini) and push all the
 stuff to a server containing PHP and MySQL. Have fun and enjoy!
 
+This version of Heart requires version `0.2.0` or newer of
+[Eye](https://gitlab.com/legionboard/eye).
+
 ## Documentation
 
 See [doc/README.md](doc/README.md).
