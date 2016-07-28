@@ -2,4 +2,4 @@
 
 ## GET
 
-* [List courses](list.md)
+* [List activities](list.md)
