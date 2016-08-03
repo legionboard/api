@@ -18,6 +18,8 @@
 * Use [code climate](https://codeclimate.com/github/legionboard/heart)
 * Many more fixes
 
+## 0.2.0-beta1 (03.08.2016)
+
 ## 0.1.2 (03.06.2016)
 
 * Let user only configure table prefix instead of every table name
