@@ -29,8 +29,8 @@ class LegionBoard extends API {
 	const GROUP_SEE_ACTIVITIES = 15;
 
 	public function __construct($request) {
-		$this->setVersionName('0.1.2');
-		$this->setVersionCode('1');
+		$this->setVersionName('0.2.0-beta1');
+		$this->setVersionCode('200001');
 		parent::__construct($request);
 		require_once __DIR__ . '/authentication.php';
 		$this->authentication = new Authentication();
