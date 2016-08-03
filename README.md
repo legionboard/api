@@ -51,3 +51,15 @@ you delete the file after usage!
 
 At the moment this is only possible with external programs like
 [phpMyAdmin](https://www.phpmyadmin.net).
+
+## How does versioning work?
+
+Stable releases have the version names `X.Y.Z`. Beta releases have
+`X.Y.Z-betaN`.
+
+The version codes follow the pattern `XXXYYYZZNN`, where stable releases use
+`99` for `NN`. Because of this, there can be only 98 beta releases and
+99 stable releases of each `X.Y` (`Z`).
+
+As an example, version name `0.2.0-beta1` has the version code `20001`,
+while `0.2.1` has `20199`.
