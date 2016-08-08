@@ -7,10 +7,14 @@
 - [Courses](courses/README.md)
 - [Teachers](teachers/README.md)
 
-## Clients
+## Official Clients
 
 * [Eye](https://gitlab.com/legionboard/eye)
 * [KISS](https://gitlab.com/legionboard/kiss)
+
+## Unofficial Clients
+
+* [substitution-schedule-parser](https://github.com/johan12345/substitution-schedule-parser)
 
 ## Introduction
 
