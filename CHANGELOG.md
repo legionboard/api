@@ -2,6 +2,10 @@
 
 ## 0.2.0 (Upcoming)
 
+This is the second big release of LegionBoard Heart. With changes in
+almost all files, ~1.5k additions and ~700 deletions, this is a great
+release with many new features:
+
 * Add resource courses (1105fcea)
 * Log every activity that affects a resource (ab4411c7)
 * Archive courses and teachers (3d206eba, 60797dc5)
