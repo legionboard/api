@@ -24,7 +24,7 @@ release with many new features:
 
 ## 0.2.0-beta1 (03.08.2016)
 
-* First beta of new release
+This is the first beta release of Heart 0.2.0.
 
 ## 0.1.2 (03.06.2016)
 
