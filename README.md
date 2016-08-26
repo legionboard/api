@@ -7,8 +7,8 @@ This is the core of [LegionBoard](https://legionboard.github.io): it
 is a
 [REST API](https://en.wikipedia.org/wiki/Representational_state_transfer)
 based on PHP and MySQL and manages all the changes in your school. It
-can handle teachers and changes, containing cancellations, covers and
-information. To start your own API just download the source code,
+can handle changes, courses and teachers.
+To start your own API just download the source code,
 configure your MySQL settings in the
 [configuration](src/lib/configuration-template.ini) and push all the
 stuff to a server containing PHP and MySQL. Have fun and enjoy!
