@@ -22,6 +22,16 @@ release with many new features:
 * Use [code climate](https://codeclimate.com/github/legionboard/heart)
 * Many more fixes
 
+## 0.2.0-beta2 (26.08.2016)
+
+This is the second beta release of Heart 0.2.0. If you upgrade from
+0.2.0-beta1, you have to execute this SQL command:
+```
+UPDATE [table] SET course = 0 WHERE course IS NULL;
+```
+
+* Improved upgrading from 0.1.x to 0.2+
+
 ## 0.2.0-beta1 (03.08.2016)
 
 This is the first beta release of Heart 0.2.0.

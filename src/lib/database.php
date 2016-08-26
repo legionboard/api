@@ -92,8 +92,8 @@ class Database {
 	private function createTableChanges() {
 		$sql = "CREATE TABLE " . self::$tableChanges . " (
 		  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
-		  teacher MEDIUMINT(8),
-		  course MEDIUMINT(8),
+		  teacher MEDIUMINT(8) DEFAULT 0,
+		  course MEDIUMINT(8) DEFAULT 0,
 		  startingDate DATE NOT NULL,
 		  startingHour VARCHAR(2),
 		  endingDate DATE NOT NULL,
@@ -111,8 +111,8 @@ class Database {
 			// Workaround for MySQL bug: http://stackoverflow.com/a/17498167
 			$sql = "CREATE TABLE " . self::$tableChanges . " (
 			  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
-			  teacher MEDIUMINT(8),
-			  course MEDIUMINT(8),
+			  teacher MEDIUMINT(8) DEFAULT 0,
+			  course MEDIUMINT(8) DEFAULT 0,
 			  startingDate DATE NOT NULL,
 			  startingHour VARCHAR(2),
 			  endingDate DATE NOT NULL,
@@ -232,7 +232,7 @@ class Database {
 	private function updateTables($dbName) {
 		// Add column course in table changes
 		if (!self::checkColumn("course", self::$tableChanges, $dbName)) {
-			$sql = "ALTER TABLE " . self::$tableChanges . " ADD course MEDIUMINT(8) AFTER teacher";
+			$sql = "ALTER TABLE " . self::$tableChanges . " ADD course MEDIUMINT(8) DEFAULT 0 AFTER teacher";
 			$this->database->query($sql);
 		}
 		// Add column archived in table courses
@@ -257,7 +257,7 @@ class Database {
 		}
 		// Allow column teacher in table changes to be null
 		if (!self::checkColumnAllowsNull("teacher", self::$tableChanges, $dbName)) {
-			$sql = "ALTER TABLE " . self::$tableChanges. " MODIFY teacher MEDIUMINT(8)";
+			$sql = "ALTER TABLE " . self::$tableChanges. " MODIFY teacher MEDIUMINT(8) DEFAULT 0";
 			$this->database->query($sql);
 		}
 		self::checkSplitUpTimes($dbName);
