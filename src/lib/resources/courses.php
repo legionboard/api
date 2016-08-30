@@ -32,7 +32,7 @@ class CoursesResource extends AbstractResource {
 			$course = Array(
 							'id' => $column['id'],
 							'name' => $column['name'],
-							'archived' => ($column['archived'] == '0') ? 'false' : 'true',
+							'archived' => ($column['archived'] == '0') ? false : true,
 							'added' => $seeTimes ? $column['added'] : '-',
 							'edited' => $seeTimes ? $column['edited'] : '-'
 							);

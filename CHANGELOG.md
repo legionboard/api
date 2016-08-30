@@ -22,6 +22,13 @@ release with many new features:
 * Use [code climate](https://codeclimate.com/github/legionboard/heart)
 * Many more fixes
 
+## 0.2.0-beta3 (30.08.2016)
+
+This is the third beta release of Heart 0.2.0. Here are the changes to
+the previous beta release:
+
+* Field `archived` of courses and teachers is now served as a boolean
+
 ## 0.2.0-beta2 (26.08.2016)
 
 This is the second beta release of Heart 0.2.0. If you upgrade from
