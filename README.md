@@ -3,7 +3,7 @@
 [![build status](https://gitlab.com/legionboard/heart/badges/master/build.svg)](https://gitlab.com/legionboard/heart/builds)
 [![Code Climate](https://codeclimate.com/github/legionboard/heart/badges/gpa.svg)](https://codeclimate.com/github/legionboard/heart)
 
-This is the core of [LegionBoard](https://legionboard.github.io): it
+This is the core of [LegionBoard](http://legionboard.org): it
 is a
 [REST API](https://en.wikipedia.org/wiki/Representational_state_transfer)
 based on PHP and MySQL and manages all the changes in your school. It
