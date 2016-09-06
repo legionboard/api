@@ -53,7 +53,7 @@ catch (Exception $e) {
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Create key</title>
+		<title>User Creation Tool</title>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="utf-8">
 	</head>
