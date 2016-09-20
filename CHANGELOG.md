@@ -1,6 +1,6 @@
 # Changelog of LegionBoard Heart
 
-## 0.2.0 (Upcoming)
+## 0.2.0 (20.09.2016)
 
 This is the second big release of LegionBoard Heart. With changes in
 almost all files, ~1.5k additions and ~700 deletions, this is a great
