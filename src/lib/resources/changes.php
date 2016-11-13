@@ -28,7 +28,8 @@ class ChangesResource extends AbstractResource {
 						$endBy = null,
 						$seeReasons = false,
 						$seePrivateTexts = false,
-						$seeTimes = false
+						$seeTimes = false,
+						$subjects = null
 					) {
 		$changes = Array();
 		// Filter by teachers
@@ -51,6 +52,16 @@ class ChangesResource extends AbstractResource {
 				$sqlCourses .= (empty($sqlCourses) ? "" : " OR ") . "course LIKE '$course'";
 			}
 		}
+		// Filter by subjects
+		$filteredSubjects = array_filter($subjects);
+		if (!empty($filteredSubjects)) {
+			sort($subjects);
+			foreach ($subjects as $subject) {
+				// Add where clause for subject
+				$subject = $this->database->escape_string($subject);
+				$sqlSubjects .= (empty($sqlSubjects) ? "" : " OR ") . "subject LIKE '$subject'";
+			}
+		}
 		// Filter by ID
 		if (isset($id)) {
 			$id = $this->database->escape_string($id);
@@ -63,7 +74,7 @@ class ChangesResource extends AbstractResource {
 		}
 		// Build SELECT
 		$sql = "SELECT * FROM " . Database::$tableChanges;
-		if (!empty($sqlTeachers) || !empty($sqlCourses) || !empty($sqlID) || !empty($sqlCoveringTeacher)) {
+		if (!empty($sqlTeachers) || !empty($sqlCourses)  || !empty($sqlSubjects) || !empty($sqlID) || !empty($sqlCoveringTeacher)) {
 			$sql .= " WHERE";
 			if (!empty($sqlTeachers)) {
 				$sql .= " (" . $sqlTeachers . ")";
@@ -74,11 +85,17 @@ class ChangesResource extends AbstractResource {
 				}
 				$sql .= " (" . $sqlCourses . ")";
 			}
-			if ((!empty($sqlTeachers) || !empty($sqlCourses)) && !empty($sqlID)) {
+			if (!empty($sqlSubjects)) {
+				if (!empty($sqlTeachers) || !empty($sqlCourses)) {
+					$sql .= " AND";
+				}
+				$sql .= " (" . $sqlSubjects . ")";
+			}
+			if ((!empty($sqlTeachers) || !empty($sqlCourses) || !empty($sqlSubjects)) && !empty($sqlID)) {
 				$sql .= " AND";
 			}
 			$sql .= $sqlID;
-			if ((!empty($sqlTeachers) || !empty($sqlCourses)) && !empty($sqlCoveringTeacher)) {
+			if ((!empty($sqlTeachers) || !empty($sqlCourses) || !empty($sqlSubjects) || !empty($sqlID)) && !empty($sqlCoveringTeacher)) {
 				$sql .= " AND";
 			}
 			$sql .= $sqlCoveringTeacher;
@@ -114,6 +131,7 @@ class ChangesResource extends AbstractResource {
 							'teacher' => $column['teacher'],
 							'coveringTeacher' => $column['coveringTeacher'],
 							'text' => $column['text'],
+							'subject' => $column['subject'],
 							'reason' => $seeReasons ? $column['reason'] : '-',
 							'privateText' => $seePrivateTexts ? $column['privateText'] : '-',
 							'added' => $seeTimes ? $column['added'] : '-',

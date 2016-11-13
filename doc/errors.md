@@ -104,6 +104,26 @@ No special errors are returned.
 * [2400: The course could not get deleted.](courses/delete.md#2400-the-course-could-not-get-deleted)
 * [2401: The course is still linked to a change.](courses/delete.md#2401-the-course-is-still-linked-to-a-change)
 
+### List subjects
+
+No special errors are returned.
+
+### Update subject
+
+* [3200: The subject could not get updated.](subjects/update.md#3200-the-subject-could-not-get-updated)
+* [3201: The parameter archived may only contain true or false.](subjects/update.md#3201-the-parameter-archived-may-only-contain-true-or-false)
+
+### Create subject
+
+* [3300: The subject could not get created.](subjects/create.md#3300-the-subject-could-not-get-created)
+* [3301: A subject with the given name already exists.](subjects/create.md#3301-a-subject-with-the-given-name-already-exists)
+* [3302: A subject with the given shortcut already exists.](subjects/create.md#3302-a-subject-with-the-given-shortcut-already-exists)
+
+### Deleting subject
+
+* [3400: The subject could not get deleted.](subjects/delete.md#3400-the-subject-could-not-get-deleted)
+* [3401: The subject is still linked to a change.](subjects/delete.md#3401-the-subject-is-still-linked-to-a-change)
+
 ### List activities
 
 No special errors are returned.

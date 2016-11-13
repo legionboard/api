@@ -27,6 +27,10 @@ class LegionBoard extends API {
 	const GROUP_DELETE_COURSE = 13;
 	const GROUP_SEE_TIMES = 14;
 	const GROUP_SEE_ACTIVITIES = 15;
+	const GROUP_SEE_SUBJECTS = 16;
+	const GROUP_ADD_SUBJECT = 17;
+	const GROUP_UPDATE_SUBJECT = 18;
+	const GROUP_DELETE_SUBJECT = 19;
 
 	public function __construct($request) {
 		$this->setVersionName('0.2.0');
@@ -172,6 +176,64 @@ class LegionBoard extends API {
 			}
 			$coursesEndpoint = new CoursesEndpoint($this, $this->authentication->getUserID($key));
 			return $coursesEndpoint->handleDELETE();
+		}
+		if ($this->getMethod() == 'OPTIONS') {
+			$this->setStatus(200);
+			return null;
+		}
+		$this->setStatus(405);
+		return Array('error' => Array(Array('code' => '0', 'message' => "Only accepts GET, PUT, POST and DELETE requests.")));
+	}
+
+	/**
+	 * Endpoint: subjects
+	 * Accepts: GET, PUT, POST, DELETE
+	 */
+	protected function subjects () {
+		// Import endpoint "courses"
+		require_once __DIR__ . '/endpoints/subjects.php';
+		if ($this->getMethod() == 'GET') {
+			$key = self::getFromGET('k');
+			// Verify user is allowed to see subjects
+			if (!$this->authentication->verifiy($key, self::GROUP_SEE_SUBJECTS)) {
+				$this->setStatus(401);
+				return null;
+			}
+			$subjectsEndpoint = new SubjectsEndpoint($this, $this->authentication->getUserID($key));
+			// Verifiy user is allowed to see times
+			$seeTimes = $this->authentication->verifiy($key, self::GROUP_SEE_TIMES);
+			return $subjectsEndpoint->handleGET($seeTimes);
+		}
+		if ($this->getMethod() == 'POST') {
+			$key = self::getFromPOST('k');
+			// Verify user is allowed to add subjects
+			if (!$this->authentication->verifiy($key, self::GROUP_ADD_SUBJECT)) {
+				$this->setStatus(401);
+				return null;
+			}
+			$subjectsEndpoint = new SubjectsEndpoint($this, $this->authentication->getUserID($key));
+			return $subjectsEndpoint->handlePOST();
+		}
+		if ($this->getMethod() == 'PUT') {
+			parse_str($this->getFile(), $params);
+			$key = $params['k'];
+			// Verify user is allowed to update subjects
+			if (!$this->authentication->verifiy($key, self::GROUP_UPDATE_SUBJECT)) {
+				$this->setStatus(401);
+				return null;
+			}
+			$subjectsEndpoint = new SubjectsEndpoint($this, $this->authentication->getUserID($key));
+			return $subjectsEndpoint->handlePUT($params);
+		}
+		if ($this->getMethod() == 'DELETE') {
+			$key = self::getFromGET('k');
+			// Verify user is allowed to delete subjects
+			if (!$this->authentication->verifiy($key, self::GROUP_DELETE_SUBJECT)) {
+				$this->setStatus(401);
+				return null;
+			}
+			$subjectsEndpoint = new SubjectsEndpoint($this, $this->authentication->getUserID($key));
+			return $subjectsEndpoint->handleDELETE();
 		}
 		if ($this->getMethod() == 'OPTIONS') {
 			$this->setStatus(200);

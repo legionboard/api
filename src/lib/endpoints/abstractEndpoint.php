@@ -23,6 +23,8 @@ abstract class AbstractEndpoint {
 		$this->courses = new CoursesResource($user);
 		require_once __DIR__ . '/../resources/teachers.php';
 		$this->teachers = new TeachersResource($user);
+		require_once __DIR__ . '/../resources/subjects.php';
+		$this->subjects = new SubjectsResource($user);
 	}
 
 	/**
