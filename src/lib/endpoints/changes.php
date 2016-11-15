@@ -17,7 +17,7 @@ class ChangesEndpoint extends AbstractEndpoint {
 	public function handleGET($seeReasons = false, $seePrivateTexts = false, $seeTimes = false) {
 		$givenTeachers = explode(",", self::getFromGET('teachers'));
 		foreach ($givenTeachers as $teacher) {
-			if ($teacher != '') {
+			if ($teacher != '' && $teacher != 0) {
 				if (!ctype_digit($teacher)) {
 					$error[] = Array('code' => '1100', 'message' => 'The teacher may only contain an integer.');
 					break;
@@ -30,7 +30,7 @@ class ChangesEndpoint extends AbstractEndpoint {
 		}
 		$givenCourses = explode(",", self::getFromGET('courses'));
 		foreach ($givenCourses as $course) {
-			if ($course != '') {
+			if ($course != '' && $course != 0) {
 				if (!ctype_digit($course)) {
 					$error[] = Array('code' => '1100', 'message' => 'The course may only contain an integer.');
 					break;
