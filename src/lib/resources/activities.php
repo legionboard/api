@@ -27,11 +27,14 @@ class ActivitiesResource extends AbstractResource {
 		if (!$query || $query->num_rows == 0) {
 			return null;
 		}
+		require_once __DIR__ . '/../authentication.php';
+		$this->authentication = new Authentication();
 		$activities = Array();
 		while($column = $query->fetch_array()) {
 			$activity = Array(
 							'id' => $column['id'],
 							'user' => $column['user'],
+							'username' => $this->authentication->getUsername($column['user']),
 							'action' => $column['action'],
 							'affectedResource' => $column['affectedResource'],
 							'affectedID' => $column['affectedID'],

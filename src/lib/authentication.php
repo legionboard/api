@@ -65,5 +65,17 @@ class Authentication {
 		}
 		return $query->fetch_array()['id'];
 	}
+
+	/**
+	 * Returns the username of a given ID.
+	 */
+	public function getUsername($id) {
+		$sql = "SELECT username FROM " . Database::$tableAuthentication . " WHERE id LIKE '$id' LIMIT 1";
+		$query = $this->db->query($sql);
+		if (!$query || $query->num_rows == 0) {
+			return 0;
+		}
+		return $query->fetch_array()['username'];
+	}
 }
 ?>
