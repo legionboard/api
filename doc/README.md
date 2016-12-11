@@ -5,6 +5,7 @@
 - [Activities](activities/README.md)
 - [Changes](changes/README.md)
 - [Courses](courses/README.md)
+- [Subjects](subjects/README.md)
 - [Teachers](teachers/README.md)
 
 ## Official Clients

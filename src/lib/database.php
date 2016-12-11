@@ -24,6 +24,9 @@ class Database {
 	
 	// MySQL table for activities
 	public static $tableActivities;
+	
+	// MySQL table for Subjects
+	public static $tableSubjects;
 
 	/**
 	 * Connect with the database.
@@ -42,6 +45,7 @@ class Database {
 		self::$tableCourses = $tablePrefix . "_courses";
 		self::$tableAuthentication = $tablePrefix . "_authentication";
 		self::$tableActivities = $tablePrefix . "_activities";
+		self::$tableSubjects = $tablePrefix . "_subjects";
 		// If table prefix does not exist
 		if ($tablePrefix == '') {
 			self::$tableChanges = $config->get("MySQL", "Table_Changes");
@@ -67,6 +71,9 @@ class Database {
 		}
 		if (!self::checkTable(self::$tableActivities)) {
 			self::createTableActivities();
+		}
+		if (!self::checkTable(self::$tableSubjects)) {
+			self::createTableSubjects();
 		}
 		self::updateTables($mysqlDB);
 	}
@@ -101,6 +108,7 @@ class Database {
 		  type VARCHAR(1) NOT NULL,
 		  coveringTeacher MEDIUMINT(8),
 		  text LONGTEXT,
+		  subject MEDIUMINT(8) DEFAULT 0,
 		  reason VARCHAR(1) NOT NULL,
 		  privateText LONGTEXT,
 		  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -120,6 +128,7 @@ class Database {
 			  type VARCHAR(1) NOT NULL,
 			  coveringTeacher MEDIUMINT(8),
 			  text LONGTEXT,
+			  subject MEDIUMINT(8) DEFAULT 0,
 			  reason VARCHAR(1) NOT NULL,
 			  privateText LONGTEXT,
 			  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -227,6 +236,34 @@ class Database {
 	}
 
 	/**
+	 * Create table for subjects.
+	 */
+	private function createTableSubjects() {
+		$sql = "CREATE TABLE " . self::$tableSubjects . " (
+		  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+		  name VARCHAR(255) NOT NULL UNIQUE,
+		  shortcut VARCHAR(255) NOT NULL UNIQUE,
+		  archived BOOLEAN DEFAULT 0,
+		  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		  edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  PRIMARY KEY (id)
+		) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
+		if(!$this->database->query($sql)) {
+			// Workaround for MySQL bug: http://stackoverflow.com/a/17498167
+			$sql = "CREATE TABLE " . self::$tableTeachers . " (
+			  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+			  name VARCHAR(255) NOT NULL UNIQUE,
+			  shortcut VARCHAR(255) NOT NULL UNIQUE,
+			  archived BOOLEAN DEFAULT 0,
+			  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			  edited TIMESTAMP,
+			  PRIMARY KEY (id)
+			) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
+			$this->database->query($sql);
+		}
+	}
+
+	/**
 	 * Checks every table and if neccessary updates it.
 	 */
 	private function updateTables($dbName) {
@@ -258,6 +295,11 @@ class Database {
 		// Allow column teacher in table changes to be null
 		if (!self::checkColumnAllowsNull("teacher", self::$tableChanges, $dbName)) {
 			$sql = "ALTER TABLE " . self::$tableChanges. " MODIFY teacher MEDIUMINT(8) DEFAULT 0";
+			$this->database->query($sql);
+		}
+		// Add column subject in table changes
+		if (!self::checkColumn("subject", self::$tableChanges, $dbName)) {
+			$sql = "ALTER TABLE " . self::$tableChanges . " ADD subject MEDIUMINT(8) DEFAULT 0 AFTER text";
 			$this->database->query($sql);
 		}
 		self::checkSplitUpTimes($dbName);

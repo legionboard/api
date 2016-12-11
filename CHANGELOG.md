@@ -1,5 +1,9 @@
 # Changelog of LegionBoard Heart
 
+## 0.2.1 (Upcoming release)
+
+* Add resource subjects
+
 ## 0.2.0 (20.09.2016)
 
 This is the second big release of LegionBoard Heart. With changes in
