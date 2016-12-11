@@ -23,14 +23,15 @@ HTTP status: `201 Created`
 
 ## Failure
 
-### Name missing in request
+### Parameters missing in request
 
 HTTP status: `400 Bad Request`
 
 ```json
 {
 	"missing": [
-		"name"
+		"name",
+		"shortcut"
 	]
 }
 ```

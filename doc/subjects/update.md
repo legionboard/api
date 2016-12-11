@@ -10,6 +10,7 @@ Parameters:
 
 - `id` (required) - The ID of a subject
 - `name` (required) - The name of a subject
+- `shortcut` (required) - The shortcut of a subject
 - `archived` (required) - Boolean whether a subject is archived (true|false)
 
 ## Success
