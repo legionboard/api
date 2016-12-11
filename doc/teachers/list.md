@@ -18,7 +18,7 @@ HTTP status: `200 OK`
 [
     {
         "id": "1",
-        "name": "Alle",
+        "name": "Green",
         "archived": false,
         "added": "2015-11-12 13:33:33",
         "edited": "2015-11-12 13:33:33"
