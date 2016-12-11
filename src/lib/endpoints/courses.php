@@ -23,11 +23,12 @@ class CoursesEndpoint extends AbstractEndpoint {
 			$this->api->setStatus(400);
 			return Array('missing' => Array('name'));
 		}
+		$subjects = self::getFromPOST('subjects');
 		if ($this->courses->checkByName($name)) {
 			$this->api->setStatus(400);
 			return Array('error' => Array(Array('code' => '2301', 'message' => 'A course with the given name already exists.')));
 		}
-		$identification = $this->courses->create($name);
+		$identification = $this->courses->create($name, $subjects);
 		if (isset($identification)) {
 			$this->api->setStatus(201);
 			return Array('id' => $identification);
@@ -61,11 +62,12 @@ class CoursesEndpoint extends AbstractEndpoint {
 				$this->api->setStatus(400);
 				return Array('error' => Array(Array('code' => '2201', 'message' => 'The parameter archived may only contain true or false.')));
 		}
+		$subjects = $params['subjects'];
 		if (!empty($missing)) {
 			$this->api->setStatus(400);
 			return Array('missing' => $missing);
 		}
-		if ($this->courses->update($identification, $name, $archived)) {
+		if ($this->courses->update($identification, $name, $subjects, $archived)) {
 			$this->api->setStatus(204);
 			return null;
 		}

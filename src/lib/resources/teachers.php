@@ -32,6 +32,7 @@ class TeachersResource extends AbstractResource {
 			$teacher = Array(
 							'id' => $column['id'],
 							'name' => $column['name'],
+							'subjects' => $column['subjects'],
 							'archived' => ($column['archived'] == '0') ? false : true,
 							'added' => $seeTimes ? $column['added'] : '-',
 							'edited' => $seeTimes ? $column['edited'] : '-'
@@ -44,9 +45,10 @@ class TeachersResource extends AbstractResource {
 	/**
 	 * Create a teacher.
 	 */
-	public function create($name) {
+	public function create($name, $subjects) {
 		$name = $this->database->escape_string($name);
-		$sql = "INSERT INTO " . Database::$tableTeachers . " (name) VALUES ('$name')";
+		$subjects = $this->database->escape_string($subjects);
+		$sql = "INSERT INTO " . Database::$tableTeachers . " (name, subjects) VALUES ('$name', '$subjects')";
 		if ($this->database->query($sql)) {
 			$id = $this->database->insert_id;
 			if ($this->activities->log($this->user, Activities::ACTION_CREATE, $this->resource, $id)) {
@@ -60,11 +62,12 @@ class TeachersResource extends AbstractResource {
 	/**
 	 * Update a teacher.
 	 */
-	public function update($teacherID, $name, $archived) {
+	public function update($teacherID, $name, $subjects, $archived) {
 		$teacherID = $this->database->escape_string($teacherID);
 		$name = $this->database->escape_string($name);
+		$subjects = $this->database->escape_string($subjects);
 		$archived = $this->database->escape_string($archived);
-		$sql = "UPDATE " . Database::$tableTeachers . " SET name = '$name', archived = '$archived' WHERE id = '$teacherID'";
+		$sql = "UPDATE " . Database::$tableTeachers . " SET name = '$name', subjects = '$subjects', archived = '$archived' WHERE id = '$teacherID'";
 		if ($this->database->query($sql)) {
 			$this->activities->log($this->user, Activities::ACTION_UPDATE, $this->resource, $teacherID);
 			return true;

@@ -10,6 +10,7 @@ Parameters:
 
 - `id` (required) - The ID of a teacher
 - `name` (required) - The name of a teacher
+- `subjects` - Comma separated list of subjects
 - `archived` (required) - Boolean whether a teacher is archived (true|false)
 
 ## Success

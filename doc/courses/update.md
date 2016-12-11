@@ -10,6 +10,7 @@ Parameters:
 
 - `id` (required) - The ID of a course
 - `name` (required) - The name of a course
+- `subjects` - Comma separated list of subjects
 - `archived` (required) - Boolean whether a course is archived (true|false)
 
 ## Success
