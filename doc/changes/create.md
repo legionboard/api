@@ -15,7 +15,7 @@ Parameters:
 - `startingHour` - Hour when a change starts (HH)
 - `endingDate` (required) - Date when a change ends (YYYY-MM-DD)
 - `endingHour` - Hour when a change ends (HH)
-- `type` (required) - Type of change (0: cancellation, 1: cover, 2: information)
+- `type` (required) - Type of change (0: cancellation, 1: cover, 2: information, 3: room change)
 - `text` (required when type == 2) - Text describing a change
 - `reason` (required) - The reason for a change (0: ill, 1: official, 2: on leave)
 - `privateText` - Private text that is only visible to members of group 9

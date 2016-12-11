@@ -162,7 +162,7 @@ class ChangesEndpoint extends AbstractEndpoint {
 		else if ($coveringTeacher != '' && !$this->teachers->checkById($coveringTeacher)) {
 			$error[] = Array('code' => '1309', 'message' => 'The covering teacher does not exist.');
 		}
-		if ($type != '0' && $type != '1' && $type != '2') {
+		if ($type != '0' && $type != '1' && $type != '2' && $type != '3') {
 			$error[] = Array('code' => '1307', 'message' => 'The type is not allowed.');
 		}
 		$reason = self::getFromPOST('reason');
@@ -261,7 +261,7 @@ class ChangesEndpoint extends AbstractEndpoint {
 		else if ($coveringTeacher != '' && !$this->teachers->checkById($coveringTeacher)) {
 			$error[] = Array('code' => '1209', 'message' => 'The covering teacher does not exist.');
 		}
-		if ($type != '0' && $type != '1' && $type != '2') {
+		if ($type != '0' && $type != '1' && $type != '2' && $type != '3') {
 			$error[] = Array('code' => '1207', 'message' => 'The type is not allowed.');
 		}
 		$reason = $params['reason'];
