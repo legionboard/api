@@ -6,6 +6,7 @@
 * Add type "room change" to changes (#22)
 * Return username in activities (#14)
 * Accept ID 0 when filtering changes by courses/teachers (Related to [eye#2](https://gitlab.com/legionboard/eye/issues/2))
+* Relicense Heart from GPLv3 to AGPLv3
 
 ## 0.2.0 (20.09.2016)
 

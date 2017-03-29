@@ -28,8 +28,8 @@ implemented by Tom Kurjak in a pioneer project called 'Ausfallplan'. It
 was taken up by [Nico Alt](mailto:nicoalt@posteo.org) by developing a
 completely new project that's up to the current technical standards.
 
-This project is licensed under the GPLv3 license. For more information,
-see [LICENSE](./LICENSE).
+This project is licensed under the AGPLv3 license. For more information,
+see [LICENSE.md](LICENSE.md).
 
 ## Repositories
 
