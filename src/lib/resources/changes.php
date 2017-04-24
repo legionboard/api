@@ -45,37 +45,45 @@ class ChangesResource extends AbstractResource {
 					) {
 		$changes = Array();
 		// Filter by teachers
-		$filteredTeachers = array_filter($teachers, function($value) {
-			return ($value !== null && $value !== false && $value !== ''); 
-		});
-		if (!empty($filteredTeachers)) {
-			sort($teachers);
-			foreach ($teachers as $teacher) {
-				// Add where clause for teacher
-				$teacher = $this->database->escape_string($teacher);
-				$sqlTeachers .= (empty($sqlTeachers) ? "" : " OR ") . "teacher LIKE '$teacher'";
+		if (!empty($teachers)) {
+			$filteredTeachers = array_filter($teachers, function($value) {
+				return ($value !== null && $value !== false && $value !== ''); 
+			});
+			if (!empty($filteredTeachers)) {
+				sort($teachers);
+				foreach ($teachers as $teacher) {
+					// Add where clause for teacher
+					$teacher = $this->database->escape_string($teacher);
+					$sqlTeachers .= (empty($sqlTeachers) ? "" : " OR ") . "teacher LIKE '$teacher'";
+				}
 			}
 		}
 		// Filter by courses
-		$filteredCourses = array_filter($courses, function($value) {
-			return ($value !== null && $value !== false && $value !== ''); 
-		});
-		if (!empty($filteredCourses)) {
-			sort($courses);
-			foreach ($courses as $course) {
-				// Add where clause for course
-				$course = $this->database->escape_string($course);
-				$sqlCourses .= (empty($sqlCourses) ? "" : " OR ") . "course LIKE '$course'";
+		if (!empty($courses)) {
+			$filteredCourses = array_filter($courses, function($value) {
+				return ($value !== null && $value !== false && $value !== ''); 
+			});
+			if (!empty($filteredCourses)) {
+				sort($courses);
+				foreach ($courses as $course) {
+					// Add where clause for course
+					$course = $this->database->escape_string($course);
+					$sqlCourses .= (empty($sqlCourses) ? "" : " OR ") . "course LIKE '$course'";
+				}
 			}
 		}
 		// Filter by subjects
-		$filteredSubjects = array_filter($subjects);
-		if (!empty($filteredSubjects)) {
-			sort($subjects);
-			foreach ($subjects as $subject) {
-				// Add where clause for subject
-				$subject = $this->database->escape_string($subject);
-				$sqlSubjects .= (empty($sqlSubjects) ? "" : " OR ") . "subject LIKE '$subject'";
+		if (!empty($subjects)) {
+			$filteredSubjects = array_filter($subjects, function($value) {
+				return ($value !== null && $value !== false && $value !== ''); 
+			});
+			if (!empty($filteredSubjects)) {
+				sort($subjects);
+				foreach ($subjects as $subject) {
+					// Add where clause for subject
+					$subject = $this->database->escape_string($subject);
+					$sqlSubjects .= (empty($sqlSubjects) ? "" : " OR ") . "subject LIKE '$subject'";
+				}
 			}
 		}
 		// Filter by ID
