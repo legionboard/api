@@ -136,7 +136,7 @@ class LegionBoard extends API {
 			return null;
 		}
 		$this->setStatus(405);
-		return Array('error' => Array(Array('code' => '1000', 'message' => "Only accepts GET, PUT, POST and DELETE requests.")));
+		return Array('error' => Array(Array('code' => '0', 'message' => "Only accepts GET, PUT, POST and DELETE requests.")));
 	}
 
 	/**
