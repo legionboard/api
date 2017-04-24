@@ -97,5 +97,9 @@ catch (Exception $e) {
 		<p>13: Delete course</p>
 		<p>14: See times (added, edited)</p>
 		<p>15: See activities</p>
+		<p>16: See subjects</p>
+		<p>17: Add subject</p>
+		<p>18: Update subject</p>
+		<p>19: Delete subject</p>
 	</body>
 </html>
