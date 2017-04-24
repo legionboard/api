@@ -118,6 +118,20 @@ abstract class API {
 		$this->status = $status;
 	}
 
+	/**
+	 * Property: previousHash
+	 * The hash of the data the user already has.
+	 */
+	private $previousHash = "";
+
+	private function getPreviousHash() {
+		return $this->previousHash;
+	}
+
+	public function setPreviousHash($previousHash) {
+		$this->previousHash = $previousHash;
+	}
+
     /**
      * Allow for CORS, assemble and pre-process the data.
      */
@@ -159,6 +173,7 @@ abstract class API {
 				break;
 			case 'GET':
 				$this->request = $this->cleanInputs($_GET);
+				$this->setPreviousHash(filter_input(INPUT_GET, "dataHash"));
 				break;
 			case 'PUT':
 				$this->request = $this->cleanInputs($_GET);
@@ -178,11 +193,36 @@ abstract class API {
     }
 
     private function response($data, $status = null) {
-        $status = isset($status) ? $status : $this->getStatus();
-        header("HTTP/1.1 " . $status . " " . $this->requestStatus($status));
         if (isset($data)) {
-			return json_encode($data);
+			$dataJson = json_encode($data);
+
+			# Get SHA-512 hash of data
+			$dataHash = hash('sha512', $dataJson);
+
+			# If calculated hash and previous hash are equal
+			if ($this->getPreviousHash() == $dataHash) {
+				# Send status header "204 No Content"
+				$status = 204;
+				header("HTTP/1.1 " . $status . " " . $this->requestStatus($status));
+
+				return null;
+			}
+
+			# Send normal status header
+			$status = isset($status) ? $status : $this->getStatus();
+			header("HTTP/1.1 " . $status . " " . $this->requestStatus($status));
+
+			# Print out data hash in header if it's a GET request
+			if ($this->getMethod() == 'GET') {
+				header("LegionBoard-Heart-Data-Hash-SHA-512: " . $dataHash);
+			}
+
+			return $dataJson;
 		}
+		# Send normal status header
+		$status = isset($status) ? $status : $this->getStatus();
+		header("HTTP/1.1 " . $status . " " . $this->requestStatus($status));
+
 		return null;
     }
 
