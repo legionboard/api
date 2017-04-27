@@ -40,6 +40,10 @@ class CoursesEndpoint extends AbstractEndpoint {
 			$this->api->setStatus(400);
 			return Array('error' => Array(Array('code' => '2301', 'message' => 'A course with the given name already exists.')));
 		}
+		if ($this->courses->checkByShortcut($shortcut)) {
+			$this->api->setStatus(400);
+			return Array('error' => Array(Array('code' => '2302', 'message' => 'A course with the given shortcut already exists.')));
+		}
 		$identification = $this->courses->create($name, $subjects);
 		if (isset($identification)) {
 			$this->api->setStatus(201);

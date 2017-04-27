@@ -98,6 +98,7 @@ No special errors are returned.
 
 * [2300: The course could not get created.](courses/create.md#2300-the-course-could-not-get-created)
 * [2301: A course with the given name already exists.](courses/create.md#2301-a-course-with-the-given-name-already-exists)
+* [2302: A course with the given shortcut already exists.](courses/create.md#2302-a-course-with-the-given-shortcut-already-exists)
 
 ### Deleting course
 
