@@ -43,6 +43,7 @@ class LegionBoard extends API {
 	const GROUP_ADD_SUBJECT = 17;
 	const GROUP_UPDATE_SUBJECT = 18;
 	const GROUP_DELETE_SUBJECT = 19;
+	const GROUP_EXPORT_ALL_RESOURCES = 20;
 
 	public function __construct($request) {
 		$this->setVersionName('0.2.0');
@@ -195,6 +196,31 @@ class LegionBoard extends API {
 		}
 		$this->setStatus(405);
 		return Array('error' => Array(Array('code' => '0', 'message' => "Only accepts GET, PUT, POST and DELETE requests.")));
+	}
+
+	/**
+	 * Endpoint: export
+	 * Accepts: GET
+	 */
+	protected function export() {
+		// Import endpoint "export"
+		require_once __DIR__ . '/endpoints/export.php';
+		if ($this->getMethod() == 'GET') {
+			$key = self::getFromGET('k');
+			// Verifiy user is allowed to export all resources
+			if (!$this->authentication->verifiy($key, self::GROUP_EXPORT_ALL_RESOURCES)) {
+				$this->setStatus(401);
+				return null;
+			}
+			$exportEndpoint = new ExportEndpoint($this, $this->authentication->getUserID($key));
+			return $exportEndpoint->handleGET();
+		}
+		if ($this->getMethod() == 'OPTIONS') {
+			$this->setStatus(200);
+			return null;
+		}
+		$this->setStatus(405);
+		return Array('error' => Array(Array('code' => '0', 'message' => "Only accepts GET requests.")));
 	}
 
 	/**

@@ -101,5 +101,6 @@ catch (Exception $e) {
 		<p>17: Add subject</p>
 		<p>18: Update subject</p>
 		<p>19: Delete subject</p>
+		<p>20: Export all resources</p>
 	</body>
 </html>
