@@ -61,7 +61,7 @@ class SubjectsResource extends AbstractResource {
 	public function create($name, $shortcut) {
 		$name = $this->database->escape_string($name);
 		$shortcut = $this->database->escape_string($shortcut);
-		$sql = "INSERT INTO " . Database::$tableSubjects . " (name, shorrtcut) VALUES ('$name', '$shortcut')";
+		$sql = "INSERT INTO " . Database::$tableSubjects . " (name, shortcut) VALUES ('$name', '$shortcut')";
 		if ($this->database->query($sql)) {
 			$id = $this->database->insert_id;
 			if ($this->activities->log($this->user, Activities::ACTION_CREATE, $this->resource, $id)) {
@@ -112,6 +112,15 @@ class SubjectsResource extends AbstractResource {
 	public function checkById($id) {
 		$id = $this->database->escape_string($id);
 		$sql = 'SELECT id FROM ' . Database::$tableSubjects . ' WHERE id = ' . $id . ' LIMIT 1';
+		return $this->database->query($sql)->num_rows > 0;
+	}
+
+	/**
+	 * Check if a subject name exists.
+	 */
+	public function checkByName($name) {
+		$name = $this->database->escape_string($name);
+		$sql = "SELECT name FROM " . Database::$tableSubjects . " WHERE name = '$name' LIMIT 1";
 		return $this->database->query($sql)->num_rows > 0;
 	}
 

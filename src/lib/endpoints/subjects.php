@@ -49,7 +49,7 @@ class SubjectsEndpoint extends AbstractEndpoint {
 			$this->api->setStatus(400);
 			return Array('error' => Array(Array('code' => '3302', 'message' => 'A subject with the given shortcut already exists.')));
 		}
-		$identification = $this->subjects->create($name);
+		$identification = $this->subjects->create($name, $shortcut);
 		if (isset($identification)) {
 			$this->api->setStatus(201);
 			return Array('id' => $identification);
