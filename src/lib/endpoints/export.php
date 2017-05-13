@@ -28,6 +28,9 @@ class ExportEndpoint extends AbstractEndpoint {
 	 */
 	public function handleGET() {
 		$startBy = self::getFromGET('startBy');
+		if ($startBy == '') {
+			$startBy = 'now';
+		}
 		if ($startBy != '') {
 			if (self::replaceAlias($startBy) != null) {
 				$startBy = self::replaceAlias($startBy);
@@ -40,6 +43,9 @@ class ExportEndpoint extends AbstractEndpoint {
 			}
 		}
 		$endBy = self::getFromGET('endBy');
+		if ($endBy == '') {
+			$endBy = 'i1w';
+		}
 		if ($endBy != '') {
 			if (self::replaceAlias($endBy) != null) {
 				$endBy = self::replaceAlias($endBy);

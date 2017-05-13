@@ -10,8 +10,8 @@ GET /export?[...]
 
 Parameters:
 
-- `startBy` - Date when list of changes starts (YYYY-MM-DD)
-- `endBy` - Date when list of changes ends (YYYY-MM-DD)
+- `startBy` - Date when list of changes starts (YYYY-MM-DD) (Default: now)
+- `endBy` - Date when list of changes ends (YYYY-MM-DD) (Default: i1w)
 
 ## Success
 
