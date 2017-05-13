@@ -68,9 +68,9 @@ class ExportEndpoint extends AbstractEndpoint {
 		}
 		// Get all resources and build export Array
 		$changes = $this->changes->get(null, null, null, null, $startBy, $endBy, true, true, true);
-		$courses = $this->courses->get(null, $seeTimes);
-		$subjects = $this->subjects->get(null, $seeTimes);
-		$teachers = $this->teachers->get(null, $seeTimes);
+		$courses = $this->courses->get(null, true);
+		$subjects = $this->subjects->get(null, true);
+		$teachers = $this->teachers->get(null, true);
 		$this->api->setStatus(200);
 		$export = Array(
 					"resources" => Array(
