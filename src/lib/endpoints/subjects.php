@@ -109,7 +109,7 @@ class SubjectsEndpoint extends AbstractEndpoint {
 			$this->api->setStatus(400);
 			return Array('error' => Array(Array('code' => '3401', 'message' => 'The subject is still linked to a change.')));
 		}
-		if ($this->courses->delete($identification)) {
+		if ($this->subjects->delete($identification)) {
 			$this->api->setStatus(204);
 			return null;
 		}
