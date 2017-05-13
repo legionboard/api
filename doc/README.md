@@ -48,7 +48,7 @@ Each GET request comes along with the `LegionBoard-Heart-Data-Hash-SHA-512` head
 containing the SHA-512 hash of its data.
 You can use this hash to save bandwith by sending it as the query parameter `dataHash`.
 If the hash of the data equals to the hash of the query paramter,
-no JSON will be handed out and instead the status "204 No Content" is set.
+no JSON will be handed out and instead the status "304 Not Modified" is set.
 
 ## Errors
 

@@ -201,8 +201,8 @@ abstract class API {
 
 			# If calculated hash and previous hash are equal
 			if ($this->getPreviousHash() == $dataHash) {
-				# Send status header "204 No Content"
-				$status = 204;
+				# Send status header "304 Not Modified"
+				$status = 304;
 				header("HTTP/1.1 " . $status . " " . $this->requestStatus($status));
 
 				return null;
