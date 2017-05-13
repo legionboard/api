@@ -70,3 +70,7 @@ Here are links to all errors that can occur.
 ### 34xx
 
 [Delete subject](subjects/delete.md#failure)
+
+## 41xx
+
+[Export](export/README.md#failure)
