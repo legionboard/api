@@ -19,112 +19,54 @@ All errors are returned in the following format:
 
 Here are links to all errors that can occur.
 
-### List teachers
+### 2xx
 
-No special errors are returned.
+[Update teacher](teachers/update.md#failure)
 
-### Update teacher
+### 3xx
 
-* [200: The teacher could not get updated.](teachers/update.md#200-the-teacher-could-not-get-updated)
-* [201: The parameter archived may only contain true or false.](teachers/update.md#201-the-parameter-archived-may-only-contain-true-or-false)
+[Create teacher](teachers/create.md#failure)
 
-### Create teacher
+### 4xx
 
-* [300: The teacher could not get created.](teachers/create.md#300-the-teacher-could-not-get-created)
-* [301: A teacher with the given name already exists.](teachers/create.md#301-a-teacher-with-the-given-name-already-exists)
+[Delete teacher](teachers/delete.md#failure)
 
-### Deleting teacher
+### 11xx
 
-* [400: The teacher could not get deleted.](teachers/delete.md#400-the-teacher-could-not-get-deleted)
-* [401: Deleting the teacher with ID 0 is not allowed.](teachers/delete.md#401-deleting-the-teacher-with-id-0-is-not-allowed)
-* [402: The teacher is still linked to a change.](teachers/delete.md#402-the-teacher-is-still-linked-to-a-change)
+[List changes](changes/list.md#failure)
 
-### List changes
+### 12xx
 
-* [1100: The teacher may only contain an integer.](changes/list.md#11001102-the-covering-teacher-may-only-contain-an-integer)
-* [1101: The teacher does not exist.](changes/list.md#11011103-the-covering-teacher-does-not-exist)
-* [1102: The covering teacher may only contain an integer.](changes/list.md#11001102-the-covering-teacher-may-only-contain-an-integer)
-* [1103: The covering teacher does not exist.](changes/list.md#11011103-the-covering-teacher-does-not-exist)
-* [1104: The starting date is formatted badly.](changes/list.md#11041106-the-startingending-date-is-formatted-badly)
-* [1105: The starting date does not exist.](changes/list.md#11051107-the-startingending-date-does-not-exist)
-* [1106: The ending date is formatted badly.](changes/list.md#11041106-the-startingending-date-is-formatted-badly)
-* [1107: The ending date does not exist.](changes/list.md#11051107-the-startingending-date-does-not-exist)
-* [1108: The ending date has to be after the starting date.](changes/list.md#1108-the-ending-date-has-to-be-after-the-starting-date)
+[Update change](changes/update.md#failure)
 
-### Update change
+### 13xx
 
-* [1200: The change could not get updated.](changes/update.md#1200-the-change-could-not-get-updated)
-* [1201: The starting date is formatted badly.](changes/update.md#12011202-the-startingending-date-is-formatted-badly)
-* [1202: The ending date is formatted badly.](changes/update.md#12011202-the-startingending-date-is-formatted-badly)
-* [1203: The starting date does not exist.](changes/update.md#12031204-the-startingending-date-does-not-exist)
-* [1204: The ending date does not exist.](changes/update.md#12031204-the-startingending-date-does-not-exist)
-* [1205: The teacher may only contain an integer.](changes/update.md#12051206-the-covering-teacher-may-only-contain-an-integer)
-* [1206: The covering teacher may only contain an integer.](changes/update.md#12051206-the-covering-teacher-may-only-contain-an-integer)
-* [1207: The type is not allowed.](changes/update.md#1207-the-type-is-not-allowed)
-* [1208: The teacher does not exist.](changes/update.md#12081209-the-covering-teacher-does-not-exist)
-* [1209: The covering teacher does not exist.](changes/update.md#12081209-the-covering-teacher-does-not-exist)
-* [1210: The ending date has to be after the starting date.](changes/update.md#1210-the-ending-date-has-to-be-after-the-starting-date)
-* [1211: The reason is not allowed.](changes/update.md#1211-the-reason-is-not-allowed)
+[Create change](changes/create.md#failure)
 
-### Create change
+### 14xx
 
-* [1300: The change could not get created.](changes/create.md#1300-the-change-could-not-get-created)
-* [1301: The starting date is formatted badly.](changes/create.md#13011302-the-startingending-date-is-formatted-badly)
-* [1302: The ending date is formatted badly.](changes/create.md#13011302-the-startingending-date-is-formatted-badly)
-* [1303: The starting date does not exist.](changes/create.md#13031304-the-startingending-date-does-not-exist)
-* [1304: The ending date does not exist.](changes/create.md#13031304-the-startingending-date-does-not-exist)
-* [1305: The teacher may only contain an integer.](changes/create.md#13051306-the-covering-teacher-may-only-contain-an-integer)
-* [1306: The covering teacher may only contain an integer.](changes/create.md#13051306-the-covering-teacher-may-only-contain-an-integer)
-* [1307: The type is not allowed.](changes/create.md#1307-the-type-is-not-allowed)
-* [1308: The teacher does not exist.](changes/create.md#13081309-the-covering-teacher-does-not-exist)
-* [1309: The covering teacher does not exist.](changes/create.md#13081309-the-covering-teacher-does-not-exist)
-* [1310: The ending date has to be after the start date.](changes/create.md#1310-the-ending-date-has-to-be-after-the-start-date)
-* [1311: The reason is not allowed.](changes/create.md#1311-the-reason-is-not-allowed)
+[Delete change](changes/delete.md#failure)
 
-### Deleting change
+### 22xx
 
-* [1400: The change could not get deleted.](changes/delete.md#1400-the-change-could-not-get-deleted)
+[Update course](courses/update.md#failure)
 
-### List courses
+### 23xx
 
-No special errors are returned.
+[Create course](courses/create.md#failure)
 
-### Update course
+### 24xx
 
-* [2200: The course could not get updated.](courses/update.md#2200-the-course-could-not-get-updated)
-* [2201: The parameter archived may only contain true or false.](courses/update.md#2201-the-parameter-archived-may-only-contain-true-or-false)
+[Delete course](courses/delete.md#failure)
 
-### Create course
+### 32xx
 
-* [2300: The course could not get created.](courses/create.md#2300-the-course-could-not-get-created)
-* [2301: A course with the given name already exists.](courses/create.md#2301-a-course-with-the-given-name-already-exists)
-* [2302: A course with the given shortcut already exists.](courses/create.md#2302-a-course-with-the-given-shortcut-already-exists)
+[Update subject](subjects/update.md#failure)
 
-### Deleting course
+### 33xx
 
-* [2400: The course could not get deleted.](courses/delete.md#2400-the-course-could-not-get-deleted)
-* [2401: The course is still linked to a change.](courses/delete.md#2401-the-course-is-still-linked-to-a-change)
+[Create subject](subjects/create.md#failure)
 
-### List subjects
+### 34xx
 
-No special errors are returned.
-
-### Update subject
-
-* [3200: The subject could not get updated.](subjects/update.md#3200-the-subject-could-not-get-updated)
-* [3201: The parameter archived may only contain true or false.](subjects/update.md#3201-the-parameter-archived-may-only-contain-true-or-false)
-
-### Create subject
-
-* [3300: The subject could not get created.](subjects/create.md#3300-the-subject-could-not-get-created)
-* [3301: A subject with the given name already exists.](subjects/create.md#3301-a-subject-with-the-given-name-already-exists)
-* [3302: A subject with the given shortcut already exists.](subjects/create.md#3302-a-subject-with-the-given-shortcut-already-exists)
-
-### Deleting subject
-
-* [3400: The subject could not get deleted.](subjects/delete.md#3400-the-subject-could-not-get-deleted)
-* [3401: The subject is still linked to a change.](subjects/delete.md#3401-the-subject-is-still-linked-to-a-change)
-
-### List activities
-
-No special errors are returned.
+[Delete subject](subjects/delete.md#failure)
