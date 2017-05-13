@@ -122,5 +122,14 @@ class CoursesResource extends AbstractResource {
 		$sql = "SELECT name FROM " . Database::$tableCourses . " WHERE name = '$name' LIMIT 1";
 		return $this->database->query($sql)->num_rows > 0;
 	}
+
+	/**
+	 * Check if a course shortcut exists.
+	 */
+	public function checkByShortcut($shortcut) {
+		$shortcut = $this->database->escape_string($shortcut);
+		$sql = "SELECT name FROM " . Database::$tableCourses . " WHERE shortcut = '$shortcut' LIMIT 1";
+		return $this->database->query($sql)->num_rows > 0;
+	}
 }
 ?>
