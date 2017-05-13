@@ -20,7 +20,7 @@
  */
 require_once __DIR__ . '/abstractEndpoint.php';
 class SubjectsEndpoint extends AbstractEndpoint {
-	
+
 	public function handleGET($seeTimes = false) {
 		$subjects = $this->subjects->get($this->api->getID(), $seeTimes);
 		if ($subjects != null) {
@@ -29,7 +29,7 @@ class SubjectsEndpoint extends AbstractEndpoint {
 		$this->api->setStatus(404);
 		return null;
 	}
-	
+
 	public function handlePOST() {
 		$name = self::getFromPOST('name');
 		if ($name == '') {
@@ -57,7 +57,7 @@ class SubjectsEndpoint extends AbstractEndpoint {
 		$this->api->setStatus(409);
 		return Array('error' => Array(Array('code' => '3300', 'message' => 'The subject could not get created.')));
 	}
-	
+
 	public function handlePUT($params) {
 		$identification = $this->api->getID();
 		$missing = Array();
@@ -98,7 +98,7 @@ class SubjectsEndpoint extends AbstractEndpoint {
 		$this->api->setStatus(409);
 		return Array('error' => Array(Array('code' => '3200', 'message' => 'The subject could not get updated.')));
 	}
-	
+
 	public function handleDELETE() {
 		$identification = $this->api->getID();
 		if ($identification == '') {

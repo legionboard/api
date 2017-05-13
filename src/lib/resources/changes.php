@@ -47,7 +47,7 @@ class ChangesResource extends AbstractResource {
 		// Filter by teachers
 		if (!empty($teachers)) {
 			$filteredTeachers = array_filter($teachers, function($value) {
-				return ($value !== null && $value !== false && $value !== ''); 
+				return ($value !== null && $value !== false && $value !== '');
 			});
 			if (!empty($filteredTeachers)) {
 				sort($teachers);
@@ -61,7 +61,7 @@ class ChangesResource extends AbstractResource {
 		// Filter by courses
 		if (!empty($courses)) {
 			$filteredCourses = array_filter($courses, function($value) {
-				return ($value !== null && $value !== false && $value !== ''); 
+				return ($value !== null && $value !== false && $value !== '');
 			});
 			if (!empty($filteredCourses)) {
 				sort($courses);
@@ -75,7 +75,7 @@ class ChangesResource extends AbstractResource {
 		// Filter by subjects
 		if (!empty($subjects)) {
 			$filteredSubjects = array_filter($subjects, function($value) {
-				return ($value !== null && $value !== false && $value !== ''); 
+				return ($value !== null && $value !== false && $value !== '');
 			});
 			if (!empty($filteredSubjects)) {
 				sort($subjects);

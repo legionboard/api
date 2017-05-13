@@ -82,7 +82,7 @@ class ExportEndpoint extends AbstractEndpoint {
 					);
 		return $export;
 	}
-	
+
 	/**
 	 * Replaces aliases.
 	 */

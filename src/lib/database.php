@@ -30,13 +30,13 @@ class Database {
 
 	// MySQL table for courses
 	public static $tableCourses;
-	
+
 	// MySQL table for authentication
 	public static $tableAuthentication;
-	
+
 	// MySQL table for activities
 	public static $tableActivities;
-	
+
 	// MySQL table for Subjects
 	public static $tableSubjects;
 
