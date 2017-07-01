@@ -9,7 +9,7 @@ POST /courses
 Parameters:
 
 - `name` (required) - The name of a course
-- `subjects` - Comma separated list of subjects
+- `subject` - ID of a subject
 
 ## Success
 

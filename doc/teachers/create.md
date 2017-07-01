@@ -9,7 +9,7 @@ POST /teachers
 Parameters:
 
 - `name` (required) - The name of a teacher
-- `subjects` - Comma separated list of subjects
+- `subject` - ID of a subject
 
 ## Success
 
