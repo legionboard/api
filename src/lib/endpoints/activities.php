@@ -17,7 +17,10 @@
  *
  * See the file "LICENSE.md" for the full license governing this code.
  */
+namespace LegionBoard\Endpoints;
+
 require_once __DIR__ . '/abstractEndpoint.php';
+
 class ActivitiesEndpoint extends AbstractEndpoint {
 	
 	public function handleGET() {

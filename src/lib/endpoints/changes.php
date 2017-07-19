@@ -20,7 +20,10 @@
  * Endpoint: changes
  * Accepts: GET, PUT, POST, DELETE, OPTIONS
  */
+namespace LegionBoard\Endpoints;
+
 require_once __DIR__ . '/abstractEndpoint.php';
+
 class ChangesEndpoint extends AbstractEndpoint {
 
 	/**

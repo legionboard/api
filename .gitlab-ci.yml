@@ -1,7 +1,37 @@
-before_script:
-  - apt-get --quiet update --yes
-  - apt-get --quiet install --yes php5
+image: php:7.1
 
-test:
+stages:
+- syntax
+- test
+
+# Install Composer
+.install_composer: &install_composer
+  cache:
+    paths:
+    - .composercache
+    - vendor/apt
+  before_script:
+  - mkdir -p vendor/apt
+  - apt update -yqq
+  - apt -o dir::cache::archives="vendor/apt" install git -yqq
+  - curl -sS https://getcomposer.org/installer | php
+  - php composer.phar config cache-files-dir .composercache
+  - php composer.phar install
+
+php-lint:
+  stage: syntax
   script:
-    - for f in $(find ./ -name '*.php'); do php -l $f; done
+  - for f in $(find src -name '*.php'); do php -l $f; done
+
+phpcs:
+  <<: *install_composer
+  stage: syntax
+  allow_failure: true
+  script:
+    - vendor/bin/phpcs --error-severity=1 --warning-severity=8 --extensions=php
+
+units:
+  <<: *install_composer
+  stage: test
+  script:
+  - vendor/bin/atoum -d src/tests/units
