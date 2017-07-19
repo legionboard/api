@@ -17,7 +17,10 @@
  *
  * See the file "LICENSE.md" for the full license governing this code.
  */
+namespace LegionBoard\Lib;
+
 require_once __DIR__ . '/abstractAPI.php';
+
 class LegionBoard extends API {
 
 	/*

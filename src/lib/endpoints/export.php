@@ -20,7 +20,10 @@
  * Endpoint: export
  * Accepts: GET
  */
+namespace LegionBoard\Endpoints;
+
 require_once __DIR__ . '/abstractEndpoint.php';
+
 class ExportEndpoint extends AbstractEndpoint {
 
 	/**

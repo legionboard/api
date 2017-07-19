@@ -17,7 +17,10 @@
  *
  * See the file "LICENSE.md" for the full license governing this code.
  */
+namespace LegionBoard\Resources;
+
 require_once __DIR__ . '/abstractResource.php';
+
 class ChangesResource extends AbstractResource {
 
 	/**
