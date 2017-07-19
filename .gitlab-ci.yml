@@ -1,7 +1,6 @@
 image: php:7.1
 
 stages:
-- syntax
 - test
 
 # Install Composer
@@ -13,19 +12,19 @@ stages:
   before_script:
   - mkdir -p vendor/apt
   - apt update -yqq
-  - apt -o dir::cache::archives="vendor/apt" install git -yqq
+  - apt -o dir::cache::archives="vendor/apt" install zip unzip git -yqq
   - curl -sS https://getcomposer.org/installer | php
   - php composer.phar config cache-files-dir .composercache
   - php composer.phar install
 
 php-lint:
-  stage: syntax
+  stage: test
   script:
   - for f in $(find src -name '*.php'); do php -l $f; done
 
 phpcs:
   <<: *install_composer
-  stage: syntax
+  stage: test
   allow_failure: true
   script:
     - vendor/bin/phpcs --error-severity=1 --warning-severity=8 --extensions=php
@@ -33,5 +32,9 @@ phpcs:
 units:
   <<: *install_composer
   stage: test
+  coverage: '/Code coverage value: \d+\.\d+/'
   script:
+  # Xdebug is needed for coverage
+  - pecl install xdebug
+  - docker-php-ext-enable xdebug
   - vendor/bin/atoum -d src/tests/units
