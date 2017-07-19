@@ -21,15 +21,16 @@ namespace LegionBoard\Endpoints;
 
 require_once __DIR__ . '/abstractEndpoint.php';
 
-class ActivitiesEndpoint extends AbstractEndpoint {
-	
-	public function handleGET() {
-		$activities = $this->activities->get($this->api->getID());
-		if ($activities != null) {
-			return $activities;
-		}
-		$this->api->setStatus(404);
-		return null;
-	}
+class ActivitiesEndpoint extends AbstractEndpoint
+{
+    
+    public function handleGET()
+    {
+        $activities = $this->activities->get($this->api->getID());
+        if ($activities != null) {
+            return $activities;
+        }
+        $this->api->setStatus(404);
+        return null;
+    }
 }
-
