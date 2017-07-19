@@ -19,7 +19,7 @@ HTTP status: `200 OK`
     {
         "id": "1",
         "name": "Green",
-        "subjects": "1,3",
+        "subject": "1",
         "archived": false,
         "added": "2015-11-12 13:33:33",
         "edited": "2015-11-12 13:33:33"
@@ -27,7 +27,7 @@ HTTP status: `200 OK`
     {
         "id": "2",
         "name": "Smith",
-        "subjects": "4,10",
+        "subject": "10",
         "archived": false,
         "added": "2015-11-12 13:33:53",
         "edited": "2015-11-12 13:33:53"
@@ -35,7 +35,7 @@ HTTP status: `200 OK`
     {
         "id": "4",
         "name": "Williams",
-        "subjects": "5,7",
+        "subject": "5",
         "archived": false,
         "added": "2015-11-15 10:48:36",
         "edited": "2015-11-15 10:49:06"
@@ -43,7 +43,7 @@ HTTP status: `200 OK`
     {
         "id": "5",
         "name": "Miller",
-        "subjects": "3,10,11",
+        "subject": "10",
         "archived": true,
         "added": "2015-11-16 14:23:39",
         "edited": "2015-11-16 14:23:39"

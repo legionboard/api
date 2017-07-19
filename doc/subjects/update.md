@@ -40,6 +40,20 @@ HTTP status: `400 Conflict`
 Error code: `3201`
 > The parameter archived may only contain true or false
 
+### 3302: A subject with the given name already exists.
+
+HTTP status: `400 Bad Request`
+
+Error code: `3302`
+> A subject with the given name already exists.
+
+### 3303: A subject with the given shortcut already exists.
+
+HTTP status: `400 Bad Request`
+
+Error code: `3303`
+> A subject with the given shortcut already exists.
+
 ### 3200: The subject could not get updated.
 
 HTTP status: `409 Conflict`

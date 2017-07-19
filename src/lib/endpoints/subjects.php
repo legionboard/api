@@ -75,6 +75,14 @@ class SubjectsEndpoint extends AbstractEndpoint {
 		if ($shortcut == '') {
 			$missing[] = 'shortcut';
 		}
+		if ($this->subjects->checkByName($name)) {
+			$this->api->setStatus(400);
+			return Array('error' => Array(Array('code' => '3202', 'message' => 'A subject with the given name already exists.')));
+		}
+		if ($this->subjects->checkByShortcut($shortcut)) {
+			$this->api->setStatus(400);
+			return Array('error' => Array(Array('code' => '3203', 'message' => 'A subject with the given shortcut already exists.')));
+		}
 		$archived = $params['archived'];
 		switch ($archived) {
 			case 'false':
@@ -112,6 +120,7 @@ class SubjectsEndpoint extends AbstractEndpoint {
 			$this->api->setStatus(400);
 			return Array('error' => Array(Array('code' => '3401', 'message' => 'The subject is still linked to a change.')));
 		}
+		// TODO: Check if subject is linked to a course or teacher
 		if ($this->subjects->delete($identification)) {
 			$this->api->setStatus(204);
 			return null;

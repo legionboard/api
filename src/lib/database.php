@@ -160,7 +160,7 @@ class Database {
 		$sql = "CREATE TABLE " . self::$tableTeachers . " (
 		  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
 		  name VARCHAR(255) NOT NULL UNIQUE,
-		  subjects LONGTEXT,
+		  subject MEDIUMINT(8) DEFAULT 0,
 		  archived BOOLEAN DEFAULT 0,
 		  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		  edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -171,7 +171,7 @@ class Database {
 			$sql = "CREATE TABLE " . self::$tableTeachers . " (
 			  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
 			  name VARCHAR(255) NOT NULL UNIQUE,
-			  subjects LONGTEXT,
+			  subject MEDIUMINT(8) DEFAULT 0,
 			  archived BOOLEAN DEFAULT 0,
 			  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			  edited TIMESTAMP,
@@ -188,7 +188,7 @@ class Database {
 		$sql = "CREATE TABLE " . self::$tableCourses . " (
 		  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
 		  name VARCHAR(255) NOT NULL UNIQUE,
-		  subjects LONGTEXT,
+		  subject MEDIUMINT(8) DEFAULT 0,
 		  archived BOOLEAN DEFAULT 0,
 		  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		  edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -199,7 +199,7 @@ class Database {
 			$sql = "CREATE TABLE " . self::$tableCourses . " (
 			  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
 			  name VARCHAR(255) NOT NULL UNIQUE,
-			  subjects LONGTEXT,
+			  subject MEDIUMINT(8) DEFAULT 0,
 			  archived BOOLEAN DEFAULT 0,
 			  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			  edited TIMESTAMP,
@@ -322,12 +322,12 @@ class Database {
 		}
 		// Add column subjects in table courses
 		if (!self::checkColumn("subjects", self::$tableCourses, $dbName)) {
-			$sql = "ALTER TABLE " . self::$tableCourses . " ADD subjects LONGTEXT AFTER name";
+			$sql = "ALTER TABLE " . self::$tableCourses . " ADD subject MEDIUMINT(8) DEFAULT 0 AFTER name";
 			$this->database->query($sql);
 		}
 		// Add column subjects in table teachers
 		if (!self::checkColumn("subjects", self::$tableTeachers, $dbName)) {
-			$sql = "ALTER TABLE " . self::$tableTeachers . " ADD subjects LONGTEXT AFTER name";
+			$sql = "ALTER TABLE " . self::$tableTeachers . " ADD subject MEDIUMINT(8) DEFAULT 0 AFTER name";
 			$this->database->query($sql);
 		}
 		self::checkSplitUpTimes($dbName);

@@ -43,7 +43,7 @@ HTTP status: `200 OK`
 			{
 				"id":"1",
 				"name":"Q3 Sport 09",
-				"subjects":null,
+				"subject": "0",
 				"archived":false,
 				"added":"2017-04-24 16:30:40",
 				"edited":"2017-04-24 16:30:40"
@@ -51,7 +51,7 @@ HTTP status: `200 OK`
 			{
 				"id": "2",
 				"name": "11-1",
-				"subjects": "3,4,7",
+				"subject": "4",
 				"archived": false,
 				"added": "2017-04-24 16:38:40",
 				"edited": "2017-04-24 16:39:40"
@@ -71,7 +71,7 @@ HTTP status: `200 OK`
 			{
 				"id":"1",
 				"name":"Miller",
-				"subjects":null,
+				"subject": "0",
 				"archived":false,
 				"added":"2017-04-24 17:32:37",
 				"edited":"2017-04-24 17:32:37"
@@ -79,7 +79,7 @@ HTTP status: `200 OK`
 			{
 				"id":"3",
 				"name":"Weber",
-				"subjects":"2",
+				"subject":"2",
 				"archived":false,
 				"added":"2017-04-24 17:34:37",
 				"edited":"2017-04-24 17:34:37"
