@@ -22,6 +22,12 @@ php-lint:
   script:
   - for f in $(find src -name '*.php'); do php -l $f; done
 
+php-lint:php5.6:
+  image: php:5.6
+  stage: test
+  script:
+  - for f in $(find src -name '*.php'); do php -l $f; done
+
 phpcs:
   <<: *install_composer
   stage: test
@@ -37,4 +43,11 @@ units:
   # Xdebug is needed for coverage
   - pecl install xdebug
   - docker-php-ext-enable xdebug
+  - vendor/bin/atoum -d src/tests/units
+
+units:php5.6:
+  image: php:5.6
+  <<: *install_composer
+  stage: test
+  script:
   - vendor/bin/atoum -d src/tests/units
