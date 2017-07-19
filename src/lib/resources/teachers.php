@@ -21,104 +21,111 @@ namespace LegionBoard\Resources;
 
 require_once __DIR__ . '/abstractResource.php';
 
-class TeachersResource extends AbstractResource {
+class TeachersResource extends AbstractResource
+{
 
-	public function __construct($user) {
-		parent::__construct($user);
-		$this->resource = 'teachers';
-	}
+    public function __construct($user)
+    {
+        parent::__construct($user);
+        $this->resource = 'teachers';
+    }
 
-	/**
-	 * Get one or more teachers.
-	 */
-	public function get($teacherID = null, $seeTimes = false) {
-		$sql = "SELECT * FROM " . Database::$tableTeachers;
-		// Add where clause for ID
-		if (isset($teacherID)) {
-			$teacherID = $this->database->escape_string($teacherID);
-			$sql .= " WHERE id LIKE '$teacherID'";
-		}
-		$query = $this->database->query($sql);
-		if (!$query || $query->num_rows == 0) {
-			return null;
-		}
-		$teachers = Array();
-		while($column = $query->fetch_array()) {
-			$teacher = Array(
-							'id' => $column['id'],
-							'name' => $column['name'],
-							'subject' => $column['subject'],
-							'archived' => ($column['archived'] == '0') ? false : true,
-							'added' => $seeTimes ? $column['added'] : '-',
-							'edited' => $seeTimes ? $column['edited'] : '-'
-							);
-			$teachers[] = $teacher;
-		}
-		return $teachers;
-	}
+    /**
+     * Get one or more teachers.
+     */
+    public function get($teacherID = null, $seeTimes = false)
+    {
+        $sql = "SELECT * FROM " . Database::$tableTeachers;
+        // Add where clause for ID
+        if (isset($teacherID)) {
+            $teacherID = $this->database->escape_string($teacherID);
+            $sql .= " WHERE id LIKE '$teacherID'";
+        }
+        $query = $this->database->query($sql);
+        if (!$query || $query->num_rows == 0) {
+            return null;
+        }
+        $teachers = array();
+        while ($column = $query->fetch_array()) {
+            $teacher = array(
+                            'id' => $column['id'],
+                            'name' => $column['name'],
+                            'subject' => $column['subject'],
+                            'archived' => ($column['archived'] == '0') ? false : true,
+                            'added' => $seeTimes ? $column['added'] : '-',
+                            'edited' => $seeTimes ? $column['edited'] : '-'
+                            );
+            $teachers[] = $teacher;
+        }
+        return $teachers;
+    }
 
-	/**
-	 * Create a teacher.
-	 */
-	public function create($name, $subject) {
-		$name = $this->database->escape_string($name);
-		$subject = $this->database->escape_string($subject);
-		$sql = "INSERT INTO " . Database::$tableTeachers . " (name, subject) VALUES ('$name', '$subject')";
-		if ($this->database->query($sql)) {
-			$id = $this->database->insert_id;
-			if ($this->activities->log($this->user, Activities::ACTION_CREATE, $this->resource, $id)) {
-				return $id;
-			}
-			$this->delete($id);
-		}
-		return null;
-	}
+    /**
+     * Create a teacher.
+     */
+    public function create($name, $subject)
+    {
+        $name = $this->database->escape_string($name);
+        $subject = $this->database->escape_string($subject);
+        $sql = "INSERT INTO " . Database::$tableTeachers . " (name, subject) VALUES ('$name', '$subject')";
+        if ($this->database->query($sql)) {
+            $id = $this->database->insert_id;
+            if ($this->activities->log($this->user, Activities::ACTION_CREATE, $this->resource, $id)) {
+                return $id;
+            }
+            $this->delete($id);
+        }
+        return null;
+    }
 
-	/**
-	 * Update a teacher.
-	 */
-	public function update($teacherID, $name, $subject, $archived) {
-		$teacherID = $this->database->escape_string($teacherID);
-		$name = $this->database->escape_string($name);
-		$subject = $this->database->escape_string($subject);
-		$archived = $this->database->escape_string($archived);
-		$sql = "UPDATE " . Database::$tableTeachers . " SET name = '$name', subject = '$subject', archived = '$archived' WHERE id = '$teacherID'";
-		if ($this->database->query($sql)) {
-			$this->activities->log($this->user, Activities::ACTION_UPDATE, $this->resource, $teacherID);
-			return true;
-		}
-		return false;
-	}
+    /**
+     * Update a teacher.
+     */
+    public function update($teacherID, $name, $subject, $archived)
+    {
+        $teacherID = $this->database->escape_string($teacherID);
+        $name = $this->database->escape_string($name);
+        $subject = $this->database->escape_string($subject);
+        $archived = $this->database->escape_string($archived);
+        $sql = "UPDATE " . Database::$tableTeachers . " SET name = '$name', subject = '$subject', archived = '$archived' WHERE id = '$teacherID'";
+        if ($this->database->query($sql)) {
+            $this->activities->log($this->user, Activities::ACTION_UPDATE, $this->resource, $teacherID);
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Delete a teacher.
-	 */
-	public function delete($teacherID) {
-		$teacherID = $this->database->escape_string($teacherID);
-		$sql = "DELETE FROM " . Database::$tableTeachers . " WHERE id = '$teacherID'";
-		if ($this->database->query($sql)) {
-			$this->activities->log($this->user, Activities::ACTION_DELETE, $this->resource, $teacherID);
-			return true;
-		}
-		return false;
-	}
+    /**
+     * Delete a teacher.
+     */
+    public function delete($teacherID)
+    {
+        $teacherID = $this->database->escape_string($teacherID);
+        $sql = "DELETE FROM " . Database::$tableTeachers . " WHERE id = '$teacherID'";
+        if ($this->database->query($sql)) {
+            $this->activities->log($this->user, Activities::ACTION_DELETE, $this->resource, $teacherID);
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Check if a teacher ID exists.
-	 */
-	public function checkById($teacherID) {
-		$teacherID = $this->database->escape_string($teacherID);
-		$sql = 'SELECT id FROM ' . Database::$tableTeachers . ' WHERE id = ' . $teacherID . ' LIMIT 1';
-		return $this->database->query($sql)->num_rows > 0;
-	}
+    /**
+     * Check if a teacher ID exists.
+     */
+    public function checkById($teacherID)
+    {
+        $teacherID = $this->database->escape_string($teacherID);
+        $sql = 'SELECT id FROM ' . Database::$tableTeachers . ' WHERE id = ' . $teacherID . ' LIMIT 1';
+        return $this->database->query($sql)->num_rows > 0;
+    }
 
-	/**
-	 * Check if a teacher name exists.
-	 */
-	public function checkByName($name) {
-		$name = $this->database->escape_string($name);
-		$sql = "SELECT name FROM " . Database::$tableTeachers . " WHERE name = '$name' LIMIT 1";
-		return $this->database->query($sql)->num_rows > 0;
-	}
+    /**
+     * Check if a teacher name exists.
+     */
+    public function checkByName($name)
+    {
+        $name = $this->database->escape_string($name);
+        $sql = "SELECT name FROM " . Database::$tableTeachers . " WHERE name = '$name' LIMIT 1";
+        return $this->database->query($sql)->num_rows > 0;
+    }
 }
-?>
