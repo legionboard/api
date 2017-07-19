@@ -62,15 +62,6 @@ class Database
         self::$tableAuthentication = $tablePrefix . "_authentication";
         self::$tableActivities = $tablePrefix . "_activities";
         self::$tableSubjects = $tablePrefix . "_subjects";
-        // If table prefix does not exist
-        if ($tablePrefix == '') {
-            self::$tableChanges = $config->get("MySQL", "Table_Changes");
-            self::$tableTeachers = $config->get("MySQL", "Table_Teachers");
-            self::$tableAuthentication = $config->get("MySQL", "Table_Authentication");
-            // Table courses didn't exist before prefix
-            self::$tableCourses = "lb_0_courses";
-            self::$tableActivities = "lb_0_activities";
-        }
         $this->database = new mysqli($mysqlHost, $mysqlUser, $mysqlPW, $mysqlDB);
         // Check if tables exist and create them if not
         if (!self::checkTable(self::$tableChanges)) {
