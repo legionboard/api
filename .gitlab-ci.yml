@@ -44,14 +44,12 @@ php-lint:php7.0:
 php-lint:php7.2-rc:
   image: php:7.2-rc
   stage: test
-  allow_failure: true
   script:
   - for f in $(find src -name '*.php'); do php -l $f; done
 
 phpcs:
   <<: *install_composer
   stage: test
-  allow_failure: true
   script:
     - vendor/bin/phpcs --error-severity=1 --warning-severity=8 --extensions=php
 
@@ -95,7 +93,6 @@ units:php7.2-rc:
   image: php:7.2-rc
   <<: *install_composer
   stage: test
-  allow_failure: true
   script:
   # Install and enable MySQL
   - docker-php-ext-install mysqli

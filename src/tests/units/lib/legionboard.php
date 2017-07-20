@@ -9,7 +9,8 @@ use atoum;
 class LegionBoard extends atoum
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         copy(__DIR__ . '/configuration.ini', __DIR__ . '/../../../lib/configuration.ini');
     }
 
@@ -18,7 +19,8 @@ class LegionBoard extends atoum
         $_SERVER['REQUEST_METHOD'] = 'GET';
     }
 
-    public function tearDown() {
+    public function tearDown()
+    {
         unlink(__DIR__ . '/../../../lib/configuration.ini');
     }
 
