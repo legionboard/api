@@ -15,8 +15,11 @@ configure your MySQL settings in the
 stuff to a server containing PHP and MySQL. You can find an installation
 guide [here](install/english.md). Have fun and enjoy!
 
-This version of Heart requires version `0.2.0` or newer of
-[Eye](https://gitlab.com/legionboard/eye).
+## Requirenments
+
+* PHP >= 5.6
+* MySQL >= 5.6.5
+* [LegionBoard Eye](https://gitlab.com/legionboard/eye) >= 0.2.0
 
 ## Documentation
 

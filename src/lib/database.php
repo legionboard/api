@@ -125,28 +125,7 @@ class Database
 		  edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  PRIMARY KEY (id)
 		) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
-        if (!$this->database->query($sql)) {
-            // Workaround for MySQL bug: http://stackoverflow.com/a/17498167
-            $sql = "CREATE TABLE " . self::$tableChanges . " (
-			  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
-			  teacher MEDIUMINT(8) DEFAULT 0,
-			  course MEDIUMINT(8) DEFAULT 0,
-			  startingDate DATE NOT NULL,
-			  startingHour VARCHAR(2),
-			  endingDate DATE NOT NULL,
-			  endingHour VARCHAR(2),
-			  type VARCHAR(1) NOT NULL,
-			  coveringTeacher MEDIUMINT(8),
-			  text LONGTEXT,
-			  subject MEDIUMINT(8) DEFAULT 0,
-			  reason VARCHAR(1) NOT NULL,
-			  privateText LONGTEXT,
-			  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			  edited TIMESTAMP,
-			  PRIMARY KEY (id)
-			) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
-            $this->database->query($sql);
-        }
+        return $this->database->query($sql);
     }
 
     /**
@@ -163,19 +142,7 @@ class Database
 		  edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  PRIMARY KEY (id)
 		) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
-        if (!$this->database->query($sql)) {
-            // Workaround for MySQL bug: http://stackoverflow.com/a/17498167
-            $sql = "CREATE TABLE " . self::$tableTeachers . " (
-			  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
-			  name VARCHAR(255) NOT NULL UNIQUE,
-			  subject MEDIUMINT(8) DEFAULT 0,
-			  archived BOOLEAN DEFAULT 0,
-			  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			  edited TIMESTAMP,
-			  PRIMARY KEY (id)
-			) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
-            $this->database->query($sql);
-        }
+        return $this->database->query($sql);
     }
 
     /**
@@ -192,19 +159,7 @@ class Database
 		  edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  PRIMARY KEY (id)
 		) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
-        if (!$this->database->query($sql)) {
-            // Workaround for MySQL bug: http://stackoverflow.com/a/17498167
-            $sql = "CREATE TABLE " . self::$tableCourses . " (
-			  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
-			  name VARCHAR(255) NOT NULL UNIQUE,
-			  subject MEDIUMINT(8) DEFAULT 0,
-			  archived BOOLEAN DEFAULT 0,
-			  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			  edited TIMESTAMP,
-			  PRIMARY KEY (id)
-			) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
-            $this->database->query($sql);
-        }
+        return $this->database->query($sql);
     }
 
     /**
@@ -221,19 +176,7 @@ class Database
 		  edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  PRIMARY KEY (id)
 		) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
-        if (!$this->database->query($sql)) {
-            // Workaround for MySQL bug: http://stackoverflow.com/a/17498167
-            $sql = "CREATE TABLE " . self::$tableAuthentication . " (
-			  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
-			  _key VARCHAR(128) NOT NULL UNIQUE,
-			  groups VARCHAR(300) NOT NULL,
-			  username VARCHAR(300) NOT NULL,
-			  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			  edited TIMESTAMP,
-			  PRIMARY KEY (id)
-			) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
-            $this->database->query($sql);
-        }
+        return $this->database->query($sql);
     }
 
     /**
@@ -267,19 +210,7 @@ class Database
 		  edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  PRIMARY KEY (id)
 		) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
-        if (!$this->database->query($sql)) {
-            // Workaround for MySQL bug: http://stackoverflow.com/a/17498167
-            $sql = "CREATE TABLE " . self::$tableTeachers . " (
-			  id MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
-			  name VARCHAR(255) NOT NULL UNIQUE,
-			  shortcut VARCHAR(255) NOT NULL UNIQUE,
-			  archived BOOLEAN DEFAULT 0,
-			  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			  edited TIMESTAMP,
-			  PRIMARY KEY (id)
-			) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
-            $this->database->query($sql);
-        }
+        return $this->database->query($sql);
     }
 
     /**
