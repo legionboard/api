@@ -15,7 +15,7 @@ configure your MySQL settings in the
 stuff to a server containing PHP and MySQL. You can find an installation
 guide [here](install/english.md). Have fun and enjoy!
 
-## Requirenments
+## Requirements
 
 * PHP >= 5.6
 * MySQL >= 5.6.5
