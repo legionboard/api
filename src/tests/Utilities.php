@@ -17,32 +17,3 @@ class Utilities
         return $request;
     }
 }
-
-// TODO: Mock this: http://docs.atoum.org/en/latest/mocking_systems.html 
-
-namespace LegionBoard\Lib;
-
-class mysqli
-{
-
-    public function __construct($mysqlHost, $mysqlUser, $mysqlPW, $mysqlDB)
-    {
-        return true;
-    }
-
-    public function query()
-    {
-        return new mysqli_result();
-    }
-}
-
-class mysqli_result
-{
-
-    public $num_rows = 0;
-
-    public function fetch_array()
-    {
-        return true;
-    }
-}

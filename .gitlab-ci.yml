@@ -3,6 +3,13 @@ image: php:7.1
 stages:
 - test
 
+services:
+  - mysql:latest
+
+variables:
+  MYSQL_DATABASE: legionboard
+  MYSQL_ROOT_PASSWORD: mysql
+
 # Install Composer
 .install_composer: &install_composer
   cache:
@@ -56,6 +63,10 @@ units:
   # Xdebug is needed for coverage
   - pecl install xdebug
   - docker-php-ext-enable xdebug
+  # Install and enable MySQL
+  - docker-php-ext-install mysqli
+  - docker-php-ext-enable mysqli
+  
   - vendor/bin/atoum -d src/tests/units
 
 units:php5.6:
@@ -63,6 +74,10 @@ units:php5.6:
   <<: *install_composer
   stage: test
   script:
+  # Install and enable MySQL
+  - docker-php-ext-install mysqli
+  - docker-php-ext-enable mysqli
+  
   - vendor/bin/atoum -d src/tests/units
 
 units:php7.0:
@@ -70,6 +85,10 @@ units:php7.0:
   <<: *install_composer
   stage: test
   script:
+  # Install and enable MySQL
+  - docker-php-ext-install mysqli
+  - docker-php-ext-enable mysqli
+  
   - vendor/bin/atoum -d src/tests/units
 
 units:php7.2-rc:
@@ -78,4 +97,8 @@ units:php7.2-rc:
   stage: test
   allow_failure: true
   script:
+  # Install and enable MySQL
+  - docker-php-ext-install mysqli
+  - docker-php-ext-enable mysqli
+  
   - vendor/bin/atoum -d src/tests/units
