@@ -62,7 +62,7 @@ class Database
         self::$tableAuthentication = $tablePrefix . "_authentication";
         self::$tableActivities = $tablePrefix . "_activities";
         self::$tableSubjects = $tablePrefix . "_subjects";
-        $this->database = new mysqli($mysqlHost, $mysqlUser, $mysqlPW, $mysqlDB);
+        $this->database = new \mysqli($mysqlHost, $mysqlUser, $mysqlPW, $mysqlDB);
         // Check if tables exist and create them if not
         if (!self::checkTable(self::$tableChanges)) {
             self::createTableChanges();

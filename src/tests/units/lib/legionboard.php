@@ -9,9 +9,17 @@ use atoum;
 class LegionBoard extends atoum
 {
 
+    public function setUp() {
+        copy(__DIR__ . '/configuration.ini', __DIR__ . '/../../../lib/configuration.ini');
+    }
+
     public function beforeTestMethod($method)
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
+    }
+
+    public function tearDown() {
+        unlink(__DIR__ . '/../../../lib/configuration.ini');
     }
 
     public function testEndpoint()
@@ -74,6 +82,9 @@ class LegionBoard extends atoum
                 ->isEqualTo($previousHash);
     }
 
+    /**
+     * @php < 7.2
+     */
     public function testProcessAPINotExisting()
     {
         $endpoint = 'notexisting';
