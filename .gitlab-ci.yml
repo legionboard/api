@@ -3,99 +3,103 @@ image: php:7.1
 stages:
 - test
 
-services:
-  - mysql:latest
+# PHP lint
+## Anchor
+.php_lint_template: &php_lint_template
+  stage: test
+  script:
+  - for f in $(find src -name '*.php'); do php -l $f; done
 
-variables:
-  MYSQL_DATABASE: legionboard
-  MYSQL_ROOT_PASSWORD: mysql
+## General
+php-lint:
+  image: php:7.1-alpine
+  <<: *php_lint_template
 
-# Install Composer
-.install_composer: &install_composer
+## Other versions
+php-lint:php5.6:
+  image: php:5.6-alpine
+  <<: *php_lint_template
+
+php-lint:php7.0:
+  image: php:7.0-alpine
+  <<: *php_lint_template
+
+php-lint:php7.2-rc:
+  image: php:7.2-rc-alpine
+  <<: *php_lint_template
+
+# Anchor for composer cache
+.composer_cache: &composer_cache
   cache:
     paths:
     - .composercache
     - vendor/apt
+
+# Style check
+phpcs:
+  <<: *composer_cache
+  stage: test
   before_script:
+  # Install composer
   - mkdir -p vendor/apt
-  - apt update -yqq
-  - apt -o dir::cache::archives="vendor/apt" install zip unzip git -yqq
+  - apt-get update -yqq
+  - apt-get -o dir::cache::archives="vendor/apt" install zip unzip git -yqq
   - curl -sS https://getcomposer.org/installer | php
   - php composer.phar config cache-files-dir .composercache
   - php composer.phar install
-
-php-lint:
-  stage: test
-  script:
-  - for f in $(find src -name '*.php'); do php -l $f; done
-
-php-lint:php5.6:
-  image: php:5.6
-  stage: test
-  script:
-  - for f in $(find src -name '*.php'); do php -l $f; done
-
-php-lint:php7.0:
-  image: php:7.0
-  stage: test
-  script:
-  - for f in $(find src -name '*.php'); do php -l $f; done
-
-php-lint:php7.2-rc:
-  image: php:7.2-rc
-  stage: test
-  script:
-  - for f in $(find src -name '*.php'); do php -l $f; done
-
-phpcs:
-  <<: *install_composer
-  stage: test
   script:
     - vendor/bin/phpcs --error-severity=1 --warning-severity=8 --extensions=php
 
-units:
-  <<: *install_composer
+# Unit test
+## Anchors
+.units_install_deps: &units_install_deps |
+  # Install composer
+  mkdir -p vendor/apt
+  apt-get update -yqq
+  apt-get -o dir::cache::archives="vendor/apt" install zip unzip git -yqq
+  curl -sS https://getcomposer.org/installer | php
+  php composer.phar config cache-files-dir .composercache
+  php composer.phar install
+  # Install and enable MySQL
+  docker-php-ext-install mysqli
+  docker-php-ext-enable mysqli
+
+.units_template: &units_template
+  <<: *composer_cache
   stage: test
-  coverage: '/Code coverage value: \d+\.\d+/'
+  services:
+    - mysql:latest
+  variables:
+    MYSQL_DATABASE: legionboard
+    MYSQL_ROOT_PASSWORD: mysql
   script:
+  - vendor/bin/atoum
+
+## General
+
+units:
+  <<: *units_template
+  coverage: '/Code coverage value: \d+\.\d+/'
+  before_script:
+  - *units_install_deps
   # Xdebug is needed for coverage
   - pecl install xdebug
   - docker-php-ext-enable xdebug
-  # Install and enable MySQL
-  - docker-php-ext-install mysqli
-  - docker-php-ext-enable mysqli
-  
-  - vendor/bin/atoum
 
 units:php5.6:
   image: php:5.6
-  <<: *install_composer
-  stage: test
-  script:
-  # Install and enable MySQL
-  - docker-php-ext-install mysqli
-  - docker-php-ext-enable mysqli
-  
-  - vendor/bin/atoum
+  <<: *units_template
+  before_script:
+  - *units_install_deps
 
 units:php7.0:
   image: php:7.0
-  <<: *install_composer
-  stage: test
-  script:
-  # Install and enable MySQL
-  - docker-php-ext-install mysqli
-  - docker-php-ext-enable mysqli
-  
-  - vendor/bin/atoum
+  <<: *units_template
+  before_script:
+  - *units_install_deps
 
 units:php7.2-rc:
   image: php:7.2-rc
-  <<: *install_composer
-  stage: test
-  script:
-  # Install and enable MySQL
-  - docker-php-ext-install mysqli
-  - docker-php-ext-enable mysqli
-  
-  - vendor/bin/atoum
+  <<: *units_template
+  before_script:
+  - *units_install_deps
