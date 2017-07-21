@@ -19,9 +19,9 @@
  */
 namespace LegionBoard\Resources;
 
-require_once __DIR__ . '/abstractResource.php';
+require_once __DIR__ . '/AbstractResource.php';
 
-class ActivitiesResource extends AbstractResource
+class Activities extends AbstractResource
 {
 
     public function __construct($user)
@@ -35,7 +35,7 @@ class ActivitiesResource extends AbstractResource
      */
     public function get($id = null)
     {
-        $sql = "SELECT * FROM " . Database::$tableActivities;
+        $sql = "SELECT * FROM " . \LegionBoard\Database::$tableActivities;
         // Add where clause for ID
         if (isset($id)) {
             $id = $this->database->escape_string($id);
@@ -45,8 +45,8 @@ class ActivitiesResource extends AbstractResource
         if (!$query || $query->num_rows == 0) {
             return null;
         }
-        require_once __DIR__ . '/../authentication.php';
-        $this->authentication = new Authentication();
+        require_once __DIR__ . '/../Authentication.php';
+        $this->authentication = new \LegionBoard\Authentication();
         $activities = array();
         while ($column = $query->fetch_array()) {
             $activity = array(

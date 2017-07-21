@@ -17,28 +17,20 @@
  *
  * See the file "LICENSE.md" for the full license governing this code.
  */
-namespace LegionBoard\Resources;
+namespace LegionBoard\Endpoints;
 
-abstract class AbstractResource
+require_once __DIR__ . '/AbstractEndpoint.php';
+
+class Activities extends AbstractEndpoint
 {
-
-    /**
-     * ID of user accessing API.
-     */
-    protected $user;
-
-    /**
-     * Name of this resource.
-     */
-    protected $resource;
-
-    public function __construct($user)
+    
+    public function handleGet()
     {
-        $this->user = $user;
-        require_once __DIR__ . '/../database.php';
-        $database = new Database();
-        $this->database = $database->get();
-        require_once __DIR__ . '/../activities.php';
-        $this->activities = new Activities();
+        $activities = $this->activities->get($this->api->getId());
+        if ($activities != null) {
+            return $activities;
+        }
+        $this->api->setStatus(404);
+        return null;
     }
 }

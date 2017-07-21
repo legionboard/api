@@ -17,7 +17,7 @@
  *
  * See the file "LICENSE.md" for the full license governing this code.
  */
-namespace LegionBoard\Lib;
+namespace LegionBoard;
 
 class Database
 {
@@ -40,7 +40,7 @@ class Database
     // MySQL table for activities
     public static $tableActivities;
 
-    // MySQL table for Subjects
+    // MySQL table for subjects
     public static $tableSubjects;
 
     /**
@@ -48,7 +48,7 @@ class Database
      */
     public function __construct()
     {
-        require_once __DIR__ . '/configuration.php';
+        require_once __DIR__ . '/Configuration.php';
         $config = new Configuration();
         $mysqlHost = $config->get("MySQL", "Host");
         $mysqlUser = $config->get("MySQL", "User");

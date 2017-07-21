@@ -18,11 +18,11 @@
  * See the file "LICENSE.md" for the full license governing this code.
  */
 try {
-    require_once __DIR__ . '/lib/legionboard.php';
-    $API = new LegionBoard($_REQUEST['request']);
+    require_once __DIR__ . '/LegionBoard/LegionBoard.php';
+    $legionboard = new LegionBoard\LegionBoard($_REQUEST['request']);
     // Gzip all output
     ob_start('ob_gzhandler');
-    echo $API->processAPI();
+    echo $legionboard->process();
 } catch (Exception $e) {
     echo json_encode(array('error' => $e->getMessage()));
 }

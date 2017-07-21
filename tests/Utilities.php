@@ -1,6 +1,6 @@
 <?php
 
-namespace LegionBoard\tests;
+namespace tests;
 
 class Utilities
 {

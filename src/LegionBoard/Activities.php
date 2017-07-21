@@ -17,7 +17,7 @@
  *
  * See the file "LICENSE.md" for the full license governing this code.
  */
-namespace LegionBoard\Lib;
+namespace LegionBoard;
 
 class Activities
 {
@@ -35,7 +35,7 @@ class Activities
      */
     public function __construct()
     {
-        require_once __DIR__ . '/database.php';
+        require_once __DIR__ . '/Database.php';
         $database = new Database();
         $this->db = $database->get();
     }
@@ -43,12 +43,12 @@ class Activities
     /**
      * Log an action.
      */
-    public function log($user, $action, $affectedResource, $affectedID)
+    public function log($user, $action, $affectedResource, $affectedId)
     {
         $user = $this->db->escape_string($user);
         $action= $this->db->escape_string($action);
         $affectedResource= $this->db->escape_string($affectedResource);
-        $affectedID= $this->db->escape_string($affectedID);
+        $affectedId= $this->db->escape_string($affectedId);
         $sql = "INSERT INTO " . Database::$tableActivities .
                 " (" .
                     "user," .
@@ -60,7 +60,7 @@ class Activities
                     "'$user'," .
                     "'$action'," .
                     "'$affectedResource'," .
-                    "'$affectedID'" .
+                    "'$affectedId'" .
                 ")";
         return $this->db->query($sql);
     }

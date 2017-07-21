@@ -19,9 +19,9 @@
  */
 namespace LegionBoard\Resources;
 
-require_once __DIR__ . '/abstractResource.php';
+require_once __DIR__ . '/AbstractResource.php';
 
-class TeachersResource extends AbstractResource
+class Teachers extends AbstractResource
 {
 
     public function __construct($user)
@@ -35,7 +35,7 @@ class TeachersResource extends AbstractResource
      */
     public function get($teacherID = null, $seeTimes = false)
     {
-        $sql = "SELECT * FROM " . Database::$tableTeachers;
+        $sql = "SELECT * FROM " . \LegionBoard\Database::$tableTeachers;
         // Add where clause for ID
         if (isset($teacherID)) {
             $teacherID = $this->database->escape_string($teacherID);
@@ -67,10 +67,10 @@ class TeachersResource extends AbstractResource
     {
         $name = $this->database->escape_string($name);
         $subject = $this->database->escape_string($subject);
-        $sql = "INSERT INTO " . Database::$tableTeachers . " (name, subject) VALUES ('$name', '$subject')";
+        $sql = "INSERT INTO " . \LegionBoard\Database::$tableTeachers . " (name, subject) VALUES ('$name', '$subject')";
         if ($this->database->query($sql)) {
             $id = $this->database->insert_id;
-            if ($this->activities->log($this->user, Activities::ACTION_CREATE, $this->resource, $id)) {
+            if ($this->activities->log($this->user, \LegionBoard\Activities::ACTION_CREATE, $this->resource, $id)) {
                 return $id;
             }
             $this->delete($id);
@@ -87,9 +87,9 @@ class TeachersResource extends AbstractResource
         $name = $this->database->escape_string($name);
         $subject = $this->database->escape_string($subject);
         $archived = $this->database->escape_string($archived);
-        $sql = "UPDATE " . Database::$tableTeachers . " SET name = '$name', subject = '$subject', archived = '$archived' WHERE id = '$teacherID'";
+        $sql = "UPDATE " . \LegionBoard\Database::$tableTeachers . " SET name = '$name', subject = '$subject', archived = '$archived' WHERE id = '$teacherID'";
         if ($this->database->query($sql)) {
-            $this->activities->log($this->user, Activities::ACTION_UPDATE, $this->resource, $teacherID);
+            $this->activities->log($this->user, \LegionBoard\Activities::ACTION_UPDATE, $this->resource, $teacherID);
             return true;
         }
         return false;
@@ -101,9 +101,9 @@ class TeachersResource extends AbstractResource
     public function delete($teacherID)
     {
         $teacherID = $this->database->escape_string($teacherID);
-        $sql = "DELETE FROM " . Database::$tableTeachers . " WHERE id = '$teacherID'";
+        $sql = "DELETE FROM " . \LegionBoard\Database::$tableTeachers . " WHERE id = '$teacherID'";
         if ($this->database->query($sql)) {
-            $this->activities->log($this->user, Activities::ACTION_DELETE, $this->resource, $teacherID);
+            $this->activities->log($this->user, \LegionBoard\Activities::ACTION_DELETE, $this->resource, $teacherID);
             return true;
         }
         return false;
@@ -115,7 +115,7 @@ class TeachersResource extends AbstractResource
     public function checkById($teacherID)
     {
         $teacherID = $this->database->escape_string($teacherID);
-        $sql = 'SELECT id FROM ' . Database::$tableTeachers . ' WHERE id = ' . $teacherID . ' LIMIT 1';
+        $sql = 'SELECT id FROM ' . \LegionBoard\Database::$tableTeachers . ' WHERE id = ' . $teacherID . ' LIMIT 1';
         return $this->database->query($sql)->num_rows > 0;
     }
 
@@ -125,7 +125,7 @@ class TeachersResource extends AbstractResource
     public function checkByName($name)
     {
         $name = $this->database->escape_string($name);
-        $sql = "SELECT name FROM " . Database::$tableTeachers . " WHERE name = '$name' LIMIT 1";
+        $sql = "SELECT name FROM " . \LegionBoard\Database::$tableTeachers . " WHERE name = '$name' LIMIT 1";
         return $this->database->query($sql)->num_rows > 0;
     }
 }

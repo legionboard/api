@@ -1,8 +1,8 @@
 <?php
 
-namespace LegionBoard\tests\units\Lib;
+namespace tests\units\LegionBoard;
 
-require_once __DIR__ . '/../../../lib/legionboard.php';
+require_once __DIR__ . '/../../src/LegionBoard/LegionBoard.php';
 
 use atoum;
 
@@ -11,7 +11,7 @@ class LegionBoard extends atoum
 
     public function setUp()
     {
-        copy(__DIR__ . '/configuration.ini', __DIR__ . '/../../../lib/configuration.ini');
+        copy(__DIR__ . '/configuration.ini', __DIR__ . '/../../src/LegionBoard/configuration.ini');
     }
 
     public function beforeTestMethod($method)
@@ -21,7 +21,7 @@ class LegionBoard extends atoum
 
     public function tearDown()
     {
-        unlink(__DIR__ . '/../../../lib/configuration.ini');
+        unlink(__DIR__ . '/../../src/LegionBoard/configuration.ini');
     }
 
     public function testEndpoint()
@@ -29,7 +29,7 @@ class LegionBoard extends atoum
         $endpoint = 'activities';
         $this
             ->assert('endpoint')
-            ->if($this->newTestedInstance(\LegionBoard\tests\Utilities::getMockRequest()))
+            ->if($this->newTestedInstance(\tests\Utilities::getMockRequest()))
             ->and($this->invoke($this->testedInstance)->setEndpoint($endpoint))
             ->then
                 ->string($this->invoke($this->testedInstance)->getEndpoint())
@@ -38,10 +38,10 @@ class LegionBoard extends atoum
 
     public function testFile()
     {
-        $file = \LegionBoard\tests\Utilities::getMockFile();
+        $file = \tests\Utilities::getMockFile();
         $this
             ->assert('file')
-            ->if($this->newTestedInstance(\LegionBoard\tests\Utilities::getMockRequest()))
+            ->if($this->newTestedInstance(\tests\Utilities::getMockRequest()))
             ->and($this->invoke($this->testedInstance)->setFile($file))
             ->then
                 ->string($this->invoke($this->testedInstance)->getFile())
@@ -50,14 +50,14 @@ class LegionBoard extends atoum
 
     public function testId()
     {
-        $identification = '123';
+        $id = '123';
         $this
             ->assert('id')
-            ->if($this->newTestedInstance(\LegionBoard\tests\Utilities::getMockRequest()))
-            ->and($this->invoke($this->testedInstance)->setID($identification))
+            ->if($this->newTestedInstance(\tests\Utilities::getMockRequest()))
+            ->and($this->invoke($this->testedInstance)->setId($id))
             ->then
-                ->string($this->invoke($this->testedInstance)->getID())
-                ->isEqualTo($identification);
+                ->string($this->invoke($this->testedInstance)->getId())
+                ->isEqualTo($id);
     }
 
     public function testMethod()
@@ -65,7 +65,7 @@ class LegionBoard extends atoum
         $method = 'PUT';
         $this
             ->assert('method')
-            ->if($this->newTestedInstance(\LegionBoard\tests\Utilities::getMockRequest()))
+            ->if($this->newTestedInstance(\tests\Utilities::getMockRequest()))
             ->and($this->invoke($this->testedInstance)->setMethod($method))
             ->then
                 ->string($this->invoke($this->testedInstance)->getMethod())
@@ -77,7 +77,7 @@ class LegionBoard extends atoum
         $previousHash = '1234567890abcdef';
         $this
             ->assert('previous hash')
-            ->if($this->newTestedInstance(\LegionBoard\tests\Utilities::getMockRequest()))
+            ->if($this->newTestedInstance(\tests\Utilities::getMockRequest()))
             ->and($this->invoke($this->testedInstance)->setPreviousHash($previousHash))
             ->then
                 ->string($this->invoke($this->testedInstance)->getPreviousHash())
@@ -87,15 +87,15 @@ class LegionBoard extends atoum
     /**
      * @php < 7.2
      */
-    public function testProcessAPINotExisting()
+    public function testProcessNotExisting()
     {
         $endpoint = 'notexisting';
         $this
             ->assert('process api with non-existing endpoint')
-            ->if($this->newTestedInstance(\LegionBoard\tests\Utilities::getMockRequest()))
+            ->if($this->newTestedInstance(\tests\Utilities::getMockRequest()))
             ->and($this->invoke($this->testedInstance)->setEndpoint($endpoint))
             ->then
-                ->string($json = $this->invoke($this->testedInstance)->processAPI())
+                ->string($json = $this->invoke($this->testedInstance)->process())
                     ->contains('error')
                     ->contains('message')
                     ->hasLengthGreaterThan(50)
@@ -108,7 +108,7 @@ class LegionBoard extends atoum
         $status = '404';
         $this
             ->assert('status')
-            ->if($this->newTestedInstance(\LegionBoard\tests\Utilities::getMockRequest()))
+            ->if($this->newTestedInstance(\tests\Utilities::getMockRequest()))
             ->and($this->invoke($this->testedInstance)->setStatus($status))
             ->then
                 ->string($this->invoke($this->testedInstance)->getStatus())
@@ -120,7 +120,7 @@ class LegionBoard extends atoum
         $versionCode = '123';
         $this
             ->assert('version code')
-            ->if($this->newTestedInstance(\LegionBoard\tests\Utilities::getMockRequest()))
+            ->if($this->newTestedInstance(\tests\Utilities::getMockRequest()))
             ->and($this->invoke($this->testedInstance)->setVersionCode($versionCode))
             ->then
                 ->string($this->invoke($this->testedInstance)->getVersionCode())
@@ -132,7 +132,7 @@ class LegionBoard extends atoum
         $versionName = '0.1.2';
         $this
             ->assert('version name')
-            ->if($this->newTestedInstance(\LegionBoard\tests\Utilities::getMockRequest()))
+            ->if($this->newTestedInstance(\tests\Utilities::getMockRequest()))
             ->and($this->invoke($this->testedInstance)->setVersionName($versionName))
             ->then
                 ->string($this->invoke($this->testedInstance)->getVersionName())

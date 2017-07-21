@@ -65,7 +65,7 @@ units:
   - docker-php-ext-install mysqli
   - docker-php-ext-enable mysqli
   
-  - vendor/bin/atoum -d src/tests/units
+  - vendor/bin/atoum
 
 units:php5.6:
   image: php:5.6
@@ -76,7 +76,7 @@ units:php5.6:
   - docker-php-ext-install mysqli
   - docker-php-ext-enable mysqli
   
-  - vendor/bin/atoum -d src/tests/units
+  - vendor/bin/atoum
 
 units:php7.0:
   image: php:7.0
@@ -87,7 +87,7 @@ units:php7.0:
   - docker-php-ext-install mysqli
   - docker-php-ext-enable mysqli
   
-  - vendor/bin/atoum -d src/tests/units
+  - vendor/bin/atoum
 
 units:php7.2-rc:
   image: php:7.2-rc
@@ -98,4 +98,4 @@ units:php7.2-rc:
   - docker-php-ext-install mysqli
   - docker-php-ext-enable mysqli
   
-  - vendor/bin/atoum -d src/tests/units
+  - vendor/bin/atoum

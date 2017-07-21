@@ -20,14 +20,14 @@
  */
 namespace LegionBoard\Endpoints;
 
-require_once __DIR__ . '/abstractEndpoint.php';
+require_once __DIR__ . '/AbstractEndpoint.php';
 
-class SubjectsEndpoint extends AbstractEndpoint
+class Subjects extends AbstractEndpoint
 {
 
-    public function handleGET($seeTimes = false)
+    public function handleGet($seeTimes = false)
     {
-        $subjects = $this->subjects->get($this->api->getID(), $seeTimes);
+        $subjects = $this->subjects->get($this->api->getId(), $seeTimes);
         if ($subjects != null) {
             return $subjects;
         }
@@ -35,14 +35,14 @@ class SubjectsEndpoint extends AbstractEndpoint
         return null;
     }
 
-    public function handlePOST()
+    public function handlePost()
     {
-        $name = self::getFromPOST('name');
+        $name = $this->api->getFromPost('name');
         if ($name == '') {
             $this->api->setStatus(400);
             return array('missing' => array('name'));
         }
-        $shortcut = self::getFromPOST('shortcut');
+        $shortcut = $this->api->getFromPost('shortcut');
         if ($shortcut == '') {
             $this->api->setStatus(400);
             return array('missing' => array('shortcut'));
@@ -55,20 +55,20 @@ class SubjectsEndpoint extends AbstractEndpoint
             $this->api->setStatus(400);
             return array('error' => array(array('code' => '3302', 'message' => 'A subject with the given shortcut already exists.')));
         }
-        $identification = $this->subjects->create($name, $shortcut);
-        if (isset($identification)) {
+        $id = $this->subjects->create($name, $shortcut);
+        if (isset($id)) {
             $this->api->setStatus(201);
-            return array('id' => $identification);
+            return array('id' => $id);
         }
         $this->api->setStatus(409);
         return array('error' => array(array('code' => '3300', 'message' => 'The subject could not get created.')));
     }
 
-    public function handlePUT($params)
+    public function handlePut($params)
     {
-        $identification = $this->api->getID();
+        $id = $this->api->getId();
         $missing = array();
-        if ($identification == '') {
+        if ($id == '') {
             $missing[] = 'id';
         }
         $name = $params['name'];
@@ -78,14 +78,6 @@ class SubjectsEndpoint extends AbstractEndpoint
         $shortcut = $params['shortcut'];
         if ($shortcut == '') {
             $missing[] = 'shortcut';
-        }
-        if ($this->subjects->checkByName($name)) {
-            $this->api->setStatus(400);
-            return array('error' => array(array('code' => '3202', 'message' => 'A subject with the given name already exists.')));
-        }
-        if ($this->subjects->checkByShortcut($shortcut)) {
-            $this->api->setStatus(400);
-            return array('error' => array(array('code' => '3203', 'message' => 'A subject with the given shortcut already exists.')));
         }
         $archived = $params['archived'];
         switch ($archived) {
@@ -106,7 +98,7 @@ class SubjectsEndpoint extends AbstractEndpoint
             $this->api->setStatus(400);
             return array('missing' => $missing);
         }
-        if ($this->subjects->update($identification, $name, $shortcut, $archived)) {
+        if ($this->subjects->update($id, $name, $shortcut, $archived)) {
             $this->api->setStatus(204);
             return null;
         }
@@ -114,19 +106,19 @@ class SubjectsEndpoint extends AbstractEndpoint
         return array('error' => array(array('code' => '3200', 'message' => 'The subject could not get updated.')));
     }
 
-    public function handleDELETE()
+    public function handleDelete()
     {
-        $identification = $this->api->getID();
-        if ($identification == '') {
+        $id = $this->api->getId();
+        if ($id == '') {
             $this->api->setStatus(400);
             return array('missing' => array('id'));
         }
-        if ($this->changes->get(null, null, null, null, null, null, null, null, null, array($identification)) != null) {
+        if ($this->changes->get(null, null, null, null, null, null, null, null, null, array($id)) != null) {
             $this->api->setStatus(400);
             return array('error' => array(array('code' => '3401', 'message' => 'The subject is still linked to a change.')));
         }
         // TODO: Check if subject is linked to a course or teacher
-        if ($this->subjects->delete($identification)) {
+        if ($this->subjects->delete($id)) {
             $this->api->setStatus(204);
             return null;
         }

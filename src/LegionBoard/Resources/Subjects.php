@@ -1,5 +1,6 @@
 <?php
 /*
+ * Copyright (C) 2016 Jan Weber
  * Copyright (C) 2016 - 2017 Nico Alt
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,23 +20,23 @@
  */
 namespace LegionBoard\Resources;
 
-require_once __DIR__ . '/abstractResource.php';
+require_once __DIR__ . '/AbstractResource.php';
 
-class CoursesResource extends AbstractResource
+class Subjects extends AbstractResource
 {
 
     public function __construct($user)
     {
         parent::__construct($user);
-        $this->resource = 'courses';
+        $this->resource = 'subjects';
     }
 
     /**
-     * Get one or more courses.
+     * Get one or more subjects.
      */
     public function get($id = null, $seeTimes = false)
     {
-        $sql = "SELECT * FROM " . Database::$tableCourses;
+        $sql = "SELECT * FROM " . \LegionBoard\Database::$tableSubjects;
         // Add where clause for ID
         if (isset($id)) {
             $id = $this->database->escape_string($id);
@@ -45,32 +46,32 @@ class CoursesResource extends AbstractResource
         if (!$query || $query->num_rows == 0) {
             return null;
         }
-        $courses = array();
+        $subjects = array();
         while ($column = $query->fetch_array()) {
-            $course = array(
+            $subject = array(
                             'id' => $column['id'],
                             'name' => $column['name'],
-                            'subject' => $column['subject'],
+                            'shortcut' => $column['shortcut'],
                             'archived' => ($column['archived'] == '0') ? false : true,
                             'added' => $seeTimes ? $column['added'] : '-',
                             'edited' => $seeTimes ? $column['edited'] : '-'
                             );
-            $courses[] = $course;
+            $subjects[] = $subject;
         }
-        return $courses;
+        return $subjects;
     }
 
     /**
-     * Create a course.
+     * Create a subject.
      */
-    public function create($name, $subject)
+    public function create($name, $shortcut)
     {
         $name = $this->database->escape_string($name);
-        $subject = $this->database->escape_string($subject);
-        $sql = "INSERT INTO " . Database::$tableCourses . " (name, subject) VALUES ('$name', '$subject')";
+        $shortcut = $this->database->escape_string($shortcut);
+        $sql = "INSERT INTO " . \LegionBoard\Database::$tableSubjects . " (name, shortcut) VALUES ('$name', '$shortcut')";
         if ($this->database->query($sql)) {
             $id = $this->database->insert_id;
-            if ($this->activities->log($this->user, Activities::ACTION_CREATE, $this->resource, $id)) {
+            if ($this->activities->log($this->user, \LegionBoard\Activities::ACTION_CREATE, $this->resource, $id)) {
                 return $id;
             }
             $this->delete($id);
@@ -79,67 +80,63 @@ class CoursesResource extends AbstractResource
     }
 
     /**
-     * Update a course.
+     * Update a subject.
      */
-    public function update(
-        $id,
-        $name,
-        $subject,
-        $archived
-    ) {
+    public function update($id, $name, $shortcut, $archived)
+    {
         $id = $this->database->escape_string($id);
         $name = $this->database->escape_string($name);
-        $subject = $this->database->escape_string($subject);
+        $shortcut = $this->database->escape_string($shortcut);
         $archived = $this->database->escape_string($archived);
-        $sql = "UPDATE " . Database::$tableCourses . " SET name = '$name', subject = '$subject', archived = '$archived' WHERE id = '$id'";
+        $sql = "UPDATE " . \LegionBoard\Database::$tableSubjects . " SET name = '$name', shortcut = '$shortcut', archived = '$archived' WHERE id = '$id'";
         if ($this->database->query($sql)) {
-            $this->activities->log($this->user, Activities::ACTION_UPDATE, $this->resource, $id);
+            $this->activities->log($this->user, \LegionBoard\Activities::ACTION_UPDATE, $this->resource, $id);
             return true;
         }
         return false;
     }
 
     /**
-     * Delete a course.
+     * Delete a subjects.
      */
     public function delete($id)
     {
         $id = $this->database->escape_string($id);
-        $sql = "DELETE FROM " . Database::$tableCourses . " WHERE id = '$id'";
+        $sql = "DELETE FROM " . \LegionBoard\Database::$tableSubjects . " WHERE id = '$id'";
         if ($this->database->query($sql)) {
-            $this->activities->log($this->user, Activities::ACTION_DELETE, $this->resource, $id);
+            $this->activities->log($this->user, \LegionBoard\Activities::ACTION_DELETE, $this->resource, $id);
             return true;
         }
         return false;
     }
 
     /**
-     * Check if a course ID exists.
+     * Check if a subject ID exists.
      */
     public function checkById($id)
     {
         $id = $this->database->escape_string($id);
-        $sql = 'SELECT id FROM ' . Database::$tableCourses . ' WHERE id = ' . $id . ' LIMIT 1';
+        $sql = 'SELECT id FROM ' . \LegionBoard\Database::$tableSubjects . ' WHERE id = ' . $id . ' LIMIT 1';
         return $this->database->query($sql)->num_rows > 0;
     }
 
     /**
-     * Check if a course name exists.
+     * Check if a subject name exists.
      */
     public function checkByName($name)
     {
         $name = $this->database->escape_string($name);
-        $sql = "SELECT name FROM " . Database::$tableCourses . " WHERE name = '$name' LIMIT 1";
+        $sql = "SELECT name FROM " . \LegionBoard\Database::$tableSubjects . " WHERE name = '$name' LIMIT 1";
         return $this->database->query($sql)->num_rows > 0;
     }
 
     /**
-     * Check if a course shortcut exists.
+     * Check if a subject shortcut exists.
      */
     public function checkByShortcut($shortcut)
     {
         $shortcut = $this->database->escape_string($shortcut);
-        $sql = "SELECT name FROM " . Database::$tableCourses . " WHERE shortcut = '$shortcut' LIMIT 1";
+        $sql = "SELECT name FROM " . \LegionBoard\Database::$tableSubjects . " WHERE shortcut = '$shortcut' LIMIT 1";
         return $this->database->query($sql)->num_rows > 0;
     }
 }

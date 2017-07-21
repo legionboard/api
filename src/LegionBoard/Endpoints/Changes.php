@@ -22,17 +22,17 @@
  */
 namespace LegionBoard\Endpoints;
 
-require_once __DIR__ . '/abstractEndpoint.php';
+require_once __DIR__ . '/AbstractEndpoint.php';
 
-class ChangesEndpoint extends AbstractEndpoint
+class Changes extends AbstractEndpoint
 {
 
     /**
      * Handles GET requests.
      */
-    public function handleGET($seeReasons = false, $seePrivateTexts = false, $seeTimes = false)
+    public function handleGet($seeReasons = false, $seePrivateTexts = false, $seeTimes = false)
     {
-        $givenTeachers = explode(",", self::getFromGET('teachers'));
+        $givenTeachers = explode(",", $this->api->getFromGet('teachers'));
         foreach ($givenTeachers as $teacher) {
             if ($teacher != '' && $teacher != 0) {
                 if (!ctype_digit($teacher)) {
@@ -44,7 +44,7 @@ class ChangesEndpoint extends AbstractEndpoint
                 }
             }
         }
-        $givenCourses = explode(",", self::getFromGET('courses'));
+        $givenCourses = explode(",", $this->api->getFromGet('courses'));
         foreach ($givenCourses as $course) {
             if ($course != '' && $course != 0) {
                 if (!ctype_digit($course)) {
@@ -56,7 +56,7 @@ class ChangesEndpoint extends AbstractEndpoint
                 }
             }
         }
-        $coveringTeacher = self::getFromGET('coveringTeacher');
+        $coveringTeacher = $this->api->getFromGet('coveringTeacher');
         if ($coveringTeacher != '') {
             if (!ctype_digit($coveringTeacher)) {
                 $error[] = array('code' => '1102', 'message' => 'The covering teacher may only contain an integer.');
@@ -64,7 +64,7 @@ class ChangesEndpoint extends AbstractEndpoint
                 $error[] = array('code' => '1103', 'message' => 'The covering teacher does not exist.');
             }
         }
-        $startBy = self::getFromGET('startBy');
+        $startBy = $this->api->getFromGet('startBy');
         // Replace alias with time
         if ($startBy != '') {
             if (self::replaceAlias($startBy) != null) {
@@ -76,7 +76,7 @@ class ChangesEndpoint extends AbstractEndpoint
                 $error[] = array('code' => '1105', 'message' => 'The starting date does not exist.');
             }
         }
-        $endBy = self::getFromGET('endBy');
+        $endBy = $this->api->getFromGet('endBy');
         // Replace alias with time
         if ($endBy != '') {
             if (self::replaceAlias($endBy) != null) {
@@ -93,8 +93,8 @@ class ChangesEndpoint extends AbstractEndpoint
             return array('error' => $error);
         }
         if ($startBy != '' && $endBy != '') {
-            $datetime1 = new DateTime(substr($startBy, 0, 10));
-            $datetime2 = new DateTime(substr($endBy, 0, 10));
+            $datetime1 = new \DateTime(substr($startBy, 0, 10));
+            $datetime2 = new \DateTime(substr($endBy, 0, 10));
             if ($datetime1 > $datetime2) {
                 $error[] = array('code' => '1108', 'message' => 'The ending date has to be after the starting date.');
             }
@@ -114,31 +114,31 @@ class ChangesEndpoint extends AbstractEndpoint
     public function handlePOST()
     {
         $missing = array();
-        $teacher = self::getFromPOST('teacher');
-        $startingDate = self::getFromPOST('startingDate');
+        $teacher = $this->api->getFromPost('teacher');
+        $startingDate = $this->api->getFromPost('startingDate');
         if ($startingDate == '') {
             $missing[] = 'startingDate';
         }
-        $endingDate = self::getFromPOST('endingDate');
+        $endingDate = $this->api->getFromPost('endingDate');
         if ($endingDate == '') {
             $missing[] = 'endingDate';
         }
-        $type = self::getFromPOST('type');
+        $type = $this->api->getFromPost('type');
         if ($type == '') {
             $missing[] = 'type';
         }
-        $coveringTeacher = self::getFromPOST('coveringTeacher');
+        $coveringTeacher = $this->api->getFromPost('coveringTeacher');
         if ($type == 1 && $coveringTeacher == '') {
             $missing[] = 'coveringTeacher';
         }
-        $text = self::getFromPOST('text');
+        $text = $this->api->getFromPost('text');
         if ($type == 2 && $text == '') {
             $missing[] = 'text';
         }
-        $privateText = self::getFromPOST('privateText');
-        $course = self::getFromPOST('course');
-        $startingHour = self::getFromPOST('startingHour');
-        $endingHour = self::getFromPOST('endingHour');
+        $privateText = $this->api->getFromPost('privateText');
+        $course = $this->api->getFromPost('course');
+        $startingHour = $this->api->getFromPost('startingHour');
+        $endingHour = $this->api->getFromPost('endingHour');
         if (!empty($missing)) {
             $this->api->setStatus(400);
             return array('missing' => $missing);
@@ -173,7 +173,7 @@ class ChangesEndpoint extends AbstractEndpoint
         if ($type != '0' && $type != '1' && $type != '2' && $type != '3') {
             $error[] = array('code' => '1307', 'message' => 'The type is not allowed.');
         }
-        $reason = self::getFromPOST('reason');
+        $reason = $this->api->getFromPost('reason');
         if ($reason != '' && $reason != '0' && $reason != '1' && $reason != '2') {
             $error[] = array('code' => '1311', 'message' => 'The reason is not allowed.');
         }
@@ -181,8 +181,8 @@ class ChangesEndpoint extends AbstractEndpoint
             $this->api->setStatus(400);
             return array('error' => $error);
         }
-        $datetime1 = new DateTime($startingDate);
-        $datetime2 = new DateTime($endingDate);
+        $datetime1 = new \DateTime($startingDate);
+        $datetime2 = new \DateTime($endingDate);
         if ($datetime1 > $datetime2) {
             $error[] = array('code' => '1310', 'message' => 'The ending date has to be after the starting date.');
         }
@@ -276,8 +276,8 @@ class ChangesEndpoint extends AbstractEndpoint
             $this->api->setStatus(400);
             return array('error' => $error);
         }
-        $datetime1 = new DateTime($startingDate);
-        $datetime2 = new DateTime($endingDate);
+        $datetime1 = new \DateTime($startingDate);
+        $datetime2 = new \DateTime($endingDate);
         if ($datetime1 > $datetime2) {
             $error[] = array('code' => '1210', 'message' => 'The ending date has to be after the starting date.');
         }
@@ -308,28 +308,5 @@ class ChangesEndpoint extends AbstractEndpoint
         }
         $this->api->setStatus(409);
         return array('error' => array(array('code' => '1400', 'message' => 'The change could not get deleted.')));
-    }
-    
-    /**
-     * Replaces aliases.
-     */
-    private function replaceAlias($alias)
-    {
-        switch ($alias) {
-            case 'now':
-                return substr(date('c'), 0, 10);
-            case 'tom':
-                return substr(date('c', time() + 86400), 0, 10);
-            case 'i3d':
-                return substr(date('c', time() + 259200), 0, 10);
-            case 'i1w':
-                return substr(date('c', time() + 604800), 0, 10);
-            case 'i1m':
-                return substr(date('c', time() + 2419200), 0, 10);
-            case 'i1y':
-                return substr(date('c', time() + 31536000), 0, 10);
-            default:
-                return null;
-        }
     }
 }

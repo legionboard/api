@@ -19,51 +19,48 @@
  */
 namespace LegionBoard\Endpoints;
 
-require_once __DIR__ . '/abstractEndpoint.php';
+require_once __DIR__ . '/AbstractEndpoint.php';
 
-class CoursesEndpoint extends AbstractEndpoint
+class Teachers extends AbstractEndpoint
 {
     
-    public function handleGET($seeTimes = false)
+    public function handleGet($seeTimes = false)
     {
-        $courses = $this->courses->get($this->api->getID(), $seeTimes);
-        if ($courses != null) {
-            return $courses;
+        $id = $this->api->getId();
+        $teachers = $this->teachers->get($id, $seeTimes);
+        if ($teachers != null) {
+            return $teachers;
         }
         $this->api->setStatus(404);
         return null;
     }
     
-    public function handlePOST()
+    public function handlePost()
     {
-        $name = self::getFromPOST('name');
+        $name = $this->api->getFromPost('name');
         if ($name == '') {
             $this->api->setStatus(400);
             return array('missing' => array('name'));
         }
-        $subjects = self::getFromPOST('subjects');
-        if ($this->courses->checkByName($name)) {
+        $subjects = $this->api->getFromPost('subjects');
+        if ($this->teachers->checkByName($name)) {
             $this->api->setStatus(400);
-            return array('error' => array(array('code' => '2301', 'message' => 'A course with the given name already exists.')));
+            return array('error' => array(array('code' => '301', 'message' => 'A teacher with the given name already exists.')));
         }
-        if ($this->courses->checkByShortcut($shortcut)) {
-            $this->api->setStatus(400);
-            return array('error' => array(array('code' => '2302', 'message' => 'A course with the given shortcut already exists.')));
-        }
-        $identification = $this->courses->create($name, $subjects);
-        if (isset($identification)) {
+        $id = $this->teachers->create($name, $subjects);
+        if (isset($id)) {
             $this->api->setStatus(201);
-            return array('id' => $identification);
+            return array('id' => $id);
         }
         $this->api->setStatus(409);
-        return array('error' => array(array('code' => '2300', 'message' => 'The course could not get created.')));
+        return array('error' => array(array('code' => '300', 'message' => 'The teacher could not get created.')));
     }
     
-    public function handlePUT($params)
+    public function handlePut($params)
     {
-        $identification = $this->api->getID();
+        $id = $this->api->getId();
         $missing = array();
-        if ($identification == '') {
+        if ($id == '') {
             $missing[] = 'id';
         }
         $name = $params['name'];
@@ -83,37 +80,37 @@ class CoursesEndpoint extends AbstractEndpoint
                 break;
             default:
                 $this->api->setStatus(400);
-                return array('error' => array(array('code' => '2201', 'message' => 'The parameter archived may only contain true or false.')));
+                return array('error' => array(array('code' => '201', 'message' => 'The parameter archived may only contain true or false.')));
         }
         $subjects = $params['subjects'];
         if (!empty($missing)) {
             $this->api->setStatus(400);
             return array('missing' => $missing);
         }
-        if ($this->courses->update($identification, $name, $subjects, $archived)) {
+        if ($this->teachers->update($id, $name, $subjects, $archived)) {
             $this->api->setStatus(204);
             return null;
         }
         $this->api->setStatus(409);
-        return array('error' => array(array('code' => '2200', 'message' => 'The course could not get updated.')));
+        return array('error' => array(array('code' => '200', 'message' => 'The teacher could not get updated.')));
     }
     
-    public function handleDELETE()
+    public function handleDelete()
     {
-        $identification = $this->api->getID();
-        if ($identification == '') {
+        $id = $this->api->getId();
+        if ($id == '') {
             $this->api->setStatus(400);
             return array('missing' => array('id'));
         }
-        if ($this->changes->get(null, null, array($identification)) != null) {
+        if ($this->changes->get(null, array($id)) != null || $this->changes->get(null, null, null, $id) != null) {
             $this->api->setStatus(400);
-            return array('error' => array(array('code' => '2401', 'message' => 'The course is still linked to a change.')));
+            return array('error' => array(array('code' => '402', 'message' => 'The teacher is still linked to a change.')));
         }
-        if ($this->courses->delete($identification)) {
+        if ($this->teachers->delete($id)) {
             $this->api->setStatus(204);
             return null;
         }
         $this->api->setStatus(409);
-        return array('error' => array(array('code' => '2400', 'message' => 'The course could not get deleted.')));
+        return array('error' => array(array('code' => '400', 'message' => 'The teacher could not get deleted.')));
     }
 }
