@@ -1,3 +1,3 @@
 <?php
-require __DIR__ . '/src/tests/Utilities.php';
+require __DIR__ . '/tests/Utilities.php';
 ?>

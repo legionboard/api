@@ -1,8 +1,8 @@
 <?php
 
-namespace LegionBoard\tests\units\Lib;
+namespace tests\units\LegionBoard;
 
-require_once __DIR__ . '/../../../lib/configuration.php';
+require_once __DIR__ . '/../../src/LegionBoard/Configuration.php';
 
 use atoum;
 

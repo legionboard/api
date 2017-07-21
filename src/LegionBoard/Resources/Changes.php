@@ -19,9 +19,9 @@
  */
 namespace LegionBoard\Resources;
 
-require_once __DIR__ . '/abstractResource.php';
+require_once __DIR__ . '/AbstractResource.php';
 
-class ChangesResource extends AbstractResource
+class Changes extends AbstractResource
 {
 
     /**
@@ -102,7 +102,7 @@ class ChangesResource extends AbstractResource
             $sqlCoveringTeacher = " coveringTeacher LIKE '$coveringTeacher'";
         }
         // Build SELECT
-        $sql = "SELECT * FROM " . Database::$tableChanges;
+        $sql = "SELECT * FROM " . \LegionBoard\Database::$tableChanges;
         if (!empty($sqlTeachers) || !empty($sqlCourses)  || !empty($sqlSubjects) || !empty($sqlID) || !empty($sqlCoveringTeacher)) {
             $sql .= " WHERE";
             if (!empty($sqlTeachers)) {
@@ -134,16 +134,16 @@ class ChangesResource extends AbstractResource
             while ($column = $query->fetch_array()) {
                 // Filter out if end of change is before given start
                 if ($startBy != null) {
-                    $dtColumnEnd = new DateTime(substr($column['endingDate'], 0, 10));
-                    $dtStart = new DateTime($startBy);
+                    $dtColumnEnd = new \DateTime(substr($column['endingDate'], 0, 10));
+                    $dtStart = new \DateTime($startBy);
                     if ($dtColumnEnd < $dtStart) {
                         continue;
                     }
                 }
                 // Filter out if start of change is after given end
                 if ($endBy != null) {
-                    $dtColumnStart = new DateTime(substr($column['startingDate'], 0, 10));
-                    $dtEnd = new DateTime($endBy);
+                    $dtColumnStart = new \DateTime(substr($column['startingDate'], 0, 10));
+                    $dtEnd = new \DateTime($endBy);
                     if ($dtColumnStart > $dtEnd) {
                         continue;
                     }
@@ -204,7 +204,7 @@ class ChangesResource extends AbstractResource
         $reason = $this->database->escape_string($reason);
         $privateText = $this->database->escape_string($privateText);
 
-        $sql = "INSERT INTO " . Database::$tableChanges .
+        $sql = "INSERT INTO " . \LegionBoard\Database::$tableChanges .
                 " (" .
                     "teacher," .
                     "course," .
@@ -233,7 +233,7 @@ class ChangesResource extends AbstractResource
                 ")";
         if ($this->database->query($sql)) {
             $id = $this->database->insert_id;
-            if ($this->activities->log($this->user, Activities::ACTION_CREATE, $this->resource, $id)) {
+            if ($this->activities->log($this->user, \LegionBoard\Activities::ACTION_CREATE, $this->resource, $id)) {
                 return $id;
             }
             $this->delete($id);
@@ -272,7 +272,7 @@ class ChangesResource extends AbstractResource
         $reason = $this->database->escape_string($reason);
         $privateText = $this->database->escape_string($privateText);
 
-        $sql = "UPDATE " . Database::$tableChanges .
+        $sql = "UPDATE " . \LegionBoard\Database::$tableChanges .
                 " SET " .
                     "teacher = '$teacher'," .
                     "course = '$course'," .
@@ -288,7 +288,7 @@ class ChangesResource extends AbstractResource
                 "WHERE " .
                     "id = '$id'";
         if ($this->database->query($sql)) {
-            $this->activities->log($this->user, Activities::ACTION_UPDATE, $this->resource, $id);
+            $this->activities->log($this->user, \LegionBoard\Activities::ACTION_UPDATE, $this->resource, $id);
             return true;
         }
         return false;
@@ -300,9 +300,9 @@ class ChangesResource extends AbstractResource
     public function delete($id)
     {
         $id = $this->database->escape_string($id);
-        $sql = "DELETE FROM " . Database::$tableChanges . " WHERE id = '$id'";
+        $sql = "DELETE FROM " . \LegionBoard\Database::$tableChanges . " WHERE id = '$id'";
         if ($this->database->query($sql)) {
-            $this->activities->log($this->user, Activities::ACTION_DELETE, $this->resource, $id);
+            $this->activities->log($this->user, \LegionBoard\Activities::ACTION_DELETE, $this->resource, $id);
             return true;
         }
         return false;

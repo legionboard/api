@@ -20,56 +20,10 @@
  * Based on a tutorial found on
  * http://coreymaynard.com/blog/creating-a-restful-api-with-php/
  */
-namespace LegionBoard\Lib;
+namespace LegionBoard;
 
-abstract class API
+abstract class AbstractApi
 {
-
-    /**
-     * The version name of the API.
-     */
-    private $versionName = '0.0.0';
-
-    private function getVersionName()
-    {
-        return $this->versionName;
-    }
-
-    protected function setVersionName($versionName)
-    {
-        $this->versionName = $versionName;
-    }
-
-    /**
-     * The version code (integer) of the API.
-     */
-    private $versionCode = '1';
-
-    private function getVersionCode()
-    {
-        return $this->versionCode;
-    }
-
-    protected function setVersionCode($versionCode)
-    {
-        $this->versionCode = $versionCode;
-    }
-
-    /**
-     * Property: method
-     * The HTTP method this request was made in, either GET, POST, PUT or DELETE.
-     */
-    private $method = '';
-
-    protected function getMethod()
-    {
-        return $this->method;
-    }
-
-    private function setMethod($method)
-    {
-        $this->method = $method;
-    }
 
     /**
      * Property: endpoint
@@ -85,22 +39,6 @@ abstract class API
     private function setEndpoint($endpoint)
     {
         $this->endpoint = $endpoint;
-    }
-
-    /**
-     * Property: identification
-     * /<endpoint>/<identification>
-     */
-    private $identification = null;
-
-    public function getID()
-    {
-        return $this->identification;
-    }
-
-    private function setID($identification)
-    {
-        $this->identification = $identification;
     }
 
     /**
@@ -120,19 +58,35 @@ abstract class API
     }
 
     /**
-     * Property: status
-     * The status returned in the HTTP head.
+     * Property: id
+     * /<endpoint>/<id>
      */
-    private $status = 200;
+    private $id = null;
 
-    private function getStatus()
+    public function getId()
     {
-        return $this->status;
+        return $this->id;
     }
 
-    public function setStatus($status)
+    private function setId($id)
     {
-        $this->status = $status;
+        $this->id = $id;
+    }
+
+    /**
+     * Property: method
+     * The HTTP method this request was made in, either GET, POST, PUT or DELETE.
+     */
+    private $method = '';
+
+    protected function getMethod()
+    {
+        return $this->method;
+    }
+
+    private function setMethod($method)
+    {
+        $this->method = $method;
     }
 
     /**
@@ -152,6 +106,52 @@ abstract class API
     }
 
     /**
+     * Property: status
+     * The status returned in the HTTP head.
+     */
+    private $status = 200;
+
+    private function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * The version code (integer) of the API.
+     */
+    private $versionCode = '1';
+
+    private function getVersionCode()
+    {
+        return $this->versionCode;
+    }
+
+    protected function setVersionCode($versionCode)
+    {
+        $this->versionCode = $versionCode;
+    }
+
+    /**
+     * The version name of the API.
+     */
+    private $versionName = '0.0.0';
+
+    private function getVersionName()
+    {
+        return $this->versionName;
+    }
+
+    protected function setVersionName($versionName)
+    {
+        $this->versionName = $versionName;
+    }
+
+    /**
      * Allow for CORS, assemble and pre-process the data.
      */
     protected function __construct($request)
@@ -167,7 +167,7 @@ abstract class API
 
         $arguments = explode('/', rtrim($request, '/'));
         if (count($arguments) > 1) {
-            $this->setID($arguments[1]);
+            $this->setId($arguments[1]);
         }
         $this->setEndpoint(array_shift($arguments));
 
@@ -205,7 +205,7 @@ abstract class API
         }
     }
 
-    public function processAPI()
+    public function process()
     {
         if (method_exists($this, $this->endpoint)) {
             return $this->response($this->{$this->getEndpoint()}());
@@ -248,12 +248,12 @@ abstract class API
         return null;
     }
 
-    private function cleanInputs($data)
+    private static function cleanInputs($data)
     {
         $cleanInput = array();
         if (is_array($data)) {
             foreach ($data as $k => $v) {
-                $cleanInput[$k] = $this->cleanInputs($v);
+                $cleanInput[$k] = self::cleanInputs($v);
             }
         } else {
             $cleanInput = trim(strip_tags($data));
@@ -261,7 +261,7 @@ abstract class API
         return $cleanInput;
     }
 
-    private function requestStatus($code)
+    private static function requestStatus($code)
     {
         $status = array(
             200 => 'OK',
@@ -285,5 +285,21 @@ abstract class API
     private function getServer($key)
     {
         return $_SERVER[$key];
+    }
+
+    /**
+     * Returns value from super-global array $_GET.
+     */
+    public function getFromGet($key)
+    {
+        return filter_input(INPUT_GET, $key);
+    }
+
+    /**
+     * Returns value from super-global array $_POST.
+     */
+    public function getFromPost($key)
+    {
+        return filter_input(INPUT_POST, $key);
     }
 }

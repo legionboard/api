@@ -22,17 +22,17 @@
  */
 namespace LegionBoard\Endpoints;
 
-require_once __DIR__ . '/abstractEndpoint.php';
+require_once __DIR__ . '/AbstractEndpoint.php';
 
-class ExportEndpoint extends AbstractEndpoint
+class Export extends AbstractEndpoint
 {
 
     /**
      * Handles GET requests.
      */
-    public function handleGET()
+    public function handleGet()
     {
-        $startBy = self::getFromGET('startBy');
+        $startBy = $this->api->getFromGet('startBy');
         if ($startBy == '') {
             $startBy = 'now';
         }
@@ -46,7 +46,7 @@ class ExportEndpoint extends AbstractEndpoint
                 $error[] = array('code' => '4101', 'message' => 'The starting date does not exist.');
             }
         }
-        $endBy = self::getFromGET('endBy');
+        $endBy = $this->api->getFromGet('endBy');
         if ($endBy == '') {
             $endBy = 'i1w';
         }
@@ -65,8 +65,8 @@ class ExportEndpoint extends AbstractEndpoint
             return array('error' => $error);
         }
         if ($startBy != '' && $endBy != '') {
-            $datetime1 = new DateTime(substr($startBy, 0, 10));
-            $datetime2 = new DateTime(substr($endBy, 0, 10));
+            $datetime1 = new \DateTime(substr($startBy, 0, 10));
+            $datetime2 = new \DateTime(substr($endBy, 0, 10));
             if ($datetime1 > $datetime2) {
                 $error[] = array('code' => '4104', 'message' => 'The ending date has to be after the starting date.');
             }
@@ -90,28 +90,5 @@ class ExportEndpoint extends AbstractEndpoint
                         )
                     );
         return $export;
-    }
-
-    /**
-     * Replaces aliases.
-     */
-    private function replaceAlias($alias)
-    {
-        switch ($alias) {
-            case 'now':
-                return substr(date('c'), 0, 10);
-            case 'tom':
-                return substr(date('c', time() + 86400), 0, 10);
-            case 'i3d':
-                return substr(date('c', time() + 259200), 0, 10);
-            case 'i1w':
-                return substr(date('c', time() + 604800), 0, 10);
-            case 'i1m':
-                return substr(date('c', time() + 2419200), 0, 10);
-            case 'i1y':
-                return substr(date('c', time() + 31536000), 0, 10);
-            default:
-                return null;
-        }
     }
 }

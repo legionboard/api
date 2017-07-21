@@ -17,7 +17,7 @@
  *
  * See the file "LICENSE.md" for the full license governing this code.
  */
-namespace LegionBoard\Lib;
+namespace LegionBoard;
 
 class Authentication
 {
@@ -28,7 +28,7 @@ class Authentication
      */
     public function __construct()
     {
-        require_once __DIR__ . '/database.php';
+        require_once __DIR__ . '/Database.php';
         $database = new Database();
         $this->db = $database->get();
     }
