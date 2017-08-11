@@ -41,7 +41,7 @@ class Courses extends AbstractEndpoint
             $this->api->setStatus(400);
             return array('missing' => array('name'));
         }
-        $subjects = $this->api->getFromPost('subjects');
+        $subject = $this->api->getFromPost('subject');
         if ($this->courses->checkByName($name)) {
             $this->api->setStatus(400);
             return array('error' => array(array('code' => '2301', 'message' => 'A course with the given name already exists.')));
@@ -50,7 +50,7 @@ class Courses extends AbstractEndpoint
             $this->api->setStatus(400);
             return array('error' => array(array('code' => '2302', 'message' => 'A course with the given shortcut already exists.')));
         }
-        $id = $this->courses->create($name, $subjects);
+        $id = $this->courses->create($name, $subject);
         if (isset($id)) {
             $this->api->setStatus(201);
             return array('id' => $id);
@@ -85,12 +85,12 @@ class Courses extends AbstractEndpoint
                 $this->api->setStatus(400);
                 return array('error' => array(array('code' => '2201', 'message' => 'The parameter archived may only contain true or false.')));
         }
-        $subjects = $params['subjects'];
+        $subject = $params['subject'];
         if (!empty($missing)) {
             $this->api->setStatus(400);
             return array('missing' => $missing);
         }
-        if ($this->courses->update($id, $name, $subjects, $archived)) {
+        if ($this->courses->update($id, $name, $subject, $archived)) {
             $this->api->setStatus(204);
             return null;
         }
