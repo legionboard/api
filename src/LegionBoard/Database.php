@@ -253,13 +253,13 @@ class Database
             $sql = "ALTER TABLE " . self::$tableChanges . " ADD subject MEDIUMINT(8) DEFAULT 0 AFTER text";
             $this->database->query($sql);
         }
-        // Add column subjects in table courses
-        if (!self::checkColumn("subjects", self::$tableCourses, $dbName)) {
+        // Add column subject in table courses
+        if (!self::checkColumn("subject", self::$tableCourses, $dbName)) {
             $sql = "ALTER TABLE " . self::$tableCourses . " ADD subject MEDIUMINT(8) DEFAULT 0 AFTER name";
             $this->database->query($sql);
         }
-        // Add column subjects in table teachers
-        if (!self::checkColumn("subjects", self::$tableTeachers, $dbName)) {
+        // Add column subject in table teachers
+        if (!self::checkColumn("subject", self::$tableTeachers, $dbName)) {
             $sql = "ALTER TABLE " . self::$tableTeachers . " ADD subject MEDIUMINT(8) DEFAULT 0 AFTER name";
             $this->database->query($sql);
         }

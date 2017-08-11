@@ -42,12 +42,12 @@ class Teachers extends AbstractEndpoint
             $this->api->setStatus(400);
             return array('missing' => array('name'));
         }
-        $subjects = $this->api->getFromPost('subjects');
+        $subject = $this->api->getFromPost('subject');
         if ($this->teachers->checkByName($name)) {
             $this->api->setStatus(400);
             return array('error' => array(array('code' => '301', 'message' => 'A teacher with the given name already exists.')));
         }
-        $id = $this->teachers->create($name, $subjects);
+        $id = $this->teachers->create($name, $subject);
         if (isset($id)) {
             $this->api->setStatus(201);
             return array('id' => $id);
@@ -82,12 +82,12 @@ class Teachers extends AbstractEndpoint
                 $this->api->setStatus(400);
                 return array('error' => array(array('code' => '201', 'message' => 'The parameter archived may only contain true or false.')));
         }
-        $subjects = $params['subjects'];
+        $subject = $params['subject'];
         if (!empty($missing)) {
             $this->api->setStatus(400);
             return array('missing' => $missing);
         }
-        if ($this->teachers->update($id, $name, $subjects, $archived)) {
+        if ($this->teachers->update($id, $name, $subject, $archived)) {
             $this->api->setStatus(204);
             return null;
         }
