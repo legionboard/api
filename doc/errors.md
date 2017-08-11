@@ -71,6 +71,6 @@ Here are links to all errors that can occur.
 
 [Delete subject](subjects/delete.md#failure)
 
-## 41xx
+### 41xx
 
 [Export](export/README.md#failure)
