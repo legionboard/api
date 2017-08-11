@@ -4,7 +4,7 @@
 
 * Add resource subjects (#16)
 * Add type "room change" to changes (#22)
-* Save bandwith by using data hashes (#24)
+* Save bandwidth by using data hashes (#24)
 * Return username in activities (#14)
 * Accept ID 0 when filtering changes by courses/teachers (Related to [eye#2](https://gitlab.com/legionboard/eye/issues/2))
 * Drop support for MySQL versions older than 5.6.5 (https://stackoverflow.com/a/17498167)
