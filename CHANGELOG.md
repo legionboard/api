@@ -4,9 +4,12 @@
 
 * Add resource subjects (#16)
 * Add type "room change" to changes (#22)
+* Save bandwith by using data hashes (#24)
 * Return username in activities (#14)
 * Accept ID 0 when filtering changes by courses/teachers (Related to [eye#2](https://gitlab.com/legionboard/eye/issues/2))
+* Drop support for MySQL versions older than 5.6.5 (https://stackoverflow.com/a/17498167)
 * Relicense Heart from GPLv3 to AGPLv3
+* A lot of other fixes
 
 ## 0.2.0 (20.09.2016)
 
