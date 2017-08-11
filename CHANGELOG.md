@@ -11,6 +11,8 @@
 * Relicense Heart from GPLv3 to AGPLv3
 * A lot of other fixes
 
+[Compare with previous version](https://gitlab.com/legionboard/heart/compare/0.2.0...0.2.1).
+
 ## 0.2.0 (20.09.2016)
 
 This is the second big release of LegionBoard Heart. With changes in
@@ -33,12 +35,16 @@ release with many new features:
 * Use [code climate](https://codeclimate.com/github/legionboard/heart)
 * Many more fixes
 
+[Compare with previous stable version](https://gitlab.com/legionboard/heart/compare/0.1.2...0.2.0).
+
 ## 0.2.0-beta3 (30.08.2016)
 
 This is the third beta release of Heart 0.2.0. Here are the changes to
 the previous beta release:
 
 * Field `archived` of courses and teachers is now served as a boolean
+
+[Compare with previous version](https://gitlab.com/legionboard/heart/compare/0.2.0-beta2...0.2.0-beta3).
 
 ## 0.2.0-beta2 (26.08.2016)
 
@@ -50,19 +56,27 @@ UPDATE [table] SET course = 0 WHERE course IS NULL;
 
 * Improved upgrading from 0.1.x to 0.2+
 
+[Compare with previous version](https://gitlab.com/legionboard/heart/compare/0.2.0-beta1...0.2.0-beta2).
+
 ## 0.2.0-beta1 (03.08.2016)
 
 This is the first beta release of Heart 0.2.0.
 
+[Compare with previous version](https://gitlab.com/legionboard/heart/compare/0.1.2...0.2.0-beta1).
+
 ## 0.1.2 (03.06.2016)
 
 * Let user only configure table prefix instead of every table name
+
+[Compare with previous version](https://gitlab.com/legionboard/heart/compare/0.1.1...0.1.2).
 
 ## 0.1.1 (19.04.2016)
 
 * Improve key creation tool
 * Faster redirect to website
 * Test code with GitLab CI
+
+[Compare with previous version](https://gitlab.com/legionboard/heart/compare/0.1.0...0.1.1).
 
 ## 0.1.0 (16.03.2016)
 
