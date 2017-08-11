@@ -1,6 +1,6 @@
 # Changelog of LegionBoard Heart
 
-## 0.2.1 (Upcoming release)
+## 0.2.1 (11.08.2017)
 
 * Add resource subjects (#16)
 * Add type "room change" to changes (#22)
