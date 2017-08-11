@@ -7,8 +7,9 @@ Dieses Dokument wird Sie durch die Installation von LegionBoard Heart führen.
 Sie können die Online-Version auf
 [GitLab](https://gitlab.com/legionboard/heart/blob/master/install/german.md) und
 [GitHub](https://github.com/legionboard/heart/blob/master/install/german.md) finden.
-Wenn Sie einen Fehler entdecken oder eine Frage haben, öffnen Sie bitte
-einen Issue auf [GitLab](https://gitlab.com/legionboard/heart/issues).
+Wenn Sie einen Fehler entdecken oder eine Frage haben, zögern Sie nicht,
+einen Issue auf [GitLab](https://gitlab.com/legionboard/heart/issues) zu eröffnen
+oder mir eine [E-Mail zu schicken](mailto:nicoalt@posteo.org).
 
 ## Herunterladen
 
@@ -21,7 +22,7 @@ haben.
 
 ## Konfigurieren
 
-Gehen Sie anschließend in den Order "src/lib" des entpackten Archivs und
+Gehen Sie anschließend in den Order "src/LegionBoard" des entpackten Archivs und
 benennen die Datei "configuration-template.ini" in "configuration.ini" um.
 Danach müssen Sie "configuration.ini" mit einem Text-Editor öffnen und die
 Daten für Ihren MySQL-Server eintragen.
@@ -30,7 +31,7 @@ Daten für Ihren MySQL-Server eintragen.
 
 Um Nutzer zu erstelllen, müssen Sie das dazu benötigte Werkzeug vorbereiten,
 bevor Sie Heart auf Ihren Server hochladen. Um dies zu tun, müssen Sie den
-Ordner "src/lib/tools" nach "src" verschieben, sodass man das Benutzer-Erstellungs-Werkzeug
+Ordner "src/LegionBoard/tools" nach "src" verschieben, sodass man das Benutzer-Erstellungs-Werkzeug
 in "src/tools" finden kann. Für eine erhöhte Sicherheit können Sie den Ordner
 "tools" auch umbenennen.
 
@@ -47,5 +48,8 @@ den Order "legionboard" zu verschieben.
 Öffnen Sie das Benutzer-Erstellungs-Werkzeug in Ihrem Browser. Geben Sie
 anschließend den Benutzernamen und das dazugehörige Passwort ein. Wenn Sie
 einen Admin erstellen wollen, geben Sie "%" in das Gruppen-Feld ein. Wenn
-Sie einen Schüler erstellen wollen, geben Sie "0,4,10" in das Gruppen-Feld
+Sie einen Schüler erstellen wollen, geben Sie "0,4,10,16" in das Gruppen-Feld
 ein.
+
+Vergessen Sie nicht, das Benutzer-Erstellungs-Werkzeug nach dem Erstellen
+aller Benutzer zu löschen!
