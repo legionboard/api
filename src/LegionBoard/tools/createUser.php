@@ -31,8 +31,8 @@ $groups = $_POST['groups'];
 
 try {
     // Include authentication
-    require '../lib/authentication.php';
-    $authentication = new Authentication();
+    require '../LegionBoard/Authentication.php';
+    $authentication = new \LegionBoard\Authentication();
 
     // Check if strings are "POSTed"
     if (empty($username) && empty($password) && empty($groups)) {
