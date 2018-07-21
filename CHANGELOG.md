@@ -1,5 +1,11 @@
 # Changelog of LegionBoard Heart
 
+## 0.2.2 (21.07.2018)
+
+* Switch domain to legionboard.dorfbrunnen.eu
+
+[Compare with previous version](https://gitlab.com/legionboard/heart/compare/0.2.1...0.2.2).
+
 ## 0.2.1 (11.08.2017)
 
 * Add resource subjects (#16)

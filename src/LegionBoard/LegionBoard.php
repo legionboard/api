@@ -51,8 +51,8 @@ class LegionBoard extends AbstractApi
 
     public function __construct($request)
     {
-        $this->setVersionName('0.2.1');
-        $this->setVersionCode('20199');
+        $this->setVersionName('0.2.2');
+        $this->setVersionCode('20299');
         parent::__construct($request);
         require_once __DIR__ . '/Authentication.php';
         $this->authentication = new Authentication();

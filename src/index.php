@@ -18,4 +18,4 @@
  * See the file "LICENSE.md" for the full license governing this code.
  */
 Header("HTTP/1.1 301 Moved Permanently");
-Header("Location: https://legionboard.org");
+Header("Location: https://legionboard.dorfbrunnen.eu");
