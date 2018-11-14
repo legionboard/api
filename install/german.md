@@ -32,12 +32,12 @@ Daten für Ihren MySQL-Server eintragen.
 Um Nutzer zu erstelllen, müssen Sie das dazu benötigte Werkzeug vorbereiten,
 bevor Sie Heart auf Ihren Server hochladen. Um dies zu tun, müssen Sie den
 Ordner "src/LegionBoard/tools" nach "src" verschieben, sodass man das Benutzer-Erstellungs-Werkzeug
-in "src/tools" finden kann. Für eine erhöhte Sicherheit können Sie den Ordner
-"tools" auch umbenennen.
+in "src/tools" finden kann. Für erhöhte Sicherheit sollten Sie den Ordner
+"tools" in etwas zufälliges umbenennen.
 
 ## Auf Server hochladen
 
-Öffnen Sie dazu das Programm, das Sie normalerweise benutzen um Dateien
+Öffnen Sie dazu das Programm, das Sie normalerweise benutzen, um Dateien
 auf Ihren Server hochzuladen, wie zum Beispiel
 [FileZilla](https://filezilla-project.org/), und laden Sie den kompletten
 "src" Order hoch. Ich empfehle, ihn in "heart" umzubenennen und in

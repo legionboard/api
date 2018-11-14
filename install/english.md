@@ -31,7 +31,7 @@ for your MySQL server.
 To create users using LegionBoard, you have to prepare the user creation
 tool before uploading Heart to your server. Therefore, move "src/LegionBoard/tools/"
 to "src", so you can find the creation tool at "src/tools/createUser.php".
-For better security you can also rename "tools" to something random.
+For better security you should rename "tools" to something random.
 
 ## Deploy on your server
 
