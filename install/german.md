@@ -8,7 +8,7 @@ Sie können die Online-Version auf
 [GitLab](https://gitlab.com/legionboard/heart/blob/master/install/german.md) und
 [GitHub](https://github.com/legionboard/heart/blob/master/install/german.md) finden.
 Wenn Sie einen Fehler entdecken oder eine Frage haben, zögern Sie nicht,
-einen Issue auf [GitLab](https://gitlab.com/legionboard/heart/issues) zu eröffnen
+einen Issue auf [GitLab](https://gitlab.com/legionboard/heart/issues) zu öffnen
 oder mir eine [E-Mail zu schicken](mailto:nicoalt@posteo.org).
 
 ## Herunterladen
