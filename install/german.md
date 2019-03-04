@@ -3,6 +3,10 @@
 *Das ist die deutsche Version des Installations-Leitfaden. Übersetzungen
 sind für folgende Sprachen verfügbar: [English](english.md)*
 
+**Achtung: Im März 2019 wurde die Entwicklung von LegionBoard offiziell
+eingestellt. Es wird ausdrücklich empfohlen,
+keine neuen Instanzen von LegionBoard aufzusetzen.**
+
 Dieses Dokument wird Sie durch die Installation von LegionBoard Heart führen.
 Sie können die Online-Version auf
 [GitLab](https://gitlab.com/legionboard/heart/blob/master/install/german.md) und

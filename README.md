@@ -4,6 +4,11 @@
 [![coverage report](https://gitlab.com/legionboard/heart/badges/master/coverage.svg)](https://gitlab.com/legionboard/heart/commits/master)
 [![Code Climate](https://codeclimate.com/github/legionboard/heart/badges/gpa.svg)](https://codeclimate.com/github/legionboard/heart)
 
+**Deprecation notice: As of March 2019,
+LegionBoard is officially declared end of life.
+There won't be any further development and
+schools should not consider start using it.**
+
 This is the core of [LegionBoard](https://legionboard.dorfbrunnen.eu): it
 is a
 [REST API](https://en.wikipedia.org/wiki/Representational_state_transfer)
